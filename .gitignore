@@ -1,0 +1,7 @@
+node_modules/
+traces/
+uploads/
+.env
+note.txt
+matcha/
+.vscode

@@ -1,0 +1,87 @@
+version: '3.8'
+
+networks:
+  matcha:
+
+services:
+  postgres:
+    build:
+      context: ./database
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - matcha
+
+  user:
+    build:
+      context: ./backend/services/user/
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ./backend/services/user:/usr/src/app
+      - ./backend/uploads:/usr/src/app/uploads 
+    env_file:
+      - .env
+    networks:
+      - matcha
+
+  swap:
+    build:
+      context: ./backend/services/swap/
+    ports:
+      - "3001:3001"
+    depends_on:
+      - postgres
+      - redis
+      - cassandra
+    volumes:
+      - ./backend/services/swap:/usr/src/app
+      - ./backend/uploads:/usr/src/app/uploads
+    env_file:
+      - .env
+    networks:
+      - matcha
+
+  redis:
+    build:
+      context: ./backend/utils/profile-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - matcha
+
+  nginx:
+    build:
+      context: ./backend/utils/nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./backend/uploads:/usr/share/nginx/uploads
+    depends_on:
+      - user
+      - swap
+    networks:
+      - matcha
+
+  cassandra:
+    build:
+      context: ./backend/utils/cassandra
+    ports:
+      - "9042:9042"
+    volumes:
+    - ./backend/utils/cassandra/init-scripts:/docker-entrypoint-initdb.d
+    environment:
+      - CASSANDRA_CLUSTER_NAME=SingleNodeCluster
+    networks:
+      - matcha
+
+volumes:
+  postgres_data:
+  cassandra_data:
