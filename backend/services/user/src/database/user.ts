@@ -9,7 +9,7 @@
 
 import bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
-import pool from '../utils/postgress_conf';
+import pool from '../utils/postgreSQL_conf';
 import logger from "../utils/logger";
 import { UserCredentials } from '../types/user.interface';
 import { IUser } from '../types/user.interface';

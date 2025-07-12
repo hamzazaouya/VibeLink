@@ -9,7 +9,7 @@
 
 import { v4 as uuidv4 } from 'uuid';
 import logger from '../utils/logger';
-import pool  from '../utils/postgress_conf';
+import pool  from '../utils/postgreSQL_conf';
 import { IUser } from '../types/user.interface';
 
 /*******************************************************************

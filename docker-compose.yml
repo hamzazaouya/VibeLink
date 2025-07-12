@@ -6,7 +6,7 @@ networks:
 services:
   postgres:
     build:
-      context: ./database
+      context: ./postgSQL/database
     ports:
       - "5432:5432"
     env_file:
@@ -76,7 +76,8 @@ services:
     ports:
       - "9042:9042"
     volumes:
-    - ./backend/utils/cassandra/init-scripts:/docker-entrypoint-initdb.d
+      - cassandra_data:/var/lib/cassandra
+      - ./backend/utils/cassandra/init-scripts:/docker-entrypoint-initdb.d
     environment:
       - CASSANDRA_CLUSTER_NAME=SingleNodeCluster
     networks:

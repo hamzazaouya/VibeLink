@@ -7,7 +7,7 @@
 
  *******************************************************/
 
-import pool from '../utils/postgress_conf';
+import pool from '../utils/postgreSQL_conf';
 import logger from "../utils/logger";
 import bcrypt from 'bcrypt';
 import { error } from 'console';

@@ -7,7 +7,7 @@
 
  *******************************************************/
 
-import pool from '../utils/postgress_conf';
+import pool from '../utils/postgreSQL_conf';
 
 async function user_location(user_id: string, latitude: number, longitude: number) {
     try {

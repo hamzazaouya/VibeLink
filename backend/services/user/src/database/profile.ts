@@ -7,7 +7,7 @@
 
  *******************************************************/
 
-import pool from '../utils/postgress_conf';
+import pool from '../utils/postgreSQL_conf';
 import { v4 as uuidv4 } from 'uuid';
 import { userImages, userMatches, userProfilInfo } from '../types/user.interface';
 import { userInfo } from '../types/user.interface';

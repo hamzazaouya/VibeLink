@@ -7,7 +7,7 @@
 
  *******************************************************/
 
-import pool from '../utils/postgress_conf';
+import pool from '../utils/postgreSQL_conf';
 import CONST from '../utils/constants';
 import { suggestionsData } from '../types/user.interface';
 // select semilar users using (location, age, fameRating, commonTags )
