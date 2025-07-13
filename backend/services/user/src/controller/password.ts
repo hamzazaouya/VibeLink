@@ -9,7 +9,7 @@
 
 import { Request, Response } from 'express';
 import CONST from '../utils/constants';
-import redisClient from '../database/redisClient';
+import redisClient from '../utils/redisClient';
 import passwordSevice from '../service/password'
 import { IUser, password } from '../types/user.interface';
 

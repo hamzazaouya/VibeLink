@@ -14,3 +14,5 @@ psql -U dbuser <<-EOSQL
     CREATE DATABASE ${POSTGRES_DB} WITH OWNER ${POSTGRES_USER};
 EOSQL
 
+# docker exec -it bc6 psql -U admin -d profile
+

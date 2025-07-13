@@ -54,8 +54,8 @@ async function login(email: string, password: string): Promise<IUser> {
 
 
 async function signup(email: string, password: string): Promise<IUser> {
-    await userDAO.isEmailExists(email); // Check if the email already exists
-    const user: IUser = await userDAO.signupUser(email, password); // Create new user
+    await userDAO.isEmailExists(email);
+    const user: IUser = await userDAO.signupUser(email, password);
     user.verif_email_id = uuidv4();
     user.verif_email_code = generateVerificationCode();
     return user;

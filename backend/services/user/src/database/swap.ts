@@ -150,7 +150,6 @@ async function usersIdByResearch(user_id: string, age_gap: number, min_rating: n
         AND rating >= $6
         AND interests.interest = ANY($7);
         `, [user_id, CONST.DISTANCE, longitude, latitude, age_gap, min_rating, tags]);
-    console.log('=============> ', result.rows);
     return result.rows;
     } catch (error) {
         throw error

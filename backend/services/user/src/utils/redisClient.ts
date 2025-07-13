@@ -1,7 +1,7 @@
 // redisClient.ts
 
 import { createClient, RedisClientType } from 'redis';
-import logger from "../utils/logger";
+import logger from "./logger";
 
 // Initialize Redis client
 const redisClient: RedisClientType = createClient({

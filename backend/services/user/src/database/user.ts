@@ -13,7 +13,7 @@ import pool from '../utils/postgreSQL_conf';
 import logger from "../utils/logger";
 import { UserCredentials } from '../types/user.interface';
 import { IUser } from '../types/user.interface';
-
+import query from '../utils/queryEngine';
 /*******************************************************************
 
  * @function  function findUserByEmail
@@ -28,8 +28,9 @@ import { IUser } from '../types/user.interface';
 
 async function findUserByEmail(email: string): Promise<UserCredentials> {
     try {
-      const query = 'SELECT id, password_hash, is_registred, is_verified FROM users WHERE email = $1';
-      const res = await pool.query(query, [email]);
+      // const query = 'SELECT id, password_hash, is_registred, is_verified FROM users WHERE email = $1';
+      // const res = await pool.query(query, [email]);
+      const res = await query.select(['id', 'password_hash', 'is_registred', 'is_verified'], 'users', [{column: 'email', operator: '=', value: email}]);
       if(res.rowCount === 0)
       throw new Error("user not found");
       const { password_hash, id, is_registred, is_verified } = res.rows[0];
@@ -57,14 +58,12 @@ async function signupUser(email: string, password: string): Promise<IUser> {
     try {
       const id = uuidv4();
       const password_hash = await bcrypt.hash(password, 10);
-      const insertUserQuery = 'INSERT INTO users (id, email, password_hash) VALUES ($1, $2, $3)';
-      await pool.query(insertUserQuery, [id, email, password_hash]);
-      logger.user.info('User email and password inserted successfully');
+      await query.insert("users", ["id", "email", "password_hash"], [id, email, password_hash])
       const user: IUser = { id, is_registred: false, is_verified: false };
 
       return user;
     } catch (error) {
-      logger.user.error(error);
+      logger.user.error(error); 
       throw error;
     }
   }
@@ -84,8 +83,9 @@ async function signupUser(email: string, password: string): Promise<IUser> {
 
 async function verifyUserEmail(user_id: string): Promise<void> {
     try {
-      const query = "UPDATE users SET is_verified = $1 WHERE id = $2";
-      await pool.query(query, [true, user_id]);
+      // const query = "UPDATE users SET is_verified = $1 WHERE id = $2";
+      // await pool.query(query, [true, user_id]);
+      query.update('users', ['is_verified'], [true], 'id', user_id);
     } catch (error) {
       logger.user.error(error);
       throw error;
@@ -103,8 +103,9 @@ async function verifyUserEmail(user_id: string): Promise<void> {
 
 async function isEmailExists(email: string): Promise<void> {
     try {
-      const emailCheckQuery = 'SELECT * FROM users WHERE email = $1';
-      const { rowCount } = await pool.query(emailCheckQuery, [email]);
+      // const emailCheckQuery = 'SELECT * FROM users WHERE email = $1';
+      // const { rowCount } = await pool.query(emailCheckQuery, [email]);
+      const {rowCount} = await query.select(null, 'users', [{column: 'email', operator: "=", value: email}]);
       if (rowCount && rowCount > 0) {
         logger.user.error(`Email: ${email} already exists`);
         throw new Error('Email already exists');

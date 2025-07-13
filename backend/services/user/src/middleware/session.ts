@@ -1,6 +1,6 @@
 import session from 'express-session';
 import { default as RedisStore } from 'connect-redis';
-import redisClient from '../database/redisClient';
+import redisClient from '../utils/redisClient';
 
 const sessionKey = process.env.SESSION_KEY;
 if (!sessionKey) {

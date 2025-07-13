@@ -82,7 +82,7 @@ async function login(req: Request, res: Response): Promise<void> {
 async function signup(req: Request, res: Response): Promise<void> {
     const { email, password } = req.body;
 
-    try {
+    try { 
         const user: IUser = await authService.signup(email, password);
         if (req.session) {
             req.session.user = user;

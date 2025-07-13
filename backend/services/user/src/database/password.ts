@@ -10,7 +10,8 @@
 import pool from '../utils/postgreSQL_conf';
 import logger from "../utils/logger";
 import bcrypt from 'bcrypt';
-import { error } from 'console';
+import query from '../utils/queryEngine';
+import { connectedUsers } from '../utils/socket';
 
 
 /*******************************************************************
@@ -27,11 +28,13 @@ import { error } from 'console';
 
 async function getUserPassword(user_id: string): Promise<string> {
     try {
-      const query = 'SELECT password_hash FROM users WHERE id = $1';
-      const res = await pool.query(query, [user_id]);
-      if(res.rowCount === 0)
+      
+      // const query = 'SELECT password_hash FROM users WHERE id = $1';
+      // const res = await pool.query(query, [user_id]);
+      const result = await query.select(['password_hash'], 'users', [{column: 'id', operator: '=', value: user_id}]);
+      if(result.rowCount === 0)
         throw new Error("user not found");
-      const { password_hash } = res.rows[0];
+      const { password_hash } = result.rows[0];
       return password_hash;
     } catch (error) {
       logger.user.error(error);
@@ -55,7 +58,8 @@ async function getUserPassword(user_id: string): Promise<string> {
 async function updateUserPassword(user_id: string, newPassword: string): Promise<void> {
     try {
         const password_hash = await bcrypt.hash(newPassword, 10);
-        await pool.query("UPDATE users SET password_hash = $1 WHERE id = $2", [password_hash, user_id]);
+        await query.update('users', ['password_hash '], [password_hash], 'id', user_id);
+        // await pool.query("UPDATE users SET password_hash = $1 WHERE id = $2", [password_hash, user_id]);
     } catch(error) {
         logger.user.error(error);
         throw error;
@@ -76,8 +80,9 @@ async function updateUserPassword(user_id: string, newPassword: string): Promise
 
 async function isEmailExists(email: string): Promise<string> {
   try {
-    const emailCheckQuery = 'SELECT id FROM users WHERE email = $1';
-    const result = await pool.query(emailCheckQuery, [email]);
+    // const emailCheckQuery = 'SELECT id FROM users WHERE email = $1';
+    // const result = await pool.query(emailCheckQuery, [email]);
+    const result = await query.select(['id'], 'users', [{column: 'email', operator: '=', value: email}])
     if(result.rowCount === 0)
       throw new Error("user not exist");
     return result.rows[0].id;

@@ -25,12 +25,17 @@ import http from 'http';
 import { initSocket } from './utils/socket';
 import cors from 'cors';
 import { Server, Socket } from 'socket.io'
+import { appendFileSync } from 'fs';
 
 dotenv.config(); // Initialize dotenv to load environment variables
 const PORT = process.env.PORT || 3000; // Provide a default value for PORT
 const app = express()
 const server = http.createServer(app);
 
+
+app.get('/', (req, res) => {
+  res.send("Hello world")
+})
 // Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

@@ -11,6 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
 import logger from '../utils/logger';
 import pool  from '../utils/postgreSQL_conf';
 import { IUser } from '../types/user.interface';
+import query from '../utils/queryEngine';
 
 /*******************************************************************
 
@@ -24,7 +25,7 @@ import { IUser } from '../types/user.interface';
 
 async function isDiscordIdExists(discord_id: string): Promise<boolean> {
     try {
-      const { rowCount } = await pool.query('SELECT * FROM users WHERE discord_id = $1', [discord_id]);
+      const { rowCount } = await query.select(null, 'users', [{column:'discord_id', operator:'=', value: discord_id}]);
       if (rowCount && rowCount > 0)
         return true;
       return false;
@@ -49,9 +50,7 @@ async function isDiscordIdExists(discord_id: string): Promise<boolean> {
 async function signup(email: string, discord_id: string): Promise<IUser> {
     try {
       const id = uuidv4();
-      const insertUserQuery = 'INSERT INTO users (id, email, discord_id, signup_method) VALUES ($1, $2, $3, $4)';
-      console.log("--------------->", id, email, discord_id, id.length, email.length, discord_id.length)
-      await pool.query(insertUserQuery, [id, email, discord_id, "discord"]);
+      await query.insert('users', ['id', 'email', 'discord_id', 'signup_method'], [id, email, discord_id, "discord"])
       logger.user.info('User email and discord_id inserted successfully');
       const user: IUser = { id, is_registred: false, is_verified: false };
       return user;
@@ -73,7 +72,7 @@ async function signup(email: string, discord_id: string): Promise<IUser> {
 
   async function isEmailExists(email: string): Promise<boolean> {
     try {
-      const { rowCount } = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+      const { rowCount } = await query.select(null, 'users', [{column: 'email', operator:'=', value: email}]);
       if(rowCount && rowCount > 0)
         return true;
       return false;
@@ -98,7 +97,7 @@ async function signup(email: string, discord_id: string): Promise<IUser> {
 
 async function getUser(discord_id: string): Promise<IUser> {
     try {
-      const result = await pool.query('SELECT * FROM users WHERE discord_id = $1', [discord_id]);
+      const result = await query.select(null, 'users', [{column:'discord_id', operator:'=', value: discord_id}]);
       if (result.rows.length === 0) 
         throw new Error ("user not found");
 
