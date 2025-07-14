@@ -26,6 +26,8 @@ import { initSocket } from './utils/socket';
 import cors from 'cors';
 import { Server, Socket } from 'socket.io'
 import { appendFileSync } from 'fs';
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpecs from './utils/swaggerOptions';
 
 dotenv.config(); // Initialize dotenv to load environment variables
 const PORT = process.env.PORT || 3000; // Provide a default value for PORT
@@ -75,7 +77,6 @@ io.on("connection", (socket: Socket) => {
 });
 
 // Routes
-
 app.use(authRouter);
 app.use(homeRouter);
 app.use(registerRouter);
@@ -83,6 +84,7 @@ app.use(passwordRouter);
 app.use(profileRouter);
 app.use(swapRouter);
 app.use(statusRouter);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 
 
 

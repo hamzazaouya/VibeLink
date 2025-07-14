@@ -25,9 +25,11 @@ import { IUser } from '../types/user.interface';
 
 async function logout(req: Request, res: Response): Promise<void> {
     try {
-        if(req.session) {
+        if(req.session && req.session.user) {
             delete req.session.user;
-            res.status(CONST.SUCCESS).json({message: "user logged out successflly"});
+            res.status(CONST.SUCCESS).json({message: "user logged out successfully"});
+        } else {
+            res.status(CONST.NOT_ALLOWED).json({message: "You are not allowed"})
         }
     } catch {
         res.status(CONST.SERVER_ERROR).json({message: "server error"})
@@ -81,7 +83,7 @@ async function login(req: Request, res: Response): Promise<void> {
 
 async function signup(req: Request, res: Response): Promise<void> {
     const { email, password } = req.body;
-
+    console.log("email = ", email, "password = ", password);
     try { 
         const user: IUser = await authService.signup(email, password);
         if (req.session) {
@@ -95,7 +97,6 @@ async function signup(req: Request, res: Response): Promise<void> {
             res.status(CONST.SERVER_ERROR).json({ message: 'server error' });
     }
 }
-
 
 /*******************************************************************
 
