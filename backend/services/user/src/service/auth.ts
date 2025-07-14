@@ -28,9 +28,9 @@ import generateVerificationCode from '../utils/hash';
 
 async function login(email: string, password: string): Promise<IUser> {
     const user_info: UserCredentials = await userDAO.findUserByEmail(email);
-    const match:boolean = await bcrypt.compare(password, user_info.password_hash);
+    const pasword_check:boolean = await bcrypt.compare(password, user_info.password_hash);
 
-    if (match) {
+    if (pasword_check) {
         const user: IUser = {id: user_info.id, is_verified: user_info.is_verified, is_registred: user_info.is_registred}
         if (!user_info.is_verified) {
             user.verif_email_id = uuidv4();

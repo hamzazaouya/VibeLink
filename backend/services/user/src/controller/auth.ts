@@ -11,6 +11,7 @@ import authService from '../service/auth';
 import logger from '../utils/logger';
 import CONST from '../utils/constants';
 import { IUser } from '../types/user.interface';
+import { session } from 'passport';
 
 
 /*******************************************************************
@@ -50,11 +51,13 @@ async function logout(req: Request, res: Response): Promise<void> {
 
 async function login(req: Request, res: Response): Promise<void> {
     const { email, password } = req.body;
+    if (req.session && req.session.user) {
+        return res.redirect('/user/home');
+    }
     try {
         const user: IUser = await authService.login(email, password);
         if (req.session) {
             req.session.user = user;
-            console.log(req.session)
             res.status(CONST.SUCCESS).json({ message: 'user logged successfully' });
         }
     } catch (error: any) {
@@ -83,7 +86,6 @@ async function login(req: Request, res: Response): Promise<void> {
 
 async function signup(req: Request, res: Response): Promise<void> {
     const { email, password } = req.body;
-    console.log("email = ", email, "password = ", password);
     try { 
         const user: IUser = await authService.signup(email, password);
         if (req.session) {
@@ -111,17 +113,18 @@ async function signup(req: Request, res: Response): Promise<void> {
 
 async function verifyEmailLink(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
-
+    // Note: 
+    // check For the email was verified or not from database not from the session
     try {
         if (req.session && id === req.session.user.verif_email_id) {
             await authService.verifyEmail(req.session.user.id);
             req.session.user.is_verified = true;
-            res.status(CONST.SUCCESS).json({ message: 'email verified successfully' });
+            res.status(CONST.SUCCESS).json({ message: 'Email verified successfully' });
         } 
         else
-            res.status(CONST.UNAUTHORIZED).json({ message: 'email not verified' });
+            res.status(CONST.BAD_REQUEST).json({ message: 'Invalid or expired verification link' });
     } catch (error: any) {
-        res.status(CONST.SERVER_ERROR).json({ message: 'server error' });
+        res.status(CONST.SERVER_ERROR).json({ message: 'Server Error' });
     }
 }
 

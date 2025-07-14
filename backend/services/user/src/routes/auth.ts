@@ -32,7 +32,30 @@ import pool from '../utils/postgreSQL_conf';
 
 route.post('/user/logout', authController.logout)
 
-// Route for user login using email and password
+
+/**
+ * @swagger
+ * /user/login:
+ *   post:
+ *     summary: Login by Email and Password
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: john@example.com
+ *               password:
+ *                 type: string
+ *                 example: 1H.123+3453
+ *     responses:
+ *       200:
+ *         description: user logged successfully
+ */
 route.post('/user/login', uploader.parceFrom.none(), authValidation.verifyAuth, authValidation.validateRegistration, authValidation.handleAuthErrors, authController.login);
 
 /**
@@ -59,12 +82,56 @@ route.post('/user/login', uploader.parceFrom.none(), authValidation.verifyAuth, 
  *         description: user created successfully
  */
 
-
-// Route for user signup by email and password.
 route.post('/user/signup', authValidation.verifyAuth, authValidation.validateRegistration, authValidation.handleAuthErrors, authController.signup);
+
+/**
+ * @swagger
+ * /user/verify/email/{id}:
+ *   get:
+ *     summary: Verify email via verification link
+ *     tags: [Auth]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The unique verification ID from the email link
+ *     responses:
+ *       200:
+ *         description: Email verified successfully
+ *       400:
+ *         description: Invalid or expired verification link
+ */
 
 // Route for verifying user email
 route.get('/user/verify/email/:id', authMiddleware.authEmailVerification, authController.verifyEmailLink);
+
+/**
+ * @swagger
+ * /user/verify/email:
+ *   post:
+ *     summary: Verify user email using a verification code
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - code
+ *             properties:
+ *               code:
+ *                 type: string
+ *                 description: The verification code sent to the user's email
+ *                 example: "123456f"
+ *     responses:
+ *       200:
+ *         description: Email verified successfully
+ *       400:
+ *         description: Invalid or expired verification code
+ */
 route.post('/user/verify/email', authMiddleware.authEmailVerification, authController.verifyEmailCode);
 
 // Discord authentication routes
