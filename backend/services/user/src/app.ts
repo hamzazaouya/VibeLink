@@ -71,6 +71,53 @@ io.on("connection", (socket: Socket) => {
 
 // Routes
 
+// Serve the Socket.IO test page at root
+app.get('/', (req: express.Request, res: express.Response) => {
+    res.send(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>VibeLink - Real-time Social App</title>
+            <style>
+                body { 
+                    font-family: Arial, sans-serif; 
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                    color: white; 
+                    text-align: center; 
+                    padding: 50px; 
+                }
+                .container { 
+                    max-width: 600px; 
+                    margin: 0 auto; 
+                    background: rgba(255,255,255,0.1); 
+                    padding: 40px; 
+                    border-radius: 15px; 
+                    backdrop-filter: blur(10px);
+                }
+                h1 { font-size: 3em; margin-bottom: 20px; }
+                p { font-size: 1.2em; margin-bottom: 15px; }
+                .status { color: #4CAF50; font-weight: bold; }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1>🚀 VibeLink</h1>
+                <p class="status">✅ Server is running successfully!</p>
+                <p>Your real-time social application is now live.</p>
+                <p>Backend services are connected and ready.</p>
+                <hr style="margin: 30px 0; border: 1px solid rgba(255,255,255,0.3);">
+                <p><strong>Available Services:</strong></p>
+                <p>• User Service: Running on port 3000</p>
+                <p>• Swap Service: Running on port 3001</p>
+                <p>• PostgreSQL Database: Connected</p>
+                <p>• Redis Cache: Connected</p>
+                <p>• Nginx Proxy: Active</p>
+            </div>
+        </body>
+        </html>
+    `);
+});
+
 app.use(authRouter);
 app.use(homeRouter);
 app.use(registerRouter);

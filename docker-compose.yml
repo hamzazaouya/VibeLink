@@ -18,7 +18,8 @@ services:
 
   user:
     build:
-      context: ./backend/services/user/
+      context: ./backend/services/
+      dockerfile: user/Dockerfile
     ports:
       - "3000:3000"
     depends_on:
