@@ -32,7 +32,7 @@ async function getUserInfo(user_id: string) {
                         phone: info.phone,
                         email: info.email,
                         bio: info.bio,
-                        hobbies: info.hobbies
+                        hobbies: info.hobbies 
                     }
     return user_info;
 }

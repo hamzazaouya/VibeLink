@@ -85,7 +85,8 @@ async function updateUserInfo(user_id: string, firstName: string, lastName: stri
         // const query = `UPDATE users SET first_name = $1, last_name = $2, user_name = $3, age = $4, phone = $5, bio = $6  WHERE id = $ `;
         // const values = [firstName, lastName, userName, age, phone, bio, user_id];
         // await pool.query(query, values);
-        await query.update('users', ['first_name', 'last_name', 'user_name', 'age', 'phone', 'bio'], [firstName, lastName, userName, age, phone, bio], 'id', user_id);
+        await query.update('users', ['first_name', 'last_name', 'user_name', 'age', 'phone', 'bio'],
+             [firstName, lastName, userName, age, phone, bio], 'id', user_id);
     } catch (error) {
         throw error;
     }

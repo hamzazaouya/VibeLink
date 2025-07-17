@@ -28,10 +28,10 @@ async function getUserInfo(req: Request, res: Response): Promise<void> {
 }
 
 async function updateUserInfo(req: Request, res: Response): Promise<void> {
-    const { firstName, email, lastName, userName, age, phone, bio, hobbies } = req.body;
+    const { first_name, email, lastName, user_name, age, phone, bio, hobbies } = req.body;
     try {
         if(req.session) {
-            await profileService.updateUserInfo(req.session.user.id, firstName, lastName, userName, age, email, phone, bio, hobbies);
+            await profileService.updateUserInfo(req.session.user.id, first_name, lastName, user_name, age, email, phone, bio, hobbies);
         }
     } catch (error) {
 

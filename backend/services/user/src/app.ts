@@ -84,7 +84,7 @@ app.use(passwordRouter);
 app.use(profileRouter);
 app.use(swapRouter);
 app.use(statusRouter);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 
 
 

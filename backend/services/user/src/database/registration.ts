@@ -33,7 +33,9 @@ async function registerUserInfo(user_id: IUser, firstName: string, lastName: str
         // let query = `UPDATE users SET first_name = $1, last_name = $2, user_name = $3, age = $4, gender = $5, phone = $6, bio = $7, location = ST_SetSRID(ST_MakePoint($8, $9), 4326)  WHERE id = $10 `;
         // const values = [firstName, lastName, userName, age, gender, phone, bio, longitude, latitude, user_id];
         // await pool.query(query, values);
-        await query.update('users', ['first_name', 'last_name', 'user_name', 'age', 'gender', 'phone', 'bio'], [firstName, lastName, userName, age, gender, phone, bio], 'id', user_id );
+        await query.update('users', ['first_name', 'last_name', 'user_name', 'age', 'gender', 'phone', 'bio'],
+             [firstName, lastName, userName, age, gender, phone, bio],
+              'id', user_id );
         hobbies.forEach( async (hobbie) => {
             // const res = await pool.query('select id from interests where interest = $1',[hobbie.toLocaleLowerCase()]);
             const result = await query.select(['id'], 'interests', [{column: 'interest', operator: '=', value: hobbie.toLocaleLowerCase()}]);
