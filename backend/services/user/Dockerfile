@@ -5,14 +5,17 @@ FROM node:18
 WORKDIR /usr/src/app
 
 # Copy package.json and package-lock.json files
-COPY package*.json ./
+COPY user/package*.json ./
 
 # Install dependencies, including typescript and ts-node
 RUN npm install
 RUN npm install -g ts-node nodemon
 
 # Copy the rest of your application code
-COPY . .
+COPY user/ .
+
+# Copy the index.html from the parent directory
+COPY index.html ./index.html
 
 # Expose the port your app runs on
 EXPOSE 3000

@@ -5,14 +5,12 @@
  * @created 2024-10-23
  ******************************************/
 
-
-import { Request, Response } from 'express';
-import authService from '../service/auth';
-import logger from '../utils/logger';
-import CONST from '../utils/constants';
-import { IUser } from '../types/user.interface';
-import { session } from 'passport';
-
+import { Request, Response } from "express";
+import authService from "../service/auth";
+import logger from "../utils/logger";
+import CONST from "../utils/constants";
+import { IUser } from "../types/user.interface";
+import { session } from "passport";
 
 /*******************************************************************
 
@@ -25,18 +23,19 @@ import { session } from 'passport';
  *******************************************************************/
 
 async function logout(req: Request, res: Response): Promise<void> {
-    try {
-        if(req.session && req.session.user) {
-            delete req.session.user;
-            res.status(CONST.SUCCESS).json({message: "user logged out successfully"});
-        } else {
-            res.status(CONST.NOT_ALLOWED).json({message: "You are not allowed"})
-        }
-    } catch {
-        res.status(CONST.SERVER_ERROR).json({message: "server error"})
+  try {
+    if (req.session && req.session.user) {
+      delete req.session.user;
+      res
+        .status(CONST.SUCCESS)
+        .json({ message: "user logged out successfully" });
+    } else {
+      res.status(CONST.NOT_ALLOWED).json({ message: "You are not allowed" });
     }
+  } catch {
+    res.status(CONST.SERVER_ERROR).json({ message: "server error" });
+  }
 }
-
 
 /*******************************************************************
  * @function  function login(req, res)
@@ -48,29 +47,26 @@ async function logout(req: Request, res: Response): Promise<void> {
  * @auther hazaouya
  *******************************************************************/
 
-
 async function login(req: Request, res: Response): Promise<void> {
-    const { email, password } = req.body;
-    if (req.session && req.session.user) {
-        return res.redirect('/user/home');
+  const { email, password } = req.body;
+  if (req.session && req.session.user) {
+    return res.redirect("/user/home");
+  }
+  try {
+    const user: IUser = await authService.login(email, password);
+    if (req.session) {
+      req.session.user = user;
+      res.status(CONST.SUCCESS).json({ message: "user logged successfully" });
     }
-    try {
-        const user: IUser = await authService.login(email, password);
-        if (req.session) {
-            req.session.user = user;
-            res.status(CONST.SUCCESS).json({ message: 'user logged successfully' });
-        }
-    } catch (error: any) {
-        logger.user.info(`${req.ip}: ${error}`);
-        if (error.message === 'wrong username or password')
-            res.status(CONST.UNAUTHORIZED).json({ message: error.message });
-        else if (error.message === 'user not found')
-            res.status(CONST.NOT_FOUND).json({ message: error.message });
-        else
-            res.status(CONST.SERVER_ERROR).json({ message: 'server error' });
-    }
+  } catch (error: any) {
+    logger.user.info(`${req.ip}: ${error}`);
+    if (error.message === "wrong username or password")
+      res.status(CONST.UNAUTHORIZED).json({ message: error.message });
+    else if (error.message === "user not found")
+      res.status(CONST.NOT_FOUND).json({ message: error.message });
+    else res.status(CONST.SERVER_ERROR).json({ message: "server error" });
+  }
 }
-
 
 /*******************************************************************
 
@@ -82,22 +78,19 @@ async function login(req: Request, res: Response): Promise<void> {
 
  *******************************************************************/
 
-
-
 async function signup(req: Request, res: Response): Promise<void> {
-    const { email, password } = req.body;
-    try { 
-        const user: IUser = await authService.signup(email, password);
-        if (req.session) {
-            req.session.user = user;
-            res.status(CONST.CREATED).json({ message: 'user created successfully' });
-        }
-    } catch (error: any) {
-        if (error.message.includes('email'))
-            res.status(CONST.CONFLICT).json({ message: 'email is already taken' });
-        else
-            res.status(CONST.SERVER_ERROR).json({ message: 'server error' });
+  const { email, password } = req.body;
+  try {
+    const user: IUser = await authService.signup(email, password);
+    if (req.session) {
+      req.session.user = user;
+      res.status(CONST.CREATED).json({ message: "user created successfully" });
     }
+  } catch (error: any) {
+    if (error.message.includes("email"))
+      res.status(CONST.CONFLICT).json({ message: "email is already taken" });
+    else res.status(CONST.SERVER_ERROR).json({ message: "server error" });
+  }
 }
 
 /*******************************************************************
@@ -109,25 +102,26 @@ async function signup(req: Request, res: Response): Promise<void> {
  * @auther Function description
 
  *******************************************************************/
-
 
 async function verifyEmailLink(req: Request, res: Response): Promise<void> {
-    const { id } = req.params;
-    // Note: 
-    // check For the email was verified or not from database not from the session
-    try {
-        if (req.session && id === req.session.user.verif_email_id) {
-            await authService.verifyEmail(req.session.user.id);
-            req.session.user.is_verified = true;
-            res.status(CONST.SUCCESS).json({ message: 'Email verified successfully' });
-        } 
-        else
-            res.status(CONST.BAD_REQUEST).json({ message: 'Invalid or expired verification link' });
-    } catch (error: any) {
-        res.status(CONST.SERVER_ERROR).json({ message: 'Server Error' });
-    }
+  const { id } = req.params;
+  // Note:
+  // check For the email was verified or not from database not from the session
+  try {
+    if (req.session && id === req.session.user.verif_email_id) {
+      await authService.verifyEmail(req.session.user.id);
+      req.session.user.is_verified = true;
+      res
+        .status(CONST.SUCCESS)
+        .json({ message: "Email verified successfully" });
+    } else
+      res
+        .status(CONST.BAD_REQUEST)
+        .json({ message: "Invalid or expired verification link" });
+  } catch (error: any) {
+    res.status(CONST.SERVER_ERROR).json({ message: "Server Error" });
+  }
 }
-
 
 /*******************************************************************
 
@@ -139,24 +133,22 @@ async function verifyEmailLink(req: Request, res: Response): Promise<void> {
 
  *******************************************************************/
 
-
-
 async function verifyEmailCode(req: Request, res: Response): Promise<void> {
-    const { code } = req.body;
+  const { code } = req.body;
 
-    try {
-        if (req.session && code === req.session.user.verif_email_code) {
-            await authService.verifyEmail(req.session.user.id);
-            req.session.user.is_verified = true;
-            res.status(CONST.SUCCESS).json({ message: 'email verified successfully' });
-        }
-        else
-            res.status(CONST.UNAUTHORIZED).json({ message: 'email not verified' });
-    } catch (error: any) {
-        res.status(CONST.SERVER_ERROR).json({ message: 'server error' });
-    }
+  try {
+    if (req.session && code === req.session.user.verif_email_code) {
+      await authService.verifyEmail(req.session.user.id);
+      req.session.user.is_verified = true;
+      res
+        .status(CONST.SUCCESS)
+        .json({ message: "email verified successfully" });
+    } else
+      res.status(CONST.UNAUTHORIZED).json({ message: "email not verified" });
+  } catch (error: any) {
+    res.status(CONST.SERVER_ERROR).json({ message: "server error" });
+  }
 }
-
 
 /*******************************************************************
 
@@ -168,20 +160,18 @@ async function verifyEmailCode(req: Request, res: Response): Promise<void> {
 
  *******************************************************************/
 
-
 async function discordAuth(req: Request, res: Response): Promise<void> {
-    if (req.session) {
-        req.session.user = req.user;
-        res.redirect('/');
-    }
+  if (req.session) {
+    req.session.user = req.user;
+    res.redirect("/");
+  }
 }
 
-
 export default {
-    login,
-    signup,
-    verifyEmailLink,
-    verifyEmailCode,
-    discordAuth,
-    logout
+  login,
+  signup,
+  verifyEmailLink,
+  verifyEmailCode,
+  discordAuth,
+  logout,
 };

@@ -1,22 +1,17 @@
-# we will use the latest version of node available from the Docker Hub.
-FROM node:latest
+FROM node:18
 
-################################# BUILD TIME #########################################
+# Set working directory
+WORKDIR /app
 
-# Create app directory, where your app will live its lifetime.
-WORKDIR /usr/src/app
-
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-COPY ./Matcha/*.json ./
-
-# Installing the packages while the image is building
+# Copy package files and install dependencies
+COPY app/package*.json ./
 RUN npm install
 
-# The app binds to port 3000, so exposing port 3000 to be used by the docker network
-EXPOSE 5000
+# Copy the rest of the source code
+COPY ./app .
 
-################################# RUNTIME ##############################################3
+# Expose default Vite / CRA dev port
+EXPOSE 5173
 
-# Runtime command to be executed when the container is launched
-ENTRYPOINT [ "sh", "script.sh" ]
+# Start the development server
+CMD ["npm", "run", "dev"]
