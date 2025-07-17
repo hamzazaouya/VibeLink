@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Login.css';
 
 interface LoginForm {
   email: string;
@@ -58,22 +57,24 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="login-container">
-      <div className="login-card">
-        <div className="login-header">
-          <h1>Welcome Back</h1>
-          <p>Sign in to your VibeLink account</p>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 via-purple-500 to-purple-700 p-5">
+      <div className="bg-white/95 backdrop-blur-lg rounded-3xl p-10 w-full max-w-md shadow-2xl border border-white/20">
+        <div className="text-center mb-8">
+          <h1 className="text-gray-800 text-4xl font-bold mb-2">Welcome Back</h1>
+          <p className="text-gray-600 text-base">Sign in to your VibeLink account</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="login-form">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           {error && (
-            <div className="error-message">
+            <div className="bg-red-50 text-red-600 px-4 py-3 rounded-lg border border-red-200 text-sm text-center">
               {error}
             </div>
           )}
 
-          <div className="form-group">
-            <label htmlFor="email">Email Address</label>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="email" className="text-gray-800 font-semibold text-sm">
+              Email Address
+            </label>
             <input
               type="email"
               id="email"
@@ -83,11 +84,14 @@ const Login: React.FC = () => {
               placeholder="Enter your email"
               required
               disabled={loading}
+              className="px-4 py-3 border-2 border-gray-200 rounded-xl text-base transition-all duration-300 bg-white focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
             />
           </div>
 
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="password" className="text-gray-800 font-semibold text-sm">
+              Password
+            </label>
             <input
               type="password"
               id="password"
@@ -97,31 +101,32 @@ const Login: React.FC = () => {
               placeholder="Enter your password"
               required
               disabled={loading}
+              className="px-4 py-3 border-2 border-gray-200 rounded-xl text-base transition-all duration-300 bg-white focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
             />
           </div>
 
           <button 
             type="submit" 
-            className="login-button"
+            className="bg-gradient-to-r from-blue-500 to-purple-600 text-white border-0 py-4 px-5 rounded-xl text-base font-semibold cursor-pointer transition-all duration-300 mt-3 hover:transform hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/30 disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
             disabled={loading || !formData.email || !formData.password}
           >
             {loading ? 'Signing In...' : 'Sign In'}
           </button>
         </form>
 
-        <div className="login-footer">
-          <p>
+        <div className="mt-8 text-center flex flex-col gap-4">
+          <p className="text-gray-600 text-sm">
             Don't have an account?{' '}
             <button 
               onClick={() => navigate('/signup')} 
-              className="link-button"
+              className="bg-transparent border-0 text-blue-500 font-semibold cursor-pointer underline text-sm p-0 hover:text-purple-600"
             >
               Sign up here
             </button>
           </p>
           <button 
             onClick={() => navigate('/forgot-password')} 
-            className="link-button"
+            className="bg-transparent border-0 text-blue-500 font-semibold cursor-pointer underline text-sm p-0 hover:text-purple-600"
           >
             Forgot your password?
           </button>
