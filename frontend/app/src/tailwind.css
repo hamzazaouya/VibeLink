@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #2e294e;
+  --color-foreground: #e0e1e9;
+  --color-dart: #111418;
+  --color-accent-pink: #fd297b;
+  --color-accent-red: #ff5864;
+  --color-accent-salmon: #ff655b;
+  --color-alert: #fb6d6c;
+  --color-vibelink-gradient-start: #fd297b;
+  --color-vibelink-gradient-middle: #ff655b;
+  --color-vibelink-gradient-end: #ff5864;
+
+  --font-family-sans: "Roboto", "Inter", "system-ui", "sans-serif";
+  --font-family-display: "Pacifico", "cursive";
+  --font-family-roboto: "Roboto", "sans-serif";
+  --font-family-pacifico: "Pacifico", "cursive";
+}
