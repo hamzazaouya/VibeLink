@@ -5,8 +5,9 @@ export default {
     extend: {
       colors: {
         background: "#2E294E",
-        foreground: "#111418",
-        muted: "#E0E1E9",
+        foreground: "#E0E1E9",
+        dart: "#111418", // Deep dark background
+        // muted: "#E0E1E9",
         accent: {
           pink: "#FD297B",
           red: "#FF5864",
@@ -15,8 +16,9 @@ export default {
         alert: "#FB6D6C",
         vibelink: {
           gradient: {
-            start: "#667eea",
-            end: "#764ba2",
+            start: "#FD297B", // pink
+            middle: "#FF655B", // salmon
+            end: "#FF5864", // red
           },
         },
         primary: {
