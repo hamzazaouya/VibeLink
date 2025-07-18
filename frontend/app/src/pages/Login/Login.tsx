@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface LoginForm {
   email: string;
@@ -8,35 +8,35 @@ interface LoginForm {
 
 const Login: React.FC = () => {
   const [formData, setFormData] = useState<LoginForm>({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState<string>("");
   const navigate = useNavigate();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
     // Clear error when user starts typing
-    if (error) setError('');
+    if (error) setError("");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
+    setError("");
 
     try {
-      const response = await fetch('http://localhost/user/login', {
-        method: 'POST',
+      const response = await fetch("http://localhost/user/login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        credentials: 'include', // Important for session cookies
+        credentials: "include", // Important for session cookies
         body: JSON.stringify(formData),
       });
 
@@ -44,13 +44,13 @@ const Login: React.FC = () => {
 
       if (response.ok) {
         // Login successful - redirect to home or dashboard
-        navigate('/home');
+        navigate("/home");
       } else {
-        setError(data.message || 'Login failed. Please try again.');
+        setError(data.message || "Login failed. Please try again.");
       }
     } catch (err) {
-      setError('Network error. Please check your connection.');
-      console.error('Login error:', err);
+      setError("Network error. Please check your connection.");
+      console.error("Login error:", err);
     } finally {
       setLoading(false);
     }
@@ -60,8 +60,12 @@ const Login: React.FC = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 via-purple-500 to-purple-700 p-5">
       <div className="bg-white/95 backdrop-blur-lg rounded-3xl p-10 w-full max-w-md shadow-2xl border border-white/20">
         <div className="text-center mb-8">
-          <h1 className="text-gray-800 text-4xl font-bold mb-2">Welcome Back</h1>
-          <p className="text-gray-600 text-base">Sign in to your VibeLink account</p>
+          <h1 className="text-gray-800 text-4xl font-bold mb-2">
+            Welcome Back
+          </h1>
+          <p className="text-gray-600 text-base">
+            Sign in to your VibeLink account
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-5">
@@ -72,7 +76,10 @@ const Login: React.FC = () => {
           )}
 
           <div className="flex flex-col gap-2">
-            <label htmlFor="email" className="text-gray-800 font-semibold text-sm">
+            <label
+              htmlFor="email"
+              className="text-gray-800 font-semibold text-sm"
+            >
               Email Address
             </label>
             <input
@@ -89,7 +96,10 @@ const Login: React.FC = () => {
           </div>
 
           <div className="flex flex-col gap-2">
-            <label htmlFor="password" className="text-gray-800 font-semibold text-sm">
+            <label
+              htmlFor="password"
+              className="text-gray-800 font-semibold text-sm"
+            >
               Password
             </label>
             <input
@@ -105,27 +115,27 @@ const Login: React.FC = () => {
             />
           </div>
 
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className="bg-gradient-to-r from-blue-500 to-purple-600 text-white border-0 py-4 px-5 rounded-xl text-base font-semibold cursor-pointer transition-all duration-300 mt-3 hover:transform hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/30 disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
             disabled={loading || !formData.email || !formData.password}
           >
-            {loading ? 'Signing In...' : 'Sign In'}
+            {loading ? "Signing In..." : "Sign In"}
           </button>
         </form>
 
         <div className="mt-8 text-center flex flex-col gap-4">
           <p className="text-gray-600 text-sm">
-            Don't have an account?{' '}
-            <button 
-              onClick={() => navigate('/signup')} 
+            Don't have an account?{" "}
+            <button
+              onClick={() => navigate("/signup")}
               className="bg-transparent border-0 text-blue-500 font-semibold cursor-pointer underline text-sm p-0 hover:text-purple-600"
             >
               Sign up here
             </button>
           </p>
-          <button 
-            onClick={() => navigate('/forgot-password')} 
+          <button
+            onClick={() => navigate("/forgot-password")}
             className="bg-transparent border-0 text-blue-500 font-semibold cursor-pointer underline text-sm p-0 hover:text-purple-600"
           >
             Forgot your password?
