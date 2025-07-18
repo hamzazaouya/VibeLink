@@ -47,7 +47,10 @@ export default {
         },
       },
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
+        sans: ["Roboto", "Inter", "system-ui", "sans-serif"],
+        display: ["Pacifico", "cursive"],
+        roboto: ["Roboto", "sans-serif"],
+        pacifico: ["Pacifico", "cursive"],
       },
       animation: {
         "fade-in": "fadeIn 0.5s ease-in-out",

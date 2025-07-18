@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Roboto", Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -15,6 +15,62 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Font utility classes */
+@layer components {
+  .font-roboto {
+    font-family: "Roboto", sans-serif;
+  }
+
+  .font-pacifico {
+    font-family: "Pacifico", cursive;
+  }
+
+  /* Brand title styling with Pacifico */
+  .brand-title {
+    font-family: "Pacifico", cursive;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+  }
+
+  /* Body text styling with Roboto */
+  .body-text {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+  }
+
+  /* Roboto weight variations */
+  .roboto-thin {
+    font-family: "Roboto", sans-serif;
+    font-weight: 100;
+  }
+
+  .roboto-light {
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+  }
+
+  .roboto-regular {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+  }
+
+  .roboto-medium {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+  }
+
+  .roboto-bold {
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+  }
+
+  .roboto-black {
+    font-family: "Roboto", sans-serif;
+    font-weight: 900;
+  }
 }
 
 a {
