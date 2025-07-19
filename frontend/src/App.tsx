@@ -1,30 +1,36 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Login from './pages/Login';
-import WelcomePage from './pages/Welcome/Welcome';
-import './App.css';
+// src/App.tsx
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+// import Home from "./pages/Home";
+import Login from "./pages/Login";
+// import Signup from "./pages/Signup";
+import WelcomePage from "./pages/Welcome/Welcome";
+// import FontDemo from "./pages/FontDemo";
 
-function App() {
+// import Profile from "./pages/Profile";
+// import Settings from "./pages/Settings";
+import Reels from "./pages/reels";
+
+import Layout from "./components/Layout";
+
+export default function App() {
   return (
     <Router>
-      <div className="App">
-        <Routes>
-          {/* Default route redirects to login */}
-          <Route path="/" element={<WelcomePage />} />
-          
-          {/* Login page */}
-          <Route path="/login" element={<Login />} />
-          
-          {/* Placeholder for other routes */}
-          <Route path="/home" element={<div>Home Page - Coming Soon!</div>} />
-          <Route path="/signup" element={<div>Signup Page - Coming Soon!</div>} />
-          <Route path="/forgot-password" element={<div>Forgot Password - Coming Soon!</div>} />
-          
-          {/* Catch all route */}
-          <Route path="*" element={<Navigate to="/login" replace />} />
-        </Routes>
-      </div>
+      <Routes>
+        {/* Routes without layout */}
+        {/* <Route path="/" element={<Home />} /> */}
+        <Route path="/" element={<WelcomePage />} />
+        <Route path="/login" element={<Login />} />
+        {/* <Route path="/signup" element={<Signup />} />
+        <Route path="/welcome" element={<Welcome />} />
+        <Route path="/font-demo" element={<FontDemo />} /> */}
+
+        {/* Routes with layout (Profile group) */}
+        <Route element={<Layout />}>
+          {/* <Route path="/profile" element={<Profile />} /> */}
+          {/* <Route path="/settings" element={<Settings />} /> */}
+          <Route path="/reels" element={<Reels />} />
+        </Route>
+      </Routes>
     </Router>
   );
 }
-
-export default App;
