@@ -4,45 +4,47 @@ networks:
   matcha:
 
 services:
-  postgres:
-    build:
-      context: ./database/postgSQL
-    ports:
-      - "5432:5432"
-    env_file:
-      - .env
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - matcha
+  # postgres:
+  #   build:
+  #     context: ./database/postgSQL
+  #   ports:
+  #     - "5432:5432"
+  #   env_file:
+  #     - .env
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   networks:
+  #     - matcha
 
   frontend:
     build:
       context: ./frontend
+      dockerfile: Dockerfile
     ports:
-      - "5173:5173" # Change to 3000:3000 if using CRA
+      - "5173:5173"
     volumes:
-      - frontend_data:/app # Sync local files with container
-      - /app/node_modules # Prevent volume override of node_modules
+      - ./frontend:/app
+      - /app/node_modules
     networks:
       - matcha
 
-  user:
-    build:
-      context: ./backend/services/
-      dockerfile: user/Dockerfile
-    ports:
-      - "3000:3000"
-    depends_on:
-      - postgres
-      - redis
-    volumes:
-      - ./backend/services/user:/usr/src/app
-      - ./backend/uploads:/usr/src/app/uploads
-    env_file:
-      - .env
-    networks:
-      - matcha
+  # user:
+  #   build:
+  #     context: ./backend/services/
+  #     dockerfile: user/Dockerfile
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - postgres
+  #     - redis
+  #   volumes:
+  #     - ./backend/services/user:/usr/src/app
+  #     - ./backend/uploads:/usr/src/app/uploads
+  #     - /usr/src/app/node_modules
+  #   env_file:
+  #     - .env
+  #   networks:
+  #     - matcha
 
   # swap:
   #   build:
@@ -61,13 +63,13 @@ services:
   #   networks:
   #     - matcha
 
-  redis:
-    build:
-      context: ./backend/utils/profile-redis
-    ports:
-      - "6379:6379"
-    networks:
-      - matcha
+  # redis:
+  #   build:
+  #     context: ./backend/utils/profile-redis
+  #   ports:
+  #     - "6379:6379"
+  #   networks:
+  #     - matcha
 
   # nginx:
   #   build:

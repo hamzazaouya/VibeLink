@@ -3,12 +3,12 @@ FROM node:18
 # Set working directory
 WORKDIR /app
 
-# Copy package files and install dependencies
-COPY app/package*.json ./
-RUN npm install
+
 
 # Copy the rest of the source code
-COPY ./app .
+COPY . .
+
+RUN npm install
 
 # Expose default Vite / CRA dev port
 EXPOSE 5173
