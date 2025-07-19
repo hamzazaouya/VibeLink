@@ -8,12 +8,24 @@ function WelcomePage () {
             className="relative h-screen w-screen bg-center bg-cover"
             style={{ backgroundImage: `url(${backgroundImage})` }}
             >
-                <div className="absolute inset-0 bg-black bg-opacity-40 z-10"></div>
-                <div className="relative z-20 flex items-center justify-center h-full">
-                    <h1 className="text-white text-5xl font-bold font-pacifico">Where Vibe Collide</h1>
-                    <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
-                        Click Me
-                    </button>
+                <div className="absolute inset-0 bg-black bg-opacity-80 z-10"></div>
+                <div className="absolute z-20 h-screen w-screen  px-8 pt-8">
+                    <div className="flex justify-between h-[10%]">
+                        <div>
+                            <h1 className="text-[2rem] font-[1000] tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-accent-pink from-30% via-accent-red to-accent-salmon">VibeLink</h1>
+                        </div>
+                        <div>
+                            <a href="" className="text-[1.2rem] font-bold text-black bg-white px-10 py-2 rounded-full">
+                                Login
+                            </a>
+                        </div>
+                    </div>
+                    <div className="flex flex-col items-center justify-center text-center h-[90%]">
+                        <h1 className="p-8 text-white text-5xl font-bold font-pacifico">Where Vibe Collide</h1>
+                        <a href="" className="capitalize rounded-full font-bold min-w-[15rem] px-4 py-2 bg-gradient-to-r from-accent-pink from-30% via-accent-red to-accent-salmon text-white rounded border border-transparent hover:opacity-80 hover:border-white transition">
+                            create account
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
