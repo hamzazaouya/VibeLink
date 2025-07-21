@@ -1,47 +1,62 @@
 import { NavLink, Link } from "react-router-dom";
+import { Bell, Flame, MessagesSquare, UserRoundSearch } from "lucide-react";
 
 export default function Navbar() {
   return (
-    <nav className="bg-white shadow px-6 py-4 flex justify-between items-center">
-      {/* Logo */}
-      <Link to="/" className="text-xl font-bold text-blue-600">
-        AchrafManager
-      </Link>
+    <nav className="bg-background shadow px-14 py-6 flex justify-between items-center">
+      <div>
+        <h1 className="text-[2rem] font-[1000] tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-accent-pink from-30% via-accent-red to-accent-salmon">
+          VibeLink
+        </h1>
+      </div>
 
       {/* Navigation Links */}
-      <div className="space-x-6">
+      <div className="flex gap-16 justify-center items-center">
+        <NavLink
+          to="/home"
+          className={({ isActive }) =>
+            `${
+              isActive ? "text-alert font-semibold" : "text-foreground"
+            } hover:text-vibelink-gradient-start transition`
+          }
+        >
+          <Flame size={34} />
+        </NavLink>
         <NavLink
           to="/profile"
           className={({ isActive }) =>
-            isActive ? "text-blue-600 font-semibold" : "text-gray-600"
+            `${
+              isActive ? "text-alert font-semibold" : "text-foreground"
+            } hover:text-vibelink-gradient-start transition`
           }
         >
-          Profile
+          <UserRoundSearch size={34} />
         </NavLink>
         <NavLink
-          to="/settings"
+          to="/chat"
           className={({ isActive }) =>
-            isActive ? "text-blue-600 font-semibold" : "text-gray-600"
+            `${
+              isActive ? "text-alert font-semibold" : "text-foreground"
+            } hover:text-vibelink-gradient-start transition`
           }
         >
-          Settings
+          <MessagesSquare size={34} />
         </NavLink>
-        <NavLink
-          to="/reels"
-          className={({ isActive }) =>
-            isActive ? "text-blue-600 font-semibold" : "text-gray-600"
-          }
-        >
-          Reels
-        </NavLink>
+        <div className="hover:text-vibelink-gradient-start transition cursor-pointer">
+          <Bell size={34} />
+        </div>
       </div>
 
-      {/* User Avatar */}
-      <img
-        src="https://api.dicebear.com/7.x/bottts/svg?seed=Achraf"
-        alt="User Avatar"
-        className="w-8 h-8 rounded-full border border-gray-300"
-      />
+      <Link to="/settings">
+        <div className="relative w-12 h-12 cursor-pointer">
+          <img
+            src="img/image_girl_1.png"
+            alt="User Avatar"
+            className="w-12 h-12 rounded-full border border-alert"
+          />
+          <span className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-full" />
+        </div>
+      </Link>
     </nav>
   );
 }
