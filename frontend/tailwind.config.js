@@ -5,7 +5,7 @@ export default {
     extend: {
       colors: {
         background: "#2E294E",
-        foreground: "#E0E1E9",
+        foreground: "#FFFFFF",
         dart: "#111418", // Deep dark background
         // muted: "#E0E1E9",
         accent: {

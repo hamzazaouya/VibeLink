@@ -15,7 +15,7 @@ function WelcomePage () {
                             <h1 className="text-[2rem] font-[1000] tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-accent-pink from-30% via-accent-red to-accent-salmon">VibeLink</h1>
                         </div>
                         <div>
-                            <a  href = "https://psychic-fishstick-w5pxwxrvw69cgr9r-5173.app.github.dev/login" 
+                            <a  href = "https://didactic-broccoli-65qwjw9vjpr255qj-5173.app.github.dev/login" 
                                 className = "text-[1.2rem] font-bold text-black bg-white px-10 py-2 rounded-full hover:text-black">
                                 Login
                             </a>
@@ -23,7 +23,7 @@ function WelcomePage () {
                     </div>
                     <div className = "flex flex-col items-center justify-center text-center h-[95%]">
                         <h1 className = "p-8 text-white text-5xl font-bold font-pacifico">Where Vibe Collide</h1>
-                        <a  href = "https://psychic-fishstick-w5pxwxrvw69cgr9r-5173.app.github.dev/signup" 
+                        <a  href = "https://didactic-broccoli-65qwjw9vjpr255qj-5173.app.github.dev/signup" 
                             className = "capitalize rounded-full font-bold min-w-[15rem] px-4 py-2 bg-gradient-to-r from-accent-pink from-30% via-accent-red to-accent-salmon text-white rounded border border-transparent hover:opacity-80 hover:border-white hover:text-white transition">
                             create account
                         </a>
