@@ -4,12 +4,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Chat from "./pages/Chat";
 import Settings from "./pages/Settings";
-// import Signup from "./pages/Signup";
 import WelcomePage from "./pages/Welcome/Welcome";
-// import FontDemo from "./pages/FontDemo";
-
-import Profile from "./pages/Profile";
-// import Settings from "./pages/Settings";
 
 import Layout from "./components/Layout";
 

@@ -3,7 +3,7 @@ import { Bell, Flame, MessagesSquare, UserRoundSearch } from "lucide-react";
 
 export default function Navbar() {
   return (
-    <nav className="bg-background shadow px-14 py-6 flex justify-between items-center">
+    <nav className="h-24 bg-background shadow px-14 py-6 flex justify-between items-center border-b-[0.1px] border-twilight-gradient-start">
       <div>
         <h1 className="text-[2rem] font-[1000] tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-accent-pink from-30% via-accent-red to-accent-salmon">
           VibeLink
@@ -50,7 +50,7 @@ export default function Navbar() {
       <Link to="/settings">
         <div className="relative w-12 h-12 cursor-pointer">
           <img
-            src="img/image_girl_1.png"
+            src="img/girl_2.png"
             alt="User Avatar"
             className="w-12 h-12 rounded-full border border-alert"
           />
