@@ -3,7 +3,7 @@ import { Bell, Flame, MessagesSquare, UserRoundSearch } from "lucide-react";
 
 export default function Navbar() {
   return (
-    <nav className="h-24 bg-background shadow px-14 py-6 flex justify-between items-center border-b-[0.1px] border-twilight-gradient-start">
+    <nav className="fixed w-full h-24 bg-background shadow px-14 py-6 flex justify-between items-center border-b-[0.1px] border-twilight-gradient-start">
       <div>
         <h1 className="text-[2rem] font-[1000] tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-accent-pink from-30% via-accent-red to-accent-salmon">
           VibeLink
