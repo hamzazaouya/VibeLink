@@ -22,7 +22,7 @@ function CreateAccountForm	() {
 
     return (
         <>
-            <div className="bg-white bg-opacity-0 w-[25rem] h-[35rem] flex content-center items-center">
+            <div className="w-[25rem] h-[35rem] flex items-center">
                 
                 <div className="w-full">
                     <h1 className="text-left font-bold text-[2rem]">Create an account</h1>
@@ -84,7 +84,7 @@ function CreateAccountForm	() {
                             </div>
                             <div className="flex items-center mt-6">
                                 <span className="inline-block w-full h-[1px] bg-white "></span>
-                                <span className="inline-block w-full text-[.7rem]">Or Register with</span>
+                                <span className="inline-block w-full text-[.7rem]">or Register with</span>
                                 <span className="inline-block w-full h-[1px] bg-white "></span>
                             </div>
                             <div className="flex w-full gap-2 grid-cols-2 mt-6 ">
