@@ -11,7 +11,7 @@ export default function Navbar() {
       </div>
 
       {/* Navigation Links */}
-      <div className="flex gap-16 justify-center items-center">
+      <div className="flex gap-16 justify-center items-center mr-16">
         <NavLink
           to="/home"
           className={({ isActive }) =>
