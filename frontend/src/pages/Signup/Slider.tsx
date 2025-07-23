@@ -39,7 +39,7 @@ function Slider() {
     return (
         <>
             <div>
-                <div className="relative w-[300px] h-[416px] rounded-2xl overflow-hidden shadow-lg">
+                <div className="relative w-[25rem] h-[35rem] rounded-2xl overflow-hidden shadow-lg">
                     {slideImages.map((src, i) => (
                         <img
                         key={i}

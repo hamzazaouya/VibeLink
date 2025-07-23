@@ -22,23 +22,24 @@ function CreateAccountForm	() {
 
     return (
         <>
-            <div className="bg-white bg-opacity-0 w-[300px] h-[416px]">
-                <div className="mt-[3rem]">
-                    <h1 className="text-left font-bold text-[1.7rem]">Create an account</h1>
-                    <div className="text-left text-[.7rem] pl-1 mt-2">
+            <div className="bg-white bg-opacity-0 w-[25rem] h-[35rem] flex content-center items-center">
+                
+                <div className="w-full">
+                    <h1 className="text-left font-bold text-[2rem]">Create an account</h1>
+                    <div className="text-left text-[.8rem] pl-1 mt-2">
                         <span className="">alredy have an account ?</span>
                         <a href='${APP_URL}/login' className="px-[.5rem] underline text-accent-salmon">Login</a>
                     </div>
-                    <div className="mt-6 w-[260px]">
+                    <div className="mt-6 w-[80%]">
                         <form onSubmit={handleSubmit}className="">
-                             <div>
+                            <div>
                                 <input 
                                     type="text" 
                                     name="username"
                                     value={form.username}
                                     placeholder="Username"
                                     onChange={handleChange}
-                                    className="w-full px-3 py-1 rounded-md bg-white/40 text-black placeholder-gray-700 text-[.7rem] placeholder:text-[.7rem] focus:outline-none focus:ring-1 focus:ring-accent-red"
+                                    className="w-full px-3 py-2 rounded-md bg-white/40 text-black placeholder-gray-700 text-[.8rem] placeholder:text-[.8rem] focus:outline-none focus:ring-1 focus:ring-accent-red"
                                 />
                             </div>
 
@@ -49,7 +50,7 @@ function CreateAccountForm	() {
                                     value={form.email}
                                     placeholder="Email"
                                     onChange={handleChange}
-                                    className="w-full px-3 py-1 rounded-md bg-white/40 text-black placeholder-gray-700 text-[.7rem] placeholder:text-[.7rem] focus:outline-none focus:ring-1 focus:ring-accent-red"
+                                    className="w-full px-3 py-2 rounded-md bg-white/40 text-black placeholder-gray-700 text-[.8rem] placeholder:text-[.8rem] focus:outline-none focus:ring-1 focus:ring-accent-red"
                                 />
                             </div>
 
@@ -60,10 +61,10 @@ function CreateAccountForm	() {
                                     value={form.password}
                                     placeholder="Password"
                                     onChange={handleChange}
-                                    className="w-full px-3 py-1 rounded-md bg-white/40 text-black placeholder-gray-700 text-[.7rem] placeholder:text-[.7rem] focus:outline-none focus:ring-1 focus:ring-accent-red"
+                                    className="w-full px-3 py-2 rounded-md bg-white/40 text-black placeholder-gray-700 text-[.8rem] placeholder:text-[.8rem] focus:outline-none focus:ring-1 focus:ring-accent-red"
                                 />
                             </div>
-                            <div className="mt-4 text-left text-[.7rem] flex">
+                            <div className="mt-4 text-left text-[.8rem] flex">
                                 <input
                                 id="terms"
                                 type="checkbox"
@@ -73,37 +74,37 @@ function CreateAccountForm	() {
                                 <a href="" className="ml-1 underline text-accent-salmon">Terms & Conditions</a>
                             </div>
 
-                            <div className="mt-4">
+                            <div className="mt-6">
                                 <button
                                     type="submit"
-                                    className="capitalize text-[.8rem] rounded font-bold w-full py-1 bg-gradient-to-r from-accent-pink from-30% via-accent-red to-accent-salmon text-white rounded border border-transparent hover:border-white hover:text-white transition focus:outline-none focus:ring-0"
+                                    className="capitalize text-[1rem] rounded font-bold w-full py-2 bg-gradient-to-r from-accent-pink from-30% via-accent-red to-accent-salmon text-white rounded border border-transparent hover:border-white hover:text-white transition focus:outline-none focus:ring-0"
                                 >
                                     Create account
                                 </button>
                             </div>
                             <div className="flex items-center mt-6">
                                 <span className="inline-block w-full h-[1px] bg-white "></span>
-                                <span className="inline-block w-full text-[.5rem]">Or Register with</span>
+                                <span className="inline-block w-full text-[.7rem]">Or Register with</span>
                                 <span className="inline-block w-full h-[1px] bg-white "></span>
                             </div>
                             <div className="flex w-full gap-2 grid-cols-2 mt-6 ">
                                 <div className="w-full">
                                     <a href="">
-                                        <div className="text-white px-2 py-1 border rounded-md text-center text-[.7rem] transition hover:border-accent-red ">
+                                        <div className="text-white px-2 py-1.5 border rounded-md text-center text-[.8rem] transition hover:border-accent-red ">
                                             Google
                                         </div>
                                     </a>
                                 </div >
                                 <div className="w-full">
                                     <a href="">
-                                        <div className="text-white px-2 py-1 border rounded-md text-center text-[.7rem] transition hover:border-accent-red ">
+                                        <div className="text-white px-2 py-1.5 border rounded-md text-center text-[.8rem] transition hover:border-accent-red ">
                                             Discord
                                         </div>
                                     </a>
                                 </div >
                                 <div className="w-full">
                                     <a href="">
-                                        <div className="text-white px-2 py-1 border rounded-md text-center text-[.7rem] transition hover:border-accent-red ">
+                                        <div className="text-white px-2 py-1.5 border rounded-md text-center text-[.8rem] transition hover:border-accent-red ">
                                             Facebook
                                         </div>
                                     </a>
