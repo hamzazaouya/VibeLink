@@ -7,7 +7,6 @@ import { Heart, X, Star } from "lucide-react";
 export default function Home() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [users] = useState(testUsers);
-  const [showFullDescription, setShowFullDescription] = useState(false);
   const currentUser = users[currentIndex];
 
   const handleAction = (action: "like" | "pass") => {
@@ -33,7 +32,7 @@ export default function Home() {
 
   if (!currentUser) {
     return (
-      <div className="min-h-screen pt-24 bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 flex items-center justify-center">
+      <div className="min-h-screen pt-24 bg-gradient-to-br from-twilight-gradient-start via-twilight-gradient-middle to-twilight-gradient-end flex items-center justify-center">
         <p className="text-white text-xl">No more profiles to show!</p>
       </div>
     );
@@ -61,23 +60,11 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Description with Read More functionality */}
-            <div className="mb-5">
+            {/* Description  */}
+            <div className="mb-5 h-16">
               <p className="text-gray-300 text-base leading-relaxed">
-                {currentUser.description.length > 90 ? (
-                  <>
-                    {showFullDescription
-                      ? currentUser.description
-                      : `${currentUser.description.substring(0, 90)}...`}
-                    <button
-                      onClick={() =>
-                        setShowFullDescription(!showFullDescription)
-                      }
-                      className="text-pink-400 hover:text-pink-300 ml-2 text-sm font-medium"
-                    >
-                      {showFullDescription ? "Show less" : "Read more"}
-                    </button>
-                  </>
+                {currentUser.description.length > 100 ? (
+                  <>{`${currentUser.description.substring(0, 100)}...`}</>
                 ) : (
                   currentUser.description
                 )}
