@@ -7,7 +7,7 @@ import { Heart, X, Star } from "lucide-react";
 export default function Home() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [users] = useState(testUsers);
-  // const [showFullDescription, setShowFullDescription] = useState(false);
+  const [showFullDescription, setShowFullDescription] = useState(false);
   const currentUser = users[currentIndex];
 
   const handleAction = (action: "like" | "pass") => {
@@ -42,7 +42,7 @@ export default function Home() {
   return (
     <div className="min-h-screen pt-24 bg-gradient-to-br from-twilight-gradient-start via-twilight-gradient-middle to-twilight-gradient-end flex items-center justify-center">
       <div className="relative">
-        <div className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden shadow-2xl max-w-lg w-full">
+        <div className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden shadow-2xl max-w-lg w-full h-[75vh]">
           {/* Image */}
           <div className="relative bg-gray-800/20">
             <img
@@ -62,13 +62,13 @@ export default function Home() {
             </div>
 
             {/* Description with Read More functionality */}
-            {/* <div className="mb-5">
+            <div className="mb-5">
               <p className="text-gray-300 text-base leading-relaxed">
-                {currentUser.description.length > 120 ? (
+                {currentUser.description.length > 90 ? (
                   <>
                     {showFullDescription
                       ? currentUser.description
-                      : `${currentUser.description.substring(0, 120)}...`}
+                      : `${currentUser.description.substring(0, 90)}...`}
                     <button
                       onClick={() =>
                         setShowFullDescription(!showFullDescription)
@@ -82,7 +82,7 @@ export default function Home() {
                   currentUser.description
                 )}
               </p>
-            </div> */}
+            </div>
 
             <div className="text-base text-gray-400">
               <span className="font-semibold">
