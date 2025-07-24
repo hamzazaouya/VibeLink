@@ -14,6 +14,7 @@ import Settings from "./pages/Settings";
 import Chat from "./pages/Chat";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
+import UserRegistration from "./pages/Registration/UserRegistration";
 
 export default function App() {
   return (
@@ -23,6 +24,7 @@ export default function App() {
         <Route path="/" element={<WelcomePage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/register" element={<UserRegistration />} />
         <Route
           path="/forgot-password"
           element={<div>Forgot Password - Coming Soon!</div>}
