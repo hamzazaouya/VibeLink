@@ -7,18 +7,25 @@ export default {
         background: "#2E294E",
         foreground: "#FFFFFF",
         dart: "#111418", // Deep dark background
-        // muted: "#E0E1E9",
+        muted: "#E0E1E9",
+        alert: "#FB6D6C",
         accent: {
           pink: "#FD297B",
           red: "#FF5864",
           salmon: "#FF655B",
         },
-        alert: "#FB6D6C",
         vibelink: {
           gradient: {
             start: "#FD297B", // pink
             middle: "#FF655B", // salmon
             end: "#FF5864", // red
+          },
+        },
+        twilight: {
+          gradient: {
+            start: "#2E294E", // dark indigo
+            middle: "#3d3458", // soft purple
+            end: "#2E294E", // same as start
           },
         },
         primary: {
