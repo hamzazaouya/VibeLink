@@ -1,5 +1,6 @@
 import Stepper from "./stepper";
 import EmailConfirmation from "./EmailConfirmation";
+import UserInformation from "./UserInformation";
 
 function UserRegistration () {
     return (
@@ -11,7 +12,8 @@ function UserRegistration () {
                 <div className="w-[60%] mt-[3%]">
                     <div className="text-[2rem] mb-5 font-light">Hi <span className="font-bold">Hamza</span> Complete your registration</div>
                         <Stepper />
-                        <EmailConfirmation />
+                        {/* <EmailConfirmation /> */}
+                        <UserInformation />
                 </div>
             </div>
         </>
