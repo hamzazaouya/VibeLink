@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import "./stepper.css"
+import "./styles/stepper.css"
 import {TiTick} from "react-icons/ti"
 function Stepper () {
     const steps = ["email verification", "informations", "hobbies", "profile images"];

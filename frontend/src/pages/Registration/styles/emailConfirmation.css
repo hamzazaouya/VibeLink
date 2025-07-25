@@ -1,0 +1,23 @@
+.email_conf {
+    @apply mt-3 bg-white bg-opacity-30 rounded-xl py-10
+}
+
+.email_conf h1 {
+    @apply text-[2rem] font-bold mb-2
+}
+
+.email_conf p {
+    @apply mb-1
+}
+
+.email_conf span{
+    @apply font-bold
+}
+
+.email_conf a{
+    @apply font-bold hover:text-white
+}
+
+.otp {
+    @apply h-32
+}
