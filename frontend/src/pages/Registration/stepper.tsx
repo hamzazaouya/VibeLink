@@ -3,7 +3,7 @@ import "./styles/stepper.css"
 import {TiTick} from "react-icons/ti"
 function Stepper () {
     const steps = ["email verification", "informations", "hobbies", "profile images"];
-    const [currentStep, setCurrentStep] = useState(3)
+    const [currentStep, setCurrentStep] = useState(1)
     return (
         <>
             <div className="flex justify-center">

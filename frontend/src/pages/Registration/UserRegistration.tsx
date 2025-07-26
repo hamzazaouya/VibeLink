@@ -1,8 +1,28 @@
 import Stepper from "./stepper";
 import EmailConfirmation from "./EmailConfirmation";
-import UserInformation from "./UserInformation";
+import UserInformation from "./UserInfo/UserInfo";
+import React, { useState } from "react";
+import {FormData} from "./types/registration.types"
+
+const INIT_DATA: FormData = {
+    firstName: "",
+    lastName: "",
+    age: "",
+    gender: "",
+    phone: "",
+    bio: "",
+    latitude: 32.229408,
+    longitude: -7.957042,
+}
 
 function UserRegistration () {
+    const[data, setData] = useState(INIT_DATA);
+    function updateFields(fields: Partial<FormData>) {
+        console.log(data)
+        setData(prev => {
+            return {...prev, ...fields}
+        });
+    }
     return (
         <>
             <div className=" relative h-screen w-screen bg-background flex items-center flex-col">
@@ -13,7 +33,7 @@ function UserRegistration () {
                     <div className="text-[2rem] mb-5 font-light">Hi <span className="font-bold">Hamza</span> Complete your registration</div>
                         <Stepper />
                         {/* <EmailConfirmation /> */}
-                        <UserInformation />
+                        <UserInformation {...data} updateFields={updateFields}/>
                 </div>
             </div>
         </>

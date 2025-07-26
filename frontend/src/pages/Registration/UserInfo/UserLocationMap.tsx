@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { UserFormProps } from '../types/registration.types';
 import 'leaflet/dist/leaflet.css';
 
-function UserLocationMap() {
+function UserLocationMap(props: UserFormProps) {
 
-    const [position, setPosition] = useState<{ lat: number; lng: number }>({lat: 32.229408, lng: -7.957042});
+    const [position, setPosition] = useState<{ lat: number; lng: number }>({lat: props.latitude, lng: props.longitude});
     
     useEffect(() => {
     if (!navigator.permissions || !navigator.geolocation) {
@@ -16,6 +17,8 @@ function UserLocationMap() {
       if (result.state === "granted" || result.state === "prompt") {
         navigator.geolocation.getCurrentPosition(
           (pos) => {
+            props.updateFields({ latitude: pos.coords.latitude, longitude: pos.coords.longitude});
+            console.log("===============> ", pos.coords.latitude, pos.coords.longitude)
             setPosition({ lat: pos.coords.latitude, lng: pos.coords.longitude });
           },
           (err) => {
