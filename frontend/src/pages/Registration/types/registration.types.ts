@@ -7,6 +7,7 @@ export interface FormData {
   bio: string;
   latitude: number;
   longitude: number;
+  hobbies: string[];
 }
 
 export type UserFormProps = FormData & {

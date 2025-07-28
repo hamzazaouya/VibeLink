@@ -1,8 +1,10 @@
 import Stepper from "./stepper";
 import EmailConfirmation from "./EmailConfirmation";
 import UserInformation from "./UserInfo/UserInfo";
+import UserHobbies from "./hobbies/UserHobbies";
 import React, { useState } from "react";
 import {FormData} from "./types/registration.types"
+import IconButton from "./hobbies/IconButton";
 
 const INIT_DATA: FormData = {
     firstName: "",
@@ -13,6 +15,7 @@ const INIT_DATA: FormData = {
     bio: "",
     latitude: 32.229408,
     longitude: -7.957042,
+    hobbies: []
 }
 
 function UserRegistration () {
@@ -33,7 +36,8 @@ function UserRegistration () {
                     <div className="text-[2rem] mb-5 font-light">Hi <span className="font-bold">Hamza</span> Complete your registration</div>
                         <Stepper />
                         {/* <EmailConfirmation /> */}
-                        <UserInformation {...data} updateFields={updateFields}/>
+                        {/* <UserInformation {...data} updateFields={updateFields}/> */}
+                        <UserHobbies {...data} updateFields={updateFields}/>
                 </div>
             </div>
         </>
