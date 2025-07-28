@@ -1,62 +1,94 @@
 import { NavLink, Link } from "react-router-dom";
-import { Bell, Flame, MessagesSquare, UserRoundSearch } from "lucide-react";
+import {
+  Bell,
+  Flame,
+  Menu,
+  MessagesSquare,
+  UserRoundSearch,
+  X,
+} from "lucide-react";
+import { useState } from "react";
 
 export default function Navbar() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const navItems = [
+    { to: "/home", icon: <Flame size={32} />, label: "Home" },
+    { to: "/profile", icon: <UserRoundSearch size={32} />, label: "Profile" },
+    { to: "/chat", icon: <MessagesSquare size={32} />, label: "Chat" },
+  ];
+
   return (
-    <nav className="fixed w-full h-24 shadow px-14 py-6 flex justify-between items-center border-b-[0.1px] border-twilight-gradient-start">
-      <div>
-        <h1 className="text-[2rem] font-[1000] tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-accent-pink from-30% via-accent-red to-accent-salmon">
-          VibeLink
-        </h1>
-      </div>
+    <nav className="fixed w-full h-[5.5rem] px-6 sm:px-14  bg-background py-4 shadow border-b border-twilight-gradient-start flex justify-between items-center z-50">
+      {/* Logo */}
+      <h1 className="text-2xl font-black tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-accent-pink via-accent-red to-accent-salmon">
+        VibeLink
+      </h1>
 
-      {/* Navigation Links */}
-      <div className="flex gap-16 justify-center items-center mr-16">
-        <NavLink
-          to="/home"
-          className={({ isActive }) =>
-            `${
-              isActive ? "text-alert font-semibold" : "text-foreground"
-            } hover:text-vibelink-gradient-start transition`
-          }
-        >
-          <Flame size={34} />
-        </NavLink>
-        <NavLink
-          to="/profile"
-          className={({ isActive }) =>
-            `${
-              isActive ? "text-alert font-semibold" : "text-foreground"
-            } hover:text-vibelink-gradient-start transition`
-          }
-        >
-          <UserRoundSearch size={34} />
-        </NavLink>
-        <NavLink
-          to="/chat"
-          className={({ isActive }) =>
-            `${
-              isActive ? "text-alert font-semibold" : "text-foreground"
-            } hover:text-vibelink-gradient-start transition`
-          }
-        >
-          <MessagesSquare size={34} />
-        </NavLink>
-        <div className="hover:text-vibelink-gradient-start transition cursor-pointer">
-          <Bell size={34} />
+      {/* Desktop Nav */}
+      <div className="hidden md:flex gap-10 items-center">
+        {navItems.map(({ to, icon, label }) => (
+          <NavLink
+            key={label}
+            to={to}
+            className={({ isActive }) =>
+              `${
+                isActive ? "text-alert font-semibold" : "text-foreground"
+              } hover:text-vibelink-gradient-start transition`
+            }
+          >
+            {icon}
+          </NavLink>
+        ))}
+        <div className="hover:text-vibelink-gradient-start cursor-pointer">
+          <Bell size={30} />
         </div>
       </div>
 
-      <Link to="/settings">
-        <div className="relative w-12 h-12 cursor-pointer">
-          <img
-            src="img/girl_2.png"
-            alt="User Avatar"
-            className="w-12 h-12 rounded-full border border-alert"
-          />
-          <span className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-full" />
-        </div>
+      {/* Avatar */}
+      <Link
+        to="/settings"
+        className="hidden md:block relative w-11 h-11 shrink-0"
+      >
+        <img
+          src="img/girl_2.png"
+          alt="User Avatar"
+          className="rounded-full w-full h-full object-cover border border-alert"
+        />
+        <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full" />
       </Link>
+
+      {/* Mobile Menu Button */}
+      <button
+        className="md:hidden text-white"
+        onClick={() => setMobileOpen(!mobileOpen)}
+      >
+        {mobileOpen ? <X size={28} /> : <Menu size={28} />}
+      </button>
+
+      {/* Mobile Menu */}
+      {mobileOpen && (
+        <div className="absolute top-20 left-0 w-full bg-[#2b234a] px-6 py-4 flex flex-col gap-4 md:hidden z-40 shadow-md">
+          {navItems.map(({ to, icon, label }) => (
+            <NavLink
+              key={label}
+              to={to}
+              onClick={() => setMobileOpen(false)}
+              className={({ isActive }) =>
+                `${
+                  isActive ? "text-alert font-semibold" : "text-foreground"
+                } flex items-center gap-3 hover:text-vibelink-gradient-start transition`
+              }
+            >
+              {icon} {label}
+            </NavLink>
+          ))}
+          <div className="flex items-center gap-3 text-foreground hover:text-vibelink-gradient-start cursor-pointer">
+            <Bell size={24} />
+            Notifications
+          </div>
+        </div>
+      )}
     </nav>
   );
 }
