@@ -39,9 +39,9 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen w-screen pt-24 bg-gradient-to-br from-twilight-gradient-start via-twilight-gradient-middle to-twilight-gradient-end flex items-center justify-center">
+    <div className="min-h-screen md:pt-24 pt-10 bg-gradient-to-br from-twilight-gradient-start via-twilight-gradient-middle to-twilight-gradient-end flex items-center justify-center">
       <div className="relative">
-        <div className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden shadow-2xl max-w-lg w-full h-[75vh]">
+        <div className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden shadow-2xl max-w-sm max-h-[70vh]">
           {/* Image */}
           <div className="relative bg-gray-800/20">
             <img

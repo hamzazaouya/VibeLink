@@ -19,7 +19,7 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="fixed w-full h-[5.5rem] px-6 sm:px-14  bg-background py-4 shadow border-b border-twilight-gradient-start flex justify-between items-center z-50">
+    <nav className="fixed w-full md:h-[5.5rem] h-16 px-6 md:px-14 bg-background py-4 shadow border-b border-twilight-gradient-start flex justify-between items-center z-50">
       {/* Logo */}
       <h1 className="text-2xl font-black tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-accent-pink via-accent-red to-accent-salmon">
         VibeLink
@@ -68,7 +68,7 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="absolute top-20 left-0 w-full bg-[#2b234a] px-6 py-4 flex flex-col gap-4 md:hidden z-40 shadow-md">
+        <div className="absolute top-16 left-1/2 w-full bg-twilight-gradient-start border-b-[0.5px] px-5 py-4 flex flex-col gap-4 md:hidden z-40 shadow-md">
           {navItems.map(({ to, icon, label }) => (
             <NavLink
               key={label}
@@ -77,14 +77,14 @@ export default function Navbar() {
               className={({ isActive }) =>
                 `${
                   isActive ? "text-alert font-semibold" : "text-foreground"
-                } flex items-center gap-3 hover:text-vibelink-gradient-start transition`
+                } flex items-center gap-5 hover:text-vibelink-gradient-start transition`
               }
             >
               {icon} {label}
             </NavLink>
           ))}
-          <div className="flex items-center gap-3 text-foreground hover:text-vibelink-gradient-start cursor-pointer">
-            <Bell size={24} />
+          <div className="flex items-center gap-5 text-foreground hover:text-vibelink-gradient-start cursor-pointer">
+            <Bell size={32} />
             Notifications
           </div>
         </div>
