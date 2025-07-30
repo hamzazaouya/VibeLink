@@ -24,13 +24,8 @@ import { IUser } from '../types/user.interface';
 
  *******************************************************************/
 
-async function signup(discord_id: string, email: string): Promise<IUser> {
-    const user = await discordDAO.signup(email, discord_id);
-    if (!user.is_verified) {
-        user.verif_email_id = uuidv4();
-        user.verif_email_code = generateVerificationCode();
-    }
-    return user;
+async function signup(username: string, discord_id: string): Promise<IUser> {
+    return await discordDAO.signup(username, discord_id);
 }
 
 
@@ -61,10 +56,6 @@ async function isUserExists(discord_id: string): Promise<boolean> {
 
 async function getUser(discord_id: string): Promise<IUser> {
     const user: IUser = await discordDAO.getUser(discord_id);
-    if (!user.is_verified) {
-        user.verif_email_id = uuidv4();
-        user.verif_email_code = generateVerificationCode();
-    }
     return user;
 }
 
@@ -81,8 +72,8 @@ async function getUser(discord_id: string): Promise<IUser> {
 
 
 
-async function isEmailExists(email: string): Promise<boolean> {
-    return discordDAO.isEmailExists(email);
+async function isUserNameExists(email: string): Promise<boolean> {
+    return discordDAO.isUserNameExists(email);
 }
 
-export default { signup, isUserExists, getUser, isEmailExists };
+export default { signup, isUserExists, getUser, isUserNameExists };

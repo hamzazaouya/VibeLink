@@ -79,9 +79,10 @@ async function login(req: Request, res: Response): Promise<void> {
  *******************************************************************/
 
 async function signup(req: Request, res: Response): Promise<void> {
-  const { email, password } = req.body;
+  const { username, email, password } = req.body;
   try {
-    const user: IUser = await authService.signup(email, password);
+    
+    const user: IUser = await authService.signup(username, email, password);
     if (req.session) {
       req.session.user = user;
       res.status(CONST.CREATED).json({ message: "user created successfully" });
@@ -89,6 +90,8 @@ async function signup(req: Request, res: Response): Promise<void> {
   } catch (error: any) {
     if (error.message.includes("email"))
       res.status(CONST.CONFLICT).json({ message: "email is already taken" });
+    else if (error.message.includes("username"))
+      res.status(CONST.CONFLICT).json({ message: "username is already taken" });
     else res.status(CONST.SERVER_ERROR).json({ message: "server error" });
   }
 }
@@ -162,8 +165,7 @@ async function verifyEmailCode(req: Request, res: Response): Promise<void> {
 
 async function discordAuth(req: Request, res: Response): Promise<void> {
   if (req.session) {
-    req.session.user = req.user;
-    res.redirect("/");
+    res.redirect("/user/home");
   }
 }
 

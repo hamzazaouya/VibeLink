@@ -136,6 +136,6 @@ route.post('/user/verify/email', authMiddleware.authEmailVerification, authContr
 
 // Discord authentication routes
 route.get('/user/auth/discord', passport.authenticate('discord'));
-route.get('/user/auth/discord/redirect', passport.authenticate("discord", { failureRedirect: "/login" }), authController.discordAuth);
+route.get('/auth/discord/redirect', passport.authenticate("discord", { failureRedirect: "/login" }), authController.discordAuth);
 
 export default route;

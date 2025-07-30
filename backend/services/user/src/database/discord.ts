@@ -47,12 +47,11 @@ async function isDiscordIdExists(discord_id: string): Promise<boolean> {
  *******************************************************************/
 
 
-async function signup(email: string, discord_id: string): Promise<IUser> {
+async function signup(username: string, discord_id: string): Promise<IUser> {
     try {
       const id = uuidv4();
-      await query.insert('users', ['id', 'email', 'discord_id', 'signup_method'], [id, email, discord_id, "discord"])
-      logger.user.info('User email and discord_id inserted successfully');
-      const user: IUser = { id, is_registred: false, is_verified: false };
+      await query.insert('users', ['id', 'user_name', 'discord_id', 'signup_method', 'is_verified'], [id, username, discord_id, "discord", true])
+      const user: IUser = { id, is_registred: true, is_verified: false };
       return user;
     } catch (error) {
       logger.user.error(error);
@@ -70,9 +69,9 @@ async function signup(email: string, discord_id: string): Promise<IUser> {
 
  *******************************************************************/
 
-  async function isEmailExists(email: string): Promise<boolean> {
+  async function isUserNameExists(username: string): Promise<boolean> {
     try {
-      const { rowCount } = await query.select(null, 'users', [{column: 'email', operator:'=', value: email}]);
+      const { rowCount } = await query.select(null, 'users', [{column: 'user_name', operator:'=', value: username}]);
       if(rowCount && rowCount > 0)
         return true;
       return false;
@@ -113,4 +112,4 @@ async function getUser(discord_id: string): Promise<IUser> {
     }
   }
 
-export default { isDiscordIdExists, signup, isEmailExists, getUser };
+export default { isDiscordIdExists, signup, isUserNameExists, getUser };
