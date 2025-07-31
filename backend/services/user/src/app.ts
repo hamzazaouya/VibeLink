@@ -19,6 +19,7 @@ import statusRouter from "./routes/status";
 import sessionMiddleware from "./middleware/session";
 import passport from "passport";
 import "./strategies/discord"; // Import your strategies
+import "./strategies/google";
 import dotenv from "dotenv"; // Import dotenv to manage env variables
 import path from "path";
 import http from "http";

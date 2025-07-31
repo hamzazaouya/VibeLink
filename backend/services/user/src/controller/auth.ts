@@ -163,8 +163,21 @@ async function verifyEmailCode(req: Request, res: Response): Promise<void> {
 
  *******************************************************************/
 
-async function discordAuth(req: Request, res: Response): Promise<void> {
+async function oauth2Handler(req: Request, res: Response): Promise<void> {
+  if (req.session && req.session.passport && req.session.passport.user) {
+    const user: IUser = req.session.passport.user;
+    delete req.session.passport;
+    req.session.user = user;
+    res.redirect("/user/home");
+  } else {
+    res.redirect("/");
+  }
+
+}
+
+async function googleAuth(req: Request, res: Response): Promise<void> {
   if (req.session) {
+    console.log("Hello From Google authontication")
     res.redirect("/user/home");
   }
 }
@@ -174,6 +187,7 @@ export default {
   signup,
   verifyEmailLink,
   verifyEmailCode,
-  discordAuth,
+  oauth2Handler,
+  googleAuth,
   logout,
 };

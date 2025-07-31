@@ -72,8 +72,8 @@ async function getUser(discord_id: string): Promise<IUser> {
 
 
 
-async function isUserNameExists(email: string): Promise<boolean> {
-    return discordDAO.isUserNameExists(email);
+async function isUserNameExists(user_name: string): Promise<boolean> {
+    return discordDAO.isUserNameExists(user_name);
 }
 
 export default { signup, isUserExists, getUser, isUserNameExists };

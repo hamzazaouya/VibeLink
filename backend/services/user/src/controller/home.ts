@@ -19,8 +19,9 @@ interface IUser {
 }
 
 function home(req: Request, res: Response): void {
-    if (req.session) {
-        const user: IUser = req.session.passport.user;
+    if (req.session && req.session.user) {
+        console.log(req.session);
+        const user: IUser = req.session.user;
         res.status(200).send(`Hello to your Home ${user.id}`);
     }
 }

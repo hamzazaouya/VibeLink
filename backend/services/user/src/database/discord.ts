@@ -9,7 +9,6 @@
 
 import { v4 as uuidv4 } from 'uuid';
 import logger from '../utils/logger';
-import pool  from '../utils/postgreSQL_conf';
 import { IUser } from '../types/user.interface';
 import query from '../utils/queryEngine';
 
@@ -112,4 +111,8 @@ async function getUser(discord_id: string): Promise<IUser> {
     }
   }
 
-export default { isDiscordIdExists, signup, isUserNameExists, getUser };
+export default {  isDiscordIdExists, 
+                  signup, 
+                  isUserNameExists, 
+                  getUser,
+               };
