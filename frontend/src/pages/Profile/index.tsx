@@ -99,7 +99,7 @@ export default function ProfilePage() {
         {/* Center Panel - Photo Gallery */}
         <div className="lg:col-span-6">
           <div className="h-full overflow-y-scroll bg-slate-700/50 backdrop-blur-sm rounded-2xl p-6 border-2 border-blue-500/50">
-            <div className="max-h-[75vh] grid grid-cols-2 gap-4">
+            <div className="max-h-[75vh] grid grid-cols-3 gap-4">
               {gallery.map((image) => (
                 <div
                   key={image.id}
@@ -122,14 +122,14 @@ export default function ProfilePage() {
             <h3 className="text-white text-lg font-semibold mb-6">Matches</h3>
             <div className="max-h-[75vh] overflow-y-scroll bg-white/15 p-4 space-y-4 rounded-xl">
               {matches.map((match) => (
-                <div key={match.id} className="bg-slate-600/50 rounded-xl p-4">
-                  <div className="flex items-center justify-between">
+                <div key={match.id} className="bg-slate-600/50 rounded-xl">
+                  <div className="flex items-center justify-between pr-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-14 h-14 rounded-full bg-gradient-to-r from-vibelink-gradient-start to-vibelink-gradient-end p-[0.05rem]">
+                      <div className="w-14 h-14 rounded-l-xl">
                         <img
                           src={match.avatar || "/placeholder.svg"}
                           alt={`${match.name} avatar`}
-                          className="w-full h-full rounded-full object-cover"
+                          className="w-full h-full object-cover rounded-l-xl"
                         />
                       </div>
                       <div>
