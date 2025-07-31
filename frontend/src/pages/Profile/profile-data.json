@@ -1,7 +1,7 @@
 {
   "profile": {
     "name": "Achraf Ahrach",
-    "avatar": "./img/prfile_img_2.png",
+    "avatar": "./img/aahrach.jpeg",
     "isOnline": true,
     "stars": 3,
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
@@ -48,20 +48,78 @@
       "id": 2,
       "url": "./img/profile_image_6.png",
       "alt": "Casual style"
+    },
+    {
+      "id": 3,
+      "url": "./img/profile_img_3.png",
+      "alt": "Traditional outfit"
+    },
+    {
+      "id": 4,
+      "url": "./img/profile_img_4.png",
+      "alt": "Casual style"
+    },
+    {
+      "id": 5,
+      "url": "./img/profile_img_3.png",
+      "alt": "Traditional outfit"
+    },
+    {
+      "id": 6,
+      "url": "./img/profile_img_4.png",
+      "alt": "Casual style"
+    },
+    {
+      "id": 7,
+      "url": "./img/profile_img_3.png",
+      "alt": "Traditional outfit"
+    },
+    {
+      "id": 8,
+      "url": "./img/profile_img_4.png",
+      "alt": "Casual style"
     }
   ],
   "matches": [
     {
       "id": 1,
-      "name": "zakria lazrak",
-      "avatar": "/img/profile_img_1.png",
+      "name": "hamza azaouya",
+      "avatar": "https://cdn.intra.42.fr/users/68cf081abe9e9f700d9efd1d27f07231/hazaouya.jpg",
       "isLiked": true,
       "isBlocked": false
     },
     {
       "id": 2,
       "name": "yousef yahya",
+      "avatar": "https://cdn.intra.42.fr/users/fecbc74d595c68f963737b256abc7aa8/yoyahya.JPG",
+      "isLiked": true,
+      "isBlocked": false
+    },
+    {
+      "id": 3,
+      "name": "zakria lazrak",
+      "avatar": "https://cdn.intra.42.fr/users/b145a08af26318cd43d39176d47b64c7/zlazrak.JPG",
+      "isLiked": true,
+      "isBlocked": false
+    },
+    {
+      "id": 4,
+      "name": "saida el khattabi",
       "avatar": "/img/girl_2.png",
+      "isLiked": true,
+      "isBlocked": false
+    },
+    {
+      "id": 5,
+      "name": "Sara Lamdoubal",
+      "avatar": "https://cdn.intra.42.fr/users/cb7956138aea7f1122f2c10df9d0f2d2/oaffrouk.jpg",
+      "isLiked": true,
+      "isBlocked": false
+    },
+    {
+      "id": 6,
+      "name": "Anas Bouzanbil",
+      "avatar": "https://cdn.intra.42.fr/users/6f3635a1ce78336ded0d21b4fbe7e7af/abouzanb.jpg",
       "isLiked": true,
       "isBlocked": false
     }

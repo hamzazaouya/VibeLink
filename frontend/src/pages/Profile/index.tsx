@@ -29,7 +29,7 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-twilight-gradient-start via-twilight-gradient-middle to-twilight-gradient-end px-8 pt-28">
       {/* <div className="bg-red-600"> */}
-      <div className="h-[85vh] grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div className="min-h-[85vh] grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left Panel - Profile Info */}
         <div className="lg:col-span-3">
           <div className="h-full bg-white/10 backdrop-blur-lg rounded-2xl p-6 space-y-6">
@@ -98,12 +98,12 @@ export default function ProfilePage() {
 
         {/* Center Panel - Photo Gallery */}
         <div className="lg:col-span-6">
-          <div className="bg-slate-700/50 backdrop-blur-sm rounded-2xl p-6 border-2 border-blue-500/50">
-            <div className="grid grid-cols-2 gap-4">
+          <div className="h-full overflow-y-scroll bg-slate-700/50 backdrop-blur-sm rounded-2xl p-6 border-2 border-blue-500/50">
+            <div className="max-h-[75vh] grid grid-cols-2 gap-4">
               {gallery.map((image) => (
                 <div
                   key={image.id}
-                  className="aspect-[3/4] rounded-xl overflow-hidden"
+                  className="aspect-[3/4] rounded-xl overflow-hidden pb-6 hover:shadow-lg transition-shadow duration-300"
                 >
                   <img
                     src={image.url || "/placeholder.svg"}
@@ -118,18 +118,20 @@ export default function ProfilePage() {
 
         {/* Right Panel - Matches */}
         <div className="lg:col-span-3">
-          <div className="bg-slate-700/50 backdrop-blur-sm rounded-2xl p-6">
-            <h3 className="text-white text-lg font-semibold mb-6">Matches</h3>
-            <div className="space-y-4">
+          <div className=" bg-white/15 backdrop-blur-sm rounded-2xl p-4">
+            <h3 className=" text-white text-lg font-semibold mb-6">Matches</h3>
+            <div className="max-h-[75vh] overflow-y-scroll bg-white/15 p-4 space-y-4 rounded-xl">
               {matches.map((match) => (
                 <div key={match.id} className="bg-slate-600/50 rounded-xl p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <img
-                        src={match.avatar || "/placeholder.svg"}
-                        alt={`${match.name} avatar`}
-                        className="w-12 h-12 rounded-full object-cover"
-                      />
+                      <div className="w-14 h-14 rounded-full bg-gradient-to-r from-vibelink-gradient-start to-vibelink-gradient-end p-[0.05rem]">
+                        <img
+                          src={match.avatar || "/placeholder.svg"}
+                          alt={`${match.name} avatar`}
+                          className="w-full h-full rounded-full object-cover"
+                        />
+                      </div>
                       <div>
                         <h4 className="text-white font-medium">{match.name}</h4>
                       </div>
