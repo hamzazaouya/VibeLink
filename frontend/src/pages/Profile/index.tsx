@@ -118,8 +118,8 @@ export default function ProfilePage() {
 
         {/* Right Panel - Matches */}
         <div className="lg:col-span-3">
-          <div className=" bg-white/15 backdrop-blur-sm rounded-2xl p-4">
-            <h3 className=" text-white text-lg font-semibold mb-6">Matches</h3>
+          <div className="h-full bg-white/15 backdrop-blur-sm rounded-2xl p-4">
+            <h3 className="text-white text-lg font-semibold mb-6">Matches</h3>
             <div className="max-h-[75vh] overflow-y-scroll bg-white/15 p-4 space-y-4 rounded-xl">
               {matches.map((match) => (
                 <div key={match.id} className="bg-slate-600/50 rounded-xl p-4">
