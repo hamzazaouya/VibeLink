@@ -1,0 +1,59 @@
+{
+  "profile": {
+    "name": "Achraf Ahrach",
+    "avatar": "./img/prfile_img_2.png",
+    "isOnline": true,
+    "stars": 3,
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+  },
+  "hobbies": [
+    {
+      "name": "Workout",
+      "icon": "dumbbell",
+      "gradient": "from-orange-500 to-pink-500"
+    },
+    {
+      "name": "Cooking",
+      "icon": "chef-hat",
+      "gradient": "from-green-500 to-teal-500"
+    },
+    {
+      "name": "Fishing",
+      "icon": "fish",
+      "gradient": "from-blue-500 to-cyan-500"
+    },
+    {
+      "name": "Photography",
+      "icon": "camera",
+      "gradient": "from-purple-500 to-indigo-500"
+    }
+  ],
+  "gallery": [
+    {
+      "id": 1,
+      "url": "./img/profile_image_5.png",
+      "alt": "Traditional outfit"
+    },
+    {
+      "id": 2,
+      "url": "./img/profile_image_6.png",
+      "alt": "Casual style"
+    }
+  ],
+  "matches": [
+    {
+      "id": 1,
+      "name": "zakria lazrak",
+      "avatar": "/img/profile_img_1.png",
+      "isLiked": true,
+      "isBlocked": false
+    },
+    {
+      "id": 2,
+      "name": "yousef yahya",
+      "avatar": "/img/girl_2.png",
+      "isLiked": true,
+      "isBlocked": false
+    }
+  ]
+}
