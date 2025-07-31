@@ -23,6 +23,16 @@
       "gradient": "from-blue-500 to-cyan-500"
     },
     {
+      "name": "Camping",
+      "icon": "tent-tree",
+      "gradient": "from-yellow-500 to-amber-500"
+    },
+    {
+      "name": "Gaming",
+      "icon": "monitor-play",
+      "gradient": "from-red-500 to-pink-500"
+    },
+    {
       "name": "Photography",
       "icon": "camera",
       "gradient": "from-purple-500 to-indigo-500"

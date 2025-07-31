@@ -3,10 +3,12 @@ import {
   Dumbbell,
   ChefHat,
   Fish,
+  TentTree,
   Camera,
   Flame,
   Ban,
   MoreHorizontal,
+  Gamepad2,
   User,
 } from "lucide-react";
 import profileData from "./profile-data.json";
@@ -17,6 +19,8 @@ const iconMap = {
   "chef-hat": ChefHat,
   fish: Fish,
   camera: Camera,
+  "tent-tree": TentTree,
+  "monitor-play": Gamepad2,
 };
 
 export default function ProfilePage() {
@@ -25,11 +29,11 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-twilight-gradient-start via-twilight-gradient-middle to-twilight-gradient-end px-8 pt-28">
       {/* <div className="bg-red-600"> */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div className="h-[85vh] grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left Panel - Profile Info */}
         <div className="lg:col-span-3">
           <div className="h-full bg-white/10 backdrop-blur-lg rounded-2xl p-6 space-y-6">
-            <div className="space-y-4">
+            <div className="space-y-6">
               <div className="text-center">
                 <div className="relative inline-block">
                   <div className="w-40 h-40 rounded-full bg-gradient-to-r from-vibelink-gradient-start to-vibelink-gradient-end p-[0.15rem]">
@@ -67,34 +71,19 @@ export default function ProfilePage() {
             </div>
 
             {/* Description */}
-            <div className="bg-white/15 bg-blur-lg p-4 rounded-xl text-gray-300 text-base leading-relaxed">
+            <div className="bg-white/15 max-h-64 overflow-y-scroll bg-blur-lg p-4 rounded-xl text-white text-base leading-relaxed">
               {profile.description}
             </div>
 
             {/* Interest Tags */}
-            <div className="space-y-3">
+            <div className="max-h-52 overflow-y-scroll space-y-3 bg-white/15 bg-blur-lg p-4 rounded-xl">
               <div className="flex flex-wrap gap-2">
-                {hobbies.slice(0, 2).map((hobby, index) => {
+                {hobbies.slice(0).map((hobby, index) => {
                   const IconComponent =
                     iconMap[hobby.icon as keyof typeof iconMap];
                   return (
                     <div
                       key={index}
-                      className={`flex items-center gap-2 bg-gradient-to-r ${hobby.gradient} rounded-full px-4 py-2 text-white text-sm`}
-                    >
-                      <IconComponent className="w-4 h-4" />
-                      {hobby.name}
-                    </div>
-                  );
-                })}
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {hobbies.slice(2).map((hobby, index) => {
-                  const IconComponent =
-                    iconMap[hobby.icon as keyof typeof iconMap];
-                  return (
-                    <div
-                      key={index + 2}
                       className={`flex items-center gap-2 bg-gradient-to-r ${hobby.gradient} rounded-full px-4 py-2 text-white text-sm`}
                     >
                       <IconComponent className="w-4 h-4" />
