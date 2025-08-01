@@ -67,7 +67,7 @@ function UserHobbies(props: UserFormProps) {
   }
 
   return (
-    <div className="full mt-10">
+    <div className="full">
       <div className="user_hobbies">
         <h1>Choose your Hobbies</h1>
         <h3>

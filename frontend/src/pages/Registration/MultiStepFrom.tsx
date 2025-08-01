@@ -1,28 +1,28 @@
 import { ReactElement, useState } from 'react';
 
-function MultiStepFrom (steps: ReactElement[]) {
-    const [currentStepIndex, setCurrentStepIndex] = useState(0);
+function MultiStepFrom (pages: ReactElement[]) {
+    const [currentPageIndex, setCurrentPageIndex] = useState(1);
 
     function next() {
-        setCurrentStepIndex(index => {
-            if (index >= steps.length - 1) return index
+        setCurrentPageIndex(index => {
+            if (index >= pages.length - 1) return index
             return index + 1
         })
     }
 
     function back() {
-        setCurrentStepIndex(index => {
+        setCurrentPageIndex(index => {
             if (index <= 0) return index
             return index - 1
         })
     }
 
     return {
-        currentStepIndex,
-        step: steps[currentStepIndex],
+        currentPageIndex,
+        currentPage: pages[currentPageIndex],
         back,
         next,
-        steps,
+        pages,
     }
 }
 

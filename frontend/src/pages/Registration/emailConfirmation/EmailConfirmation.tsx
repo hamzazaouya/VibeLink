@@ -1,4 +1,4 @@
-import "./styles/emailConfirmation.css"
+import "../styles/emailConfirmation.css"
 import OTPVerification from "./OTPVerification"
 
 function EmailConfirmation () {

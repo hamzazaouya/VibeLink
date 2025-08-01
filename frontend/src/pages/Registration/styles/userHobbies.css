@@ -1,17 +1,17 @@
 .user_hobbies {
-    @apply bg-white bg-opacity-30 p-4 flex flex-col justify-center
+    @apply flex flex-col justify-center rounded-xl
 }
 
 .user_hobbies h1 {
-    @apply text-[2rem] font-bold mb-2
+    @apply text-[1.2rem] md:text-[1.4rem] lg:text-[1.6rem] font-bold mb-2
 }
 
 .user_hobbies h3 {
-    @apply text-[1.5rem] font-bold
+    @apply text-[1rem] lg:text-[1.2rem] lg:text-[1.4rem] font-bold
 }
 
 .user_hobbies .hobbies {
-    @apply overflow-auto w-full h-[200px] border p-2 mt-10 cursor-none border-none flex flex-col grid grid-cols-4
+    @apply overflow-auto w-full max-h-[200px] border p-2 mt-5 cursor-none border-none flex flex-col grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4
 }
 
 .hobbie {

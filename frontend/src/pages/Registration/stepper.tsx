@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import "./styles/stepper.css"
 import {TiTick} from "react-icons/ti"
-function Stepper () {
-    const steps = ["email verification", "informations", "hobbies", "profile images"];
+
+
+function Stepper ({ currentPageIndex }: { currentPageIndex: number }) {
+    const steps = ["verification", "informations", "hobbies", "images"];
     const [currentStep, setCurrentStep] = useState(1)
     return (
         <>
-            <div className="flex justify-center">
+            <div className="flex justify-center w-full">
                 {
                     steps.map((step, i) => {
                         return (

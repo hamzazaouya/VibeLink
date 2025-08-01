@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import OtpInput from "react-otp-input";
-import "./styles/emailConfirmation.css"
+import "../styles/emailConfirmation.css"
 
 function OTPVerification() {
   const [otp, setOtp] = useState("");
@@ -18,13 +18,13 @@ function OTPVerification() {
         inputType="tel"
         renderSeparator={<span className="mx-2"></span>}
         inputStyle={{
-          width: '6rem',   // This will override width: 1em
-          height: '10rem',
+          width: '2.5rem',
+          height: '4rem',
           textAlign: 'center',
           border: '1px solid #ccc',
-          borderRadius: '1rem',
+          borderRadius: '.5rem',
           backgroundColor: 'rgba(255, 255, 255, 0.3)',
-          fontSize: '35px',
+          fontSize: '25px',
         }}
         renderInput={(props) => (
           <input
@@ -36,7 +36,7 @@ function OTPVerification() {
       <button
         onClick={handleVerifyClick}
         disabled={otp.length < 6}
-        className="mt-5 px-6 py-3 bg-accent-pink text-white font-bold bg-opacity-80 rounded hover:bg-opacity-100 transition"
+        className="mt-5 px-3 py-2 text-[.8rem] bg-accent-pink text-white font-bold bg-opacity-80 rounded-xl hover:bg-opacity-100 transition"
       >
         Verify
       </button>

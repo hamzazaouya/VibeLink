@@ -1,13 +1,9 @@
-.email_conf {
-    @apply mt-3 bg-white bg-opacity-30 rounded-xl py-10
-}
-
 .email_conf h1 {
-    @apply text-[2rem] font-bold mb-2
+    @apply text-[1.2rem] font-bold mb-2
 }
 
 .email_conf p {
-    @apply mb-1
+    @apply mb-1 text-[.8rem]
 }
 
 .email_conf span{
@@ -19,5 +15,5 @@
 }
 
 .otp {
-    @apply h-32
+    @apply h-20
 }
