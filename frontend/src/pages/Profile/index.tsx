@@ -11,7 +11,7 @@ import {
   Gamepad2,
   User,
 } from "lucide-react";
-import profileData from "./profile-data.json";
+import profileData from "./data/profile-data.json";
 
 // Icon mapping for hobbies
 const iconMap = {
