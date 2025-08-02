@@ -10,7 +10,7 @@ function UserInformation ( props: UserFormProps
     <div className="user_info">
         <UserForm {...props}/>
         <UserLocationMap {...props}/>
-    </div>
+    </div> 
   );
 }
 

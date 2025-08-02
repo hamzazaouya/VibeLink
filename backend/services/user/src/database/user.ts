@@ -54,11 +54,11 @@ async function findUserByEmail(email: string): Promise<UserCredentials> {
 
 
 
-async function signupUser(email: string, password: string): Promise<IUser> {
+async function signupUser(username: string, email: string, password: string): Promise<IUser> {
     try {
       const id = uuidv4();
       const password_hash = await bcrypt.hash(password, 10);
-      await query.insert("users", ["id", "email", "password_hash"], [id, email, password_hash])
+      await query.insert("users", ["id", "user_name", "email", "password_hash"], [id, username, email, password_hash])
       const user: IUser = { id, is_registred: false, is_verified: false };
 
       return user;
@@ -103,17 +103,28 @@ async function verifyUserEmail(user_id: string): Promise<void> {
 
 async function isEmailExists(email: string): Promise<void> {
     try {
-      // const emailCheckQuery = 'SELECT * FROM users WHERE email = $1';
-      // const { rowCount } = await pool.query(emailCheckQuery, [email]);
       const {rowCount} = await query.select(null, 'users', [{column: 'email', operator: "=", value: email}]);
       if (rowCount && rowCount > 0) {
         logger.user.error(`Email: ${email} already exists`);
-        throw new Error('Email already exists');
+        throw new Error('email already exists');
       }
     } catch (error) {
       logger.user.error(error);
       throw error;
     }
-  }
+}
 
-  export default { findUserByEmail, signupUser, isEmailExists, verifyUserEmail };
+async function isUserNameExists(username: string): Promise<void> {
+    try {
+      const {rowCount} = await query.select(null, 'users', [{column: 'user_name', operator: "=", value: username}]);
+      if (rowCount && rowCount > 0) {
+        logger.user.error(`Email: ${username} already exists`);
+        throw new Error('username already exists');
+      }
+    } catch (error) {
+      logger.user.error(error);
+      throw error;
+    }
+}
+
+  export default { findUserByEmail, signupUser, isEmailExists, verifyUserEmail, isUserNameExists};

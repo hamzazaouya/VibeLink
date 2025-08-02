@@ -4,21 +4,21 @@ import UserInformation from "./UserInfo/UserInfo";
 import UserHobbies from "./hobbies/UserHobbies";
 import Buttons from "./buttons"
 import React, { useState } from "react";
-import {FormData} from "./types/registration.types"
+import { FormData } from "./types/registration.types";
 import IconButton from "./hobbies/IconButton";
 import MultiStepFrom from "./MultiStepFrom";
 
 const INIT_DATA: FormData = {
-    firstName: "",
-    lastName: "",
-    age: "",
-    gender: "",
-    phone: "",
-    bio: "",
-    latitude: 32.229408,
-    longitude: -7.957042,
-    hobbies: []
-}
+  firstName: "",
+  lastName: "",
+  age: "",
+  gender: "",
+  phone: "",
+  bio: "",
+  latitude: 32.229408,
+  longitude: -7.957042,
+  hobbies: [],
+};
 
 function UserRegistration () {
     const[data, setData] = useState(INIT_DATA);

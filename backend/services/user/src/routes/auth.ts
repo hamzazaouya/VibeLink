@@ -136,6 +136,12 @@ route.post('/user/verify/email', authMiddleware.authEmailVerification, authContr
 
 // Discord authentication routes
 route.get('/user/auth/discord', passport.authenticate('discord'));
-route.get('/user/auth/discord/redirect', passport.authenticate("discord", { failureRedirect: "/login" }), authController.discordAuth);
+route.get('/auth/discord/callback', passport.authenticate("discord", { failureRedirect: "/user/auth/oauth2" }), authController.oauth2Handler);
+
+route.get('/user/auth/google', passport.authenticate('google', { scope: [ 'email', 'profile' ] }));
+route.get('/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/user/login' }),
+  authController.oauth2Handler
+);
 
 export default route;

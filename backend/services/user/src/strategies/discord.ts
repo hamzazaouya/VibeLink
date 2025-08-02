@@ -2,7 +2,6 @@ import passport from 'passport';
 import { Strategy as DiscordStrategy} from 'passport-discord';
 import { IUser } from '../types/user.interface';
 import authDiscord from '../service/discord';
-import CONST from '../utils/constants';
 
 
 passport.serializeUser((user , done) => {
@@ -23,7 +22,7 @@ passport.use(
     {
       clientID: process.env.DISCORD_CLIENT_ID!,
       clientSecret: process.env.DISCORD_CLIENT_SECRET!,
-      callbackURL: CONST.DISCORD_CALLBACK_URL,
+      callbackURL: '/auth/discord/callback',
       scope: ['identify', 'email'],
       passReqToCallback: true,
     },
@@ -34,12 +33,12 @@ passport.use(
           const user:IUser = await authDiscord.getUser(discordId);
           return done(null, user);
         }
-        
-        if (!(await authDiscord.isEmailExists(profile.email!))) {
-          const user:IUser = await authDiscord.signup(profile.email!, discordId);
+
+        if (!await authDiscord.isUserNameExists(profile.username)) {
+          const user:IUser = await authDiscord.signup(profile.username!, discordId);
           return done(null, user);
         }
-        done(null, false, { message: 'Email already exists' });
+        done(null, false, { message: 'username already exists' });
       } catch (error) {
         return done(error, false);
       }

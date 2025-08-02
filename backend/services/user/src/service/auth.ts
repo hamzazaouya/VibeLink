@@ -53,9 +53,13 @@ async function login(email: string, password: string): Promise<IUser> {
  *******************************************************************/
 
 
-async function signup(email: string, password: string): Promise<IUser> {
+async function signup(username: string, email: string, password: string): Promise<IUser> {
+
+    username = username.toLowerCase();
+    email = email.toLocaleLowerCase();
+    await userDAO.isUserNameExists(username);
     await userDAO.isEmailExists(email);
-    const user: IUser = await userDAO.signupUser(email, password);
+    const user: IUser = await userDAO.signupUser(username, email, password);
     user.verif_email_id = uuidv4();
     user.verif_email_code = generateVerificationCode();
     return user;
