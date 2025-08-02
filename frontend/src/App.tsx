@@ -14,6 +14,7 @@ import Settings from "./pages/Settings";
 import Chat from "./pages/Chat";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
+import Search from "./pages/Search";
 
 export default function App() {
   return (
@@ -31,6 +32,7 @@ export default function App() {
 
         {/* Routes with layout (Profile group) */}
         <Route element={<Layout />}>
+          <Route path="/search" element={<Search />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/chat" element={<Chat />} />

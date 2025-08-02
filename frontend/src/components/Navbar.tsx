@@ -1,4 +1,4 @@
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, data } from "react-router-dom";
 import {
   Bell,
   Flame,
@@ -11,6 +11,7 @@ import {
   X,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { time } from "framer-motion";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -22,7 +23,7 @@ export default function Navbar() {
 
   const navItems = [
     { to: "/home", icon: <Flame size={32} />, label: "Home" },
-    { to: "/profile", icon: <UserRoundSearch size={32} />, label: "Profile" },
+    { to: "/search", icon: <UserRoundSearch size={32} />, label: "Search" },
     { to: "/chat", icon: <MessagesSquare size={32} />, label: "Chat" },
   ];
 
@@ -30,46 +31,67 @@ export default function Navbar() {
     {
       id: 1,
       user: "hamza azaouya",
-      message: "Liked You",
+      message: "Matches with you",
       avatar:
         "https://cdn.intra.42.fr/users/68cf081abe9e9f700d9efd1d27f07231/hazaouya.jpg",
+      date: new Date(Date.now() - 40 * 60 * 1000).toISOString(), // 40 min ago
     },
     {
       id: 2,
       user: "zakaria lazrak",
-      message: "Liked You",
+      message: "Viewed your profile",
       avatar:
         "https://cdn.intra.42.fr/users/b145a08af26318cd43d39176d47b64c7/zlazrak.JPG",
+      date: new Date(Date.now() - 60 * 60 * 1000).toISOString(), // 1 hour ago
     },
     {
       id: 3,
       user: "youssef yahya",
-      message: "Liked You",
+      message: "You can meet",
       avatar:
         "https://cdn.intra.42.fr/users/fecbc74d595c68f963737b256abc7aa8/yoyahya.JPG",
+      date: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(), // 2 hours ago
     },
     {
       id: 4,
       user: "hamza azaouya",
-      message: "Liked You",
+      message: "Matches with you",
       avatar:
         "https://cdn.intra.42.fr/users/68cf081abe9e9f700d9efd1d27f07231/hazaouya.jpg",
+      date: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(), // 3 hours ago
     },
     {
       id: 5,
       user: "zakaria lazrak",
-      message: "Liked You",
+      message: "Matches with you",
       avatar:
         "https://cdn.intra.42.fr/users/b145a08af26318cd43d39176d47b64c7/zlazrak.JPG",
+      date: new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString(), // 4 hours ago
     },
     {
       id: 6,
       user: "youssef yahya",
-      message: "Liked You",
+      message: "Matches with you",
       avatar:
         "https://cdn.intra.42.fr/users/fecbc74d595c68f963737b256abc7aa8/yoyahya.JPG",
+      date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(), // 2 days ago
     },
   ];
+
+  const getTimeAgo = (dateString: string) => {
+    const now = new Date();
+    const date = new Date(dateString);
+    const diff = Math.floor((now.getTime() - date.getTime()) / 1000); // seconds
+
+    const minutes = Math.floor(diff / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    if (diff < 60) return `${diff}s ago`; // less than 1 min
+    if (minutes < 60) return `${minutes}m ago`; // less than 1 hour
+    if (hours < 24) return `${hours}h ago`; // less than 1 day
+    return `${days}d ago`; // 1 day or more
+  };
 
   // Close dropdowns when clicking outside
   useEffect(() => {
@@ -151,6 +173,9 @@ export default function Navbar() {
                         {notification.message}
                       </p>
                     </div>
+                    <p className="text-gray-400 text-sm pr-2">
+                      {getTimeAgo(notification.date)}
+                    </p>
                   </div>
                 ))}
               </div>
