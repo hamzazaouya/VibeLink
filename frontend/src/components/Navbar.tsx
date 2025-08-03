@@ -26,53 +26,10 @@ export default function Navbar() {
   const profileRef = useRef<HTMLDivElement>(null);
 
   const navItems = [
-    { to: "/home", icon: <Flame size={24} />, label: "Home" },
-    { to: "/search", icon: <UserRoundSearch size={24} />, label: "Search" },
-    { to: "/chat", icon: <MessagesSquare size={24} />, label: "Chat" },
+    { to: "/home", icon: <Flame size={32} />, label: "Home" },
+    { to: "/search", icon: <UserRoundSearch size={32} />, label: "Search" },
+    { to: "/chat", icon: <MessagesSquare size={32} />, label: "Chat" },
   ];
-
-  // const Notifications = [
-  //   {
-  //     id: 1,
-  //     user: "hamza azaouya",
-  //     message: "Matches with you",
-  //     avatar:
-  //       "https://cdn.intra.42.fr/users/68cf081abe9e9f700d9efd1d27f07231/hazaouya.jpg",
-  //     date: new Date(Date.now() - 40 * 60 * 1000).toISOString(),
-  //   },
-  //   {
-  //     id: 2,
-  //     user: "zakaria lazrak",
-  //     message: "Viewed your profile",
-  //     avatar:
-  //       "https://cdn.intra.42.fr/users/b145a08af26318cd43d39176d47b64c7/zlazrak.JPG",
-  //     date: new Date(Date.now() - 60 * 60 * 1000).toISOString(),
-  //   },
-  //   {
-  //     id: 3,
-  //     user: "youssef yahya",
-  //     message: "You can meet",
-  //     avatar:
-  //       "https://cdn.intra.42.fr/users/fecbc74d595c68f963737b256abc7aa8/yoyahya.JPG",
-  //     date: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
-  //   },
-  //   {
-  //     id: 4,
-  //     user: "youssef yahya",
-  //     message: "You can meet",
-  //     avatar:
-  //       "https://cdn.intra.42.fr/users/fecbc74d595c68f963737b256abc7aa8/yoyahya.JPG",
-  //     date: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
-  //   },
-  //   {
-  //     id: 5,
-  //     user: "youssef yahya",
-  //     message: "You can meet",
-  //     avatar:
-  //       "https://cdn.intra.42.fr/users/fecbc74d595c68f963737b256abc7aa8/yoyahya.JPG",
-  //     date: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
-  //   },
-  // ];
 
   const getTimeAgo = (dateString: string) => {
     const now = new Date();
@@ -278,7 +235,7 @@ export default function Navbar() {
                 onClick={() => setMobileOpen(false)}
                 className="text-white hover:text-gray-300 transition"
               >
-                <X size={24} />
+                <X size={32} />
               </button>
             </div>
 
@@ -345,7 +302,7 @@ export default function Navbar() {
                 }}
                 className="flex items-center gap-4 px-6 py-4 text-white hover:bg-purple-700/30 transition w-full text-left"
               >
-                <Bell size={24} />
+                <Bell size={32} />
                 <span className="text-lg">Notifications</span>
                 <div className="ml-auto w-2 h-2 bg-alert rounded-full"></div>
               </button>
