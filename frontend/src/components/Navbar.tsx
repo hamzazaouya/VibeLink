@@ -24,6 +24,7 @@ export default function Navbar() {
 
   const notificationsRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
+  const mobileNotificationsRef = useRef<HTMLDivElement>(null);
 
   const navItems = [
     { to: "/home", icon: <Flame size={32} />, label: "Home" },
@@ -51,8 +52,7 @@ export default function Navbar() {
     setProfileOpen(false);
     setMobileProfileOpen(false);
   };
-
-  // Close dropdowns when clicking outside
+  // Close dropdowns when clicking outside (desktop)
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -74,6 +74,26 @@ export default function Navbar() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  // Close mobile notifications when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        mobileNotificationsRef.current &&
+        !mobileNotificationsRef.current.contains(event.target as Node)
+      ) {
+        setMobileNotificationsOpen(false);
+      }
+    }
+
+    if (mobileNotificationsOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [mobileNotificationsOpen]);
 
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
@@ -325,7 +345,10 @@ export default function Navbar() {
       {/* Mobile Notifications Popup */}
       {mobileNotificationsOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-60 z-10 md:hidden flex items-center justify-center p-4">
-          <div className="bg-slate-800 rounded-xl shadow-2xl border border-slate-700 w-full max-w-xs max-h-[70vh] overflow-hidden animate-in slide-in-from-bottom-4 duration-300">
+          <div
+            ref={mobileNotificationsRef}
+            className="bg-slate-800 rounded-xl shadow-2xl border border-slate-700 w-full max-w-xs max-h-[70vh] overflow-hidden animate-in slide-in-from-bottom-4 duration-300"
+          >
             {/* Popup Header */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-700 bg-slate-900">
               <h3 className="text-white font-semibold text-lg">
