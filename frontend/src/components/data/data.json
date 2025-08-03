@@ -1,0 +1,46 @@
+{
+  "profile": {
+    "name": "Achraf Ahrach",
+    "avatar": "./img/aahrach.jpeg",
+    "stars": 3,
+    "email": "achrafahrach44@gmail.com"
+  },
+
+  "notifications": [
+    {
+      "id": 1,
+      "user": "hamza azaouya",
+      "message": "Matches with you",
+      "avatar": "https://cdn.intra.42.fr/users/68cf081abe9e9f700d9efd1d27f07231/hazaouya.jpg",
+      "date": "2024-06-11T12:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "user": "zakaria lazrak",
+      "message": "Viewed your profile",
+      "avatar": "https://cdn.intra.42.fr/users/b145a08af26318cd43d39176d47b64c7/zlazrak.JPG",
+      "date": "2024-06-11T11:40:00.000Z"
+    },
+    {
+      "id": 3,
+      "user": "youssef yahya",
+      "message": "You can meet",
+      "avatar": "https://cdn.intra.42.fr/users/fecbc74d595c68f963737b256abc7aa8/yoyahya.JPG",
+      "date": "2024-06-11T10:40:00.000Z"
+    },
+    {
+      "id": 4,
+      "user": "youssef yahya",
+      "message": "You can meet",
+      "avatar": "https://cdn.intra.42.fr/users/fecbc74d595c68f963737b256abc7aa8/yoyahya.JPG",
+      "date": "2024-06-11T10:40:00.000Z"
+    },
+    {
+      "id": 5,
+      "user": "youssef yahya",
+      "message": "You can meet",
+      "avatar": "https://cdn.intra.42.fr/users/fecbc74d595c68f963737b256abc7aa8/yoyahya.JPG",
+      "date": "2024-06-11T10:40:00.000Z"
+    }
+  ]
+}
