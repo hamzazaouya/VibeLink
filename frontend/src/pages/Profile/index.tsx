@@ -9,7 +9,8 @@ import {
   Ban,
   MoreHorizontal,
   Gamepad2,
-  User,
+  Mars,
+  Venus,
 } from "lucide-react";
 import profileData from "./data/profile-data.json";
 
@@ -50,7 +51,11 @@ export default function ProfilePage() {
                 <div className="">
                   <h2 className="text-white text-xl font-semibold flex items-center justify-center gap-1">
                     {profile.name}
-                    <User className="w-4 h-4 text-blue-400" />
+                    {profile.gender === "female" ? (
+                      <Venus className="w-6 h-6 text-blue-400 ml-1" />
+                    ) : (
+                      <Mars className="w-6 h-6 text-blue-400 ml-1" />
+                    )}
                   </h2>
                 </div>
               </div>

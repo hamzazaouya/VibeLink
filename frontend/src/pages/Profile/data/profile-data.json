@@ -3,7 +3,9 @@
     "name": "Achraf Ahrach",
     "avatar": "./img/aahrach.jpeg",
     "gender": "male",
-    "stars": 3
+    "stars": 3,
+    "isOnline": true,
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
   },
   "hobbies": [
     {
