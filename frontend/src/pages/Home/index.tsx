@@ -4,13 +4,14 @@ import type React from "react";
 
 import { useState } from "react";
 import { testUsers } from "./data/test";
-import { Heart, X, Star } from "lucide-react";
+import { Heart, X, Star, ChevronLeft, ChevronRight } from "lucide-react";
 
 type SwipeDirection = "left" | "right" | null;
 
 export default function Home() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [users] = useState(testUsers);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const currentUser = users[currentIndex];
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
@@ -36,6 +37,20 @@ export default function Home() {
       setSwipeDirection(null);
       setDragOffset(0);
     }, 300);
+  };
+
+  const handleImageNavigation = (direction: "prev" | "next") => {
+    if (!currentUser.images || currentUser.images.length <= 1) return;
+
+    if (direction === "next") {
+      setCurrentImageIndex((prev) =>
+        prev === currentUser.images.length - 1 ? 0 : prev + 1
+      );
+    } else {
+      setCurrentImageIndex((prev) =>
+        prev === 0 ? currentUser.images.length - 1 : prev - 1
+      );
+    }
   };
 
   const renderStars = (rating: number) =>
@@ -117,6 +132,11 @@ export default function Home() {
     );
   }
 
+  const currentImage =
+    currentUser.images && currentUser.images.length > 0
+      ? currentUser.images[currentImageIndex]
+      : "/placeholder.svg?height=600&width=400&text=No+Image";
+
   return (
     <div className="min-h-screen pt-28 bg-gradient-to-br from-twilight-gradient-start via-twilight-gradient-middle to-twilight-gradient-end flex sm:items-center justify-center overflow-hidden">
       <div className="relative">
@@ -130,13 +150,49 @@ export default function Home() {
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
         >
-          {/* Image */}
-          <div className="relative bg-gray-800/20">
+          {/* Image Container */}
+          <div className="relative min-h-96">
             <img
-              src={currentUser.image || "/placeholder.svg"}
-              alt={currentUser.name}
-              className="w-full h-full object-contain"
+              src={currentImage || "/placeholder.svg"}
+              alt={`${currentUser.name} - Image ${currentImageIndex + 1}`}
+              className="w-full h-full object-cover"
             />
+
+            {/* Image Navigation Arrows */}
+            {currentUser.images && currentUser.images.length > 1 && (
+              <>
+                <button
+                  onClick={() => handleImageNavigation("prev")}
+                  disabled={isAnimating}
+                >
+                  <ChevronLeft className="absolute w-11 h-11 left-2 top-1/2 transform -translate-y-1/2 transition-all duration-200 hover:scale-125" />
+                </button>
+                <button
+                  onClick={() => handleImageNavigation("next")}
+                  disabled={isAnimating}
+                >
+                  <ChevronRight className="absolute w-11 h-11 right-2 top-1/2 transform -translate-y-1/2 transition-all duration-200 hover:scale-125" />
+                </button>
+              </>
+            )}
+
+            {/* Image Indicators */}
+            {currentUser.images && currentUser.images.length > 1 && (
+              <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-2">
+                {currentUser.images.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentImageIndex(index)}
+                    className={`w-2 h-2 rounded-full transition-all duration-200 ${
+                      index === currentImageIndex
+                        ? "bg-white"
+                        : "bg-white/50 hover:bg-white/75"
+                    }`}
+                    disabled={isAnimating}
+                  />
+                ))}
+              </div>
+            )}
 
             {/* Swipe indicators */}
             {dragOffset > 30 && (
