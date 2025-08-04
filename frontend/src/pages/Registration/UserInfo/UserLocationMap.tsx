@@ -58,21 +58,21 @@ function UserLocationMap(props: UserFormProps) {
     });
   }, []);
   return (
-    <>
-      <MapContainer
-        center={[position.lat, position.lng] as LatLngExpression}
-        zoom={13}
-        style={{ height: "100%", width: "40%", borderRadius: "15px" }}
-      >
-        <TileLayer
-          attribution="&copy; OpenStreetMap contributors"
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <Marker position={[position.lat, position.lng] as LatLngExpression}>
-          <Popup>You are here.</Popup>
-        </Marker>
-      </MapContainer>
-    </>
+      <did className="w-[40%] h-auto hidden sm:block">
+          <MapContainer
+          center={[position.lat, position.lng] as LatLngExpression}
+          zoom={13}
+          style={{ height: "100%", width: "100%", borderRadius: "15px" }}
+          >
+          <TileLayer
+            attribution="&copy; OpenStreetMap contributors"
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <Marker position={[position.lat, position.lng] as LatLngExpression}>
+            <Popup>You are here.</Popup>
+          </Marker>
+        </MapContainer>
+      </did>
   );
 }
 

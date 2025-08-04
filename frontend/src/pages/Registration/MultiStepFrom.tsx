@@ -1,7 +1,7 @@
 import { ReactElement, useState } from 'react';
 
 function MultiStepFrom (pages: ReactElement[]) {
-    const [currentPageIndex, setCurrentPageIndex] = useState(1);
+    const [currentPageIndex, setCurrentPageIndex] = useState(3);
 
     function next() {
         setCurrentPageIndex(index => {

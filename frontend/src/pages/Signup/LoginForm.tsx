@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function CreateAccountForm	() {
+function LoginAccountForm	() {
 
     const APP_URL = "https://ideal-adventure-vr9wxw6pxrjfp6p5-5173.app.github.dev"
 
@@ -77,23 +77,16 @@ function CreateAccountForm	() {
                             </div>
                             <div className="flex w-full gap-2 grid-cols-2 mt-6 ">
                                 <div className="w-full">
-                                    <a href="">
+                                    <a href="http://localhost:3000/user/auth/google">
                                         <div className="text-white px-2 py-1.5 border rounded-md text-center text-[.8rem] transition hover:border-accent-red ">
                                             Google
                                         </div>
                                     </a>
                                 </div >
                                 <div className="w-full">
-                                    <a href="">
+                                    <a href="http://localhost:3000/user/auth/discord">
                                         <div className="text-white px-2 py-1.5 border rounded-md text-center text-[.8rem] transition hover:border-accent-red ">
                                             Discord
-                                        </div>
-                                    </a>
-                                </div >
-                                <div className="w-full">
-                                    <a href="">
-                                        <div className="text-white px-2 py-1.5 border rounded-md text-center text-[.8rem] transition hover:border-accent-red ">
-                                            Facebook
                                         </div>
                                     </a>
                                 </div >
@@ -107,4 +100,4 @@ function CreateAccountForm	() {
 }
 
 
-export default CreateAccountForm
+export default LoginAccountForm

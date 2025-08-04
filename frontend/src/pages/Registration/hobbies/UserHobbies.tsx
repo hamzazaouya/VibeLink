@@ -69,7 +69,6 @@ function UserHobbies(props: UserFormProps) {
   return (
     <div className="full">
       <div className="user_hobbies">
-        <h1>Choose your Hobbies</h1>
         <h3>
           {hobbies.length} / {maxSelection}
         </h3>

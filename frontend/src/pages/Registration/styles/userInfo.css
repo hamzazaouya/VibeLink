@@ -1,33 +1,33 @@
 .user_info {
-    @apply w-[600px] lg:h-[400px] lg:min-w-[800px] flex justify-between gap-5
+    @apply sm:w-[400px] md:w-[500px] h-auto lg:w-[700px] flex justify-between gap-5
 }
 
 .user_form {
-    @apply  h-full
+    @apply  h-full w-[100%] md:w-[60%] lg:w-[60%] 
 }
 
 .user_form .form {
-    @apply grid grid-cols-2 gap-x-2 gap-y-2 h-full
+    @apply grid lg:grid-cols-2 gap-x-2 gap-y-2 h-full
 }
 
 .user_form .form > :nth-child(5){
-  @apply col-span-2;
+  @apply lg:col-span-2;
 }
 
 .user_form .form > :last-child {
-    @apply col-span-2
+    @apply lg:col-span-2
 }
 
 .user_info .form input {
-    @apply bg-white/40 text-black h-10 lg:h-12 w-full rounded-xl px-4 border-[3px] placeholder-gray-500 text-[1rem] text-black border-transparent focus:border-accent-pink outline-none
+    @apply bg-white/40 text-black h-8 lg:h-12 w-full rounded-xl px-2 lg:px-4 border-[1px] lg:border-[3px] text-[.8rem] lg:text-[1rem] text-black  placeholder-gray-500 border-transparent focus:border-accent-pink outline-none
 }
 
 .user_form .form select {
-  @apply  text-black border bg-white/40 rounded-xl w-full h-[3rem] border-[3px] px-4 border-transparent focus:border-accent-pink outline-none;
+  @apply  text-black border bg-white/40 rounded-xl w-full h-8  lg:h-12 border-[1px] lg:border-[3px] text-[.8rem] lg:text-[1rem] px-4 border-transparent focus:border-accent-pink outline-none;
 }
 
 .user_info .form textarea {
-  @apply bg-white/40 text-black w-full h-full rounded-xl p-4 border-[3px] placeholder-gray-500 text-[1rem] border-transparent focus:border-accent-pink outline-none;
+  @apply bg-white/40 text-black w-full h-full rounded-xl p-2 lg:p-4 border-[1px] lg:border-[3px] placeholder-gray-500 text-[.8rem] lg:text-[1rem] border-transparent focus:border-accent-pink outline-none;
 }
 
 

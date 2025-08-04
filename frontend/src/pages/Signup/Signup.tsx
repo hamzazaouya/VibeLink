@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import Swal from "sweetalert2"
 
 function Signup () {
-    const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
     const [form, setForm] = useState({
         username: '',
@@ -41,7 +40,6 @@ function Signup () {
                 });
             }
         } else {
-            setErrorMessage("Unexpected error");
             console.log('Unexpected error:', error);
         }
     }
