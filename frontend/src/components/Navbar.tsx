@@ -21,6 +21,7 @@ export default function Navbar() {
   const [profileOpen, setProfileOpen] = useState(false);
   const [mobileNotificationsOpen, setMobileNotificationsOpen] = useState(false);
   const [mobileProfileOpen, setMobileProfileOpen] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   const notificationsRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
@@ -47,11 +48,29 @@ export default function Navbar() {
   };
 
   const handleLogout = () => {
-    // Add your logout logic here
     console.log("Logout clicked");
     setProfileOpen(false);
     setMobileProfileOpen(false);
   };
+
+  const handleMobileMenuToggle = () => {
+    if (mobileOpen) {
+      // Start closing animation
+      setIsAnimating(true);
+      setTimeout(() => {
+        setMobileOpen(false);
+        setIsAnimating(false);
+      }, 400); // Match the animation duration
+    } else {
+      // Start opening animation
+      setMobileOpen(true);
+      setIsAnimating(true);
+      setTimeout(() => {
+        setIsAnimating(false);
+      }, 400);
+    }
+  };
+
   // Close dropdowns when clicking outside (desktop)
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -146,7 +165,7 @@ export default function Navbar() {
             </button>
 
             {notificationsOpen && (
-              <div className="absolute top-12 right-0 w-80 bg-slate-800 rounded-lg shadow-lg border border-slate-700 py-2 z-50">
+              <div className="absolute top-12 right-0 w-80 bg-slate-800 rounded-lg shadow-lg border border-slate-700 py-2 z-50 animate-in slide-in-from-top-2 duration-200">
                 <div className="px-4 py-2 border-b border-slate-700">
                   <h3 className="text-white font-semibold">Notifications</h3>
                 </div>
@@ -197,7 +216,7 @@ export default function Navbar() {
           </button>
 
           {profileOpen && (
-            <div className="absolute top-14 right-0 w-48 bg-slate-800 rounded-lg shadow-lg border border-slate-700 py-2 z-50">
+            <div className="absolute top-14 right-0 w-48 bg-slate-800 rounded-lg shadow-lg border border-slate-700 py-2 z-50 animate-in slide-in-from-top-2 duration-200">
               <Link
                 to="/profile"
                 className="flex items-center gap-3 px-4 py-3 text-white hover:bg-slate-700 transition"
@@ -227,22 +246,46 @@ export default function Navbar() {
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden text-white z-50 relative"
-          onClick={() => setMobileOpen(!mobileOpen)}
+          className="md:hidden text-white z-50 relative transition-transform duration-200 hover:scale-110"
+          onClick={handleMobileMenuToggle}
+          disabled={isAnimating}
         >
-          {mobileOpen ? <X size={28} /> : <Menu size={28} />}
+          <div className="relative w-7 h-7">
+            <Menu
+              size={28}
+              className={`absolute inset-0 transition-all duration-300 ${
+                mobileOpen
+                  ? "opacity-0 rotate-180 scale-75"
+                  : "opacity-100 rotate-0 scale-100"
+              }`}
+            />
+            <X
+              size={28}
+              className={`absolute inset-0 transition-all duration-300 ${
+                mobileOpen
+                  ? "opacity-100 rotate-0 scale-100"
+                  : "opacity-0 rotate-180 scale-75"
+              }`}
+            />
+          </div>
         </button>
       </nav>
 
       {/* Mobile Sidebar Overlay */}
-      {mobileOpen && (
+      {(mobileOpen || isAnimating) && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden transition-opacity duration-500 ease-in-out"
-          onClick={() => setMobileOpen(false)}
+          className={`fixed inset-0 bg-black z-40 md:hidden transition-all duration-400 ease-out ${
+            mobileOpen && !isAnimating
+              ? "bg-opacity-60 backdrop-blur-sm"
+              : "bg-opacity-0"
+          }`}
+          onClick={handleMobileMenuToggle}
         >
           <div
-            className={`fixed top-0 left-0 w-80 h-full bg-gradient-to-b from-twilight-gradient-start via-twilight-gradient-middle to-twilight-gradient-end shadow-xl z-50 transform transition-transform duration-500 ease-in-out ${
-              mobileOpen ? "translate-x-0" : "-translate-x-full"
+            className={`fixed top-0 left-0 w-80 h-full bg-gradient-to-b from-twilight-gradient-start via-twilight-gradient-middle to-twilight-gradient-end shadow-2xl z-50 transform transition-all duration-400 ease-out ${
+              mobileOpen && !isAnimating
+                ? "translate-x-0 opacity-100 scale-100"
+                : "-translate-x-full opacity-90 scale-95"
             }`}
             onClick={(e) => e.stopPropagation()}
           >
@@ -252,20 +295,26 @@ export default function Navbar() {
                 VibeLink
               </h2>
               <button
-                onClick={() => setMobileOpen(false)}
-                className="text-white hover:text-gray-300 transition"
+                onClick={handleMobileMenuToggle}
+                className="text-white hover:text-gray-300 transition-all duration-200 hover:scale-110 hover:rotate-90"
               >
                 <X size={32} />
               </button>
             </div>
 
             {/* Mobile Profile Section */}
-            <div className="p-6 border-b border-purple-700">
+            <div
+              className={`p-6 border-b border-purple-700 transition-all duration-500 delay-100 ${
+                mobileOpen && !isAnimating
+                  ? "translate-y-0 opacity-100"
+                  : "translate-y-4 opacity-0"
+              }`}
+            >
               <div className="flex items-center gap-4 mb-4">
                 <img
                   src="./img/aahrach.jpeg"
                   alt="User Avatar"
-                  className="w-16 h-16 rounded-full object-cover border-2 border-accent-pink"
+                  className="w-16 h-16 rounded-full object-cover border-2 border-accent-pink transition-transform duration-300 hover:scale-105"
                 />
                 <div>
                   <h3 className="text-white font-semibold text-lg">
@@ -279,15 +328,15 @@ export default function Navbar() {
               <div className="flex gap-2">
                 <Link
                   to="/profile"
-                  onClick={() => setMobileOpen(false)}
-                  className="flex-1 bg-purple-700 hover:bg-purple-600 text-white py-2 px-4 rounded-lg text-center text-sm font-medium transition"
+                  onClick={handleMobileMenuToggle}
+                  className="flex-1 bg-purple-700 hover:bg-purple-600 text-white py-2 px-4 rounded-lg text-center text-sm font-medium transition-all duration-200 hover:scale-105"
                 >
                   View Profile
                 </Link>
                 <Link
                   to="/settings"
-                  onClick={() => setMobileOpen(false)}
-                  className="flex-1 bg-purple-700 hover:bg-purple-600 text-white py-2 px-4 rounded-lg text-center text-sm font-medium transition"
+                  onClick={handleMobileMenuToggle}
+                  className="flex-1 bg-purple-700 hover:bg-purple-600 text-white py-2 px-4 rounded-lg text-center text-sm font-medium transition-all duration-200 hover:scale-105"
                 >
                   Settings
                 </Link>
@@ -296,18 +345,27 @@ export default function Navbar() {
 
             {/* Mobile Navigation Items */}
             <div className="py-4">
-              {navItems.map(({ to, icon, label }) => (
+              {navItems.map(({ to, icon, label }, index) => (
                 <NavLink
                   key={label}
                   to={to}
-                  onClick={() => setMobileOpen(false)}
+                  onClick={handleMobileMenuToggle}
                   className={({ isActive }) =>
-                    `flex items-center gap-4 px-6 py-4 text-white hover:bg-purple-700/30 transition ${
+                    `flex items-center gap-4 px-6 py-4 text-white hover:bg-purple-700/30 transition-all duration-300 ${
                       isActive
-                        ? "bg-purple-700 border-r-4 border-accent-pink font-semibold"
+                        ? "bg-purple-700 border-r-2 border-accent-pink font-semibold"
                         : ""
+                    } ${
+                      mobileOpen && !isAnimating
+                        ? "translate-x-0 opacity-100"
+                        : "translate-x-8 opacity-0"
                     }`
                   }
+                  style={{
+                    transitionDelay: mobileOpen
+                      ? `${(index + 1) * 100}ms`
+                      : "0ms",
+                  }}
                 >
                   {icon}
                   <span className="text-lg">{label}</span>
@@ -318,21 +376,39 @@ export default function Navbar() {
               <button
                 onClick={() => {
                   setMobileNotificationsOpen(true);
-                  setMobileOpen(false);
+                  handleMobileMenuToggle();
                 }}
-                className="flex items-center gap-4 px-6 py-4 text-white hover:bg-purple-700/30 transition w-full text-left"
+                className={`flex items-center gap-4 px-6 py-4 text-white hover:bg-purple-700/30 transition-all duration-300  w-full text-left ${
+                  mobileOpen && !isAnimating
+                    ? "translate-x-0 opacity-100"
+                    : "translate-x-8 opacity-0"
+                }`}
+                style={{
+                  transitionDelay: mobileOpen
+                    ? `${(navItems.length + 1) * 100}ms`
+                    : "0ms",
+                }}
               >
                 <Bell size={32} />
                 <span className="text-lg">Notifications</span>
-                <div className="ml-auto w-2 h-2 bg-alert rounded-full"></div>
+                <div className="ml-auto w-2 h-2 bg-alert rounded-full animate-pulse"></div>
               </button>
             </div>
 
             {/* Mobile Logout Button */}
-            <div className="absolute bottom-6 left-6 right-6">
+            <div
+              className={`absolute bottom-6 left-6 right-6 transition-all duration-500 ${
+                mobileOpen && !isAnimating
+                  ? "translate-y-0 opacity-100"
+                  : "translate-y-4 opacity-0"
+              }`}
+              style={{
+                transitionDelay: mobileOpen ? "300ms" : "0ms",
+              }}
+            >
               <button
                 onClick={handleLogout}
-                className="flex items-center justify-center gap-3 w-full bg-accent-red hover:bg-red-600 text-white py-3 px-4 rounded-lg font-medium transition"
+                className="flex items-center justify-center gap-3 w-full bg-accent-red hover:bg-red-600 text-white py-3 px-4 rounded-lg font-medium transition-all duration-200 hover:scale-105 hover:shadow-lg"
               >
                 <LogOut size={20} />
                 Logout
@@ -344,10 +420,10 @@ export default function Navbar() {
 
       {/* Mobile Notifications Popup */}
       {mobileNotificationsOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-60 z-10 md:hidden flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-black bg-opacity-60 z-10 md:hidden flex items-center justify-center p-4 backdrop-blur-sm">
           <div
             ref={mobileNotificationsRef}
-            className="bg-slate-800 rounded-xl shadow-2xl border border-slate-700 w-full max-w-xs max-h-[70vh] overflow-hidden animate-in slide-in-from-bottom-4 duration-300"
+            className="bg-slate-800 rounded-xl shadow-2xl border border-slate-700 w-full max-w-xs max-h-[70vh] overflow-hidden animate-in slide-in-from-bottom-4 duration-300 scale-in-95"
           >
             {/* Popup Header */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-700 bg-slate-900">
@@ -356,7 +432,7 @@ export default function Navbar() {
               </h3>
               <button
                 onClick={() => setMobileNotificationsOpen(false)}
-                className="text-gray-400 hover:text-white transition p-1"
+                className="text-gray-400 hover:text-white transition-all duration-200 p-1 hover:scale-110"
               >
                 <X size={20} />
               </button>
@@ -368,7 +444,7 @@ export default function Navbar() {
                 data.notifications.map((notification) => (
                   <div
                     key={notification.id}
-                    className="flex items-center gap-3 px-6 py-4 hover:bg-slate-700 cursor-pointer transition border-b border-slate-700 last:border-b-0"
+                    className="flex items-center gap-3 px-6 py-4 hover:bg-slate-700 cursor-pointer transition-all duration-200 border-b border-slate-700 last:border-b-0 hover:translate-x-1"
                   >
                     <img
                       src={notification.avatar || "/placeholder.svg"}
