@@ -1,25 +1,8 @@
 import React, { useState } from "react";
+import { FormData, CreateAccountFormProps } from "./Signup.types";
+import "./styles/Signup.css"
 
-function CreateAccountForm	() {
-
-    const APP_URL = "https://ideal-adventure-vr9wxw6pxrjfp6p5-5173.app.github.dev"
-
-    const [form, setForm] = useState({
-        username: '',
-        email: '',
-        password: '',
-    });
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        console.log('Form submitted:', form);
-        // Add validation or API call here
-    };
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
+function CreateAccountForm	({ form, onChange, onSubmit }: CreateAccountFormProps) {
     return (
         <>
             <div className="w-[25rem] h-[35rem] flex items-center">
@@ -31,15 +14,16 @@ function CreateAccountForm	() {
                         <a href='${APP_URL}/login' className="px-[.5rem] underline text-accent-salmon">Login</a>
                     </div>
                     <div className="mt-6 w-[80%]">
-                        <form onSubmit={handleSubmit}className="">
+                        <form onSubmit={onSubmit}className="">
                             <div>
                                 <input 
                                     type="text" 
                                     name="username"
                                     value={form.username}
                                     placeholder="Username"
-                                    onChange={handleChange}
-                                    className="w-full px-3 py-2 rounded-md bg-white/40 text-black placeholder-gray-700 text-[.8rem] placeholder:text-[.8rem] focus:outline-none focus:ring-1 focus:ring-accent-red"
+                                    onChange={onChange}
+                                    className="input"
+                                    required
                                 />
                             </div>
 
@@ -49,8 +33,9 @@ function CreateAccountForm	() {
                                     name="email"
                                     value={form.email}
                                     placeholder="Email"
-                                    onChange={handleChange}
-                                    className="w-full px-3 py-2 rounded-md bg-white/40 text-black placeholder-gray-700 text-[.8rem] placeholder:text-[.8rem] focus:outline-none focus:ring-1 focus:ring-accent-red"
+                                    onChange={onChange}
+                                    className="input"
+                                    required
                                 />
                             </div>
 
@@ -60,15 +45,17 @@ function CreateAccountForm	() {
                                     name="password"
                                     value={form.password}
                                     placeholder="Password"
-                                    onChange={handleChange}
-                                    className="w-full px-3 py-2 rounded-md bg-white/40 text-black placeholder-gray-700 text-[.8rem] placeholder:text-[.8rem] focus:outline-none focus:ring-1 focus:ring-accent-red"
+                                    onChange={onChange}
+                                    className="input"
+                                    required
                                 />
                             </div>
                             <div className="mt-4 text-left text-[.8rem] flex">
                                 <input
-                                id="terms"
-                                type="checkbox"
-                                className="h-4 w-4 bg-white  border-gray-300 rounded"
+                                    id="terms"
+                                    type="checkbox"
+                                    className="h-4 w-4 bg-white  border-gray-300 rounded"
+                                    required
                                 />
                                 <span className="ml-2">I agree to the</span>
                                 <a href="" className="ml-1 underline text-accent-salmon">Terms & Conditions</a>
@@ -82,35 +69,28 @@ function CreateAccountForm	() {
                                     Create account
                                 </button>
                             </div>
-                            <div className="flex items-center mt-6">
+                        </form>
+                        <div className="flex items-center mt-6">
                                 <span className="inline-block w-full h-[1px] bg-white "></span>
                                 <span className="inline-block w-full text-[.7rem]">or Register with</span>
                                 <span className="inline-block w-full h-[1px] bg-white "></span>
-                            </div>
-                            <div className="flex w-full gap-2 grid-cols-2 mt-6 ">
-                                <div className="w-full">
-                                    <a href="">
-                                        <div className="text-white px-2 py-1.5 border rounded-md text-center text-[.8rem] transition hover:border-accent-red ">
-                                            Google
-                                        </div>
-                                    </a>
-                                </div >
-                                <div className="w-full">
-                                    <a href="">
-                                        <div className="text-white px-2 py-1.5 border rounded-md text-center text-[.8rem] transition hover:border-accent-red ">
-                                            Discord
-                                        </div>
-                                    </a>
-                                </div >
-                                <div className="w-full">
-                                    <a href="">
-                                        <div className="text-white px-2 py-1.5 border rounded-md text-center text-[.8rem] transition hover:border-accent-red ">
-                                            Facebook
-                                        </div>
-                                    </a>
-                                </div >
-                            </div>
-                        </form>
+                        </div>
+                        <div className="flex w-full gap-2 grid-cols-2 mt-6 ">
+                            <div className="w-full">
+                                <a href="http://localhost:3000/user/auth/google">
+                                    <div className="text-white px-2 py-1.5 border rounded-md text-center text-[.8rem] transition hover:border-accent-red ">
+                                        Google
+                                    </div>
+                                </a>
+                            </div >
+                            <div className="w-full">
+                                <a href="http://localhost:3000/user/auth/discord">
+                                    <div className="text-white px-2 py-1.5 border rounded-md text-center text-[.8rem] transition hover:border-accent-red ">
+                                        Discord
+                                    </div>
+                                </a>
+                            </div >
+                        </div>
                     </div>
                 </div>
             </div>

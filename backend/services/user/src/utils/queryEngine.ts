@@ -46,7 +46,6 @@ const querySelect = async (
     query += clauses.join(' AND ');
   }
 
-  console.log("============> >>>>> ", query);
   try {
     const result = await pool.query(query, values);
     return result;

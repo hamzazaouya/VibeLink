@@ -1,0 +1,28 @@
+/* In your global CSS or Tailwind file (e.g., index.css or app.css) */
+.step-item {
+    @apply relative flex flex-col gap-1 justify-center items-center w-20 md:w-24 lg:w-28 text-[.8rem];
+}
+
+.step-item:not(:first-child)::before {
+    @apply content-[''] bg-slate-200 absolute w-full h-[3px] right-[50%] top-[30%] -translate-y-1/4
+}
+
+.step {
+    @apply relative w-10 h-10  flex items-center justify-center z-10 bg-background font-semibold rounded-full border;
+}
+
+.active .step {
+    @apply border-accent-pink border-[2px] text-accent-pink 
+}
+
+.active p {
+    @apply text-accent-pink font-bold
+}
+
+.complete .step {
+    @apply bg-accent-pink text-white border-none
+}
+
+.complete p {
+    @apply text-accent-pink font-bold;
+}

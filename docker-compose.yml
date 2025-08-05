@@ -1,20 +1,20 @@
 version: "3.8"
 
 networks:
-  matcha:
+  vibelink:
 
 services:
-  # postgres:
-  #   build:
-  #     context: ./database/postgSQL
-  #   ports:
-  #     - "5432:5432"
-  #   env_file:
-  #     - .env
-  #   volumes:
-  #     - postgres_data:/var/lib/postgresql/data
-  #   networks:
-  #     - matcha
+  postgres:
+    build:
+      context: ./database/postgSQL
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - vibelink
 
   frontend:
     build:
@@ -26,25 +26,25 @@ services:
       - ./frontend:/app
       - /app/node_modules
     networks:
-      - matcha
+      - vibelink
 
-  # user:
-  #   build:
-  #     context: ./backend/services/
-  #     dockerfile: user/Dockerfile
-  #   ports:
-  #     - "3000:3000"
-  #   depends_on:
-  #     - postgres
-  #     - redis
-  #   volumes:
-  #     - ./backend/services/user:/usr/src/app
-  #     - ./backend/uploads:/usr/src/app/uploads
-  #     - /usr/src/app/node_modules
-  #   env_file:
-  #     - .env
-  #   networks:
-  #     - matcha
+  user:
+    build:
+      context: ./backend/services/
+      dockerfile: user/Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ./backend/services/user:/usr/src/app
+      - ./backend/uploads:/usr/src/app/uploads
+      - /usr/src/app/node_modules
+    env_file:
+      - .env
+    networks:
+      - vibelink
 
   # swap:
   #   build:
@@ -61,15 +61,15 @@ services:
   #   env_file:
   #     - .env
   #   networks:
-  #     - matcha
+  #     - vibelink
 
-  # redis:
-  #   build:
-  #     context: ./backend/utils/profile-redis
-  #   ports:
-  #     - "6379:6379"
-  #   networks:
-  #     - matcha
+  redis:
+    build:
+      context: ./backend/utils/profile-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - vibelink
 
   # nginx:
   #   build:
@@ -82,7 +82,7 @@ services:
   #     - user
   #     - swap
   #   networks:
-  #     - matcha
+  #     - vibelink
 
   # cassandra:
   #   build:
@@ -95,7 +95,7 @@ services:
   #   environment:
   #     - CASSANDRA_CLUSTER_NAME=SingleNodeCluster
   #   networks:
-  #     - matcha
+  #     - vibelink
 
 volumes:
   postgres_data:

@@ -1,0 +1,18 @@
+.buttons {
+    @apply w-full mt-4
+}
+
+.buttons div {
+    @apply grow flex
+}
+
+.buttons div button {
+    @apply flex items-center text-[1rem] font-bold px-2 py-1 bg-white hover:bg-accent-pink hover:text-white transition text-black
+}
+.buttons .back {
+    @apply justify-start
+}
+
+.buttons .next {
+    @apply justify-end
+}

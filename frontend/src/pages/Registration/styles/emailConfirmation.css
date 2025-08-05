@@ -1,0 +1,19 @@
+.email_conf h1 {
+    @apply text-[1.2rem] font-bold mb-2
+}
+
+.email_conf p {
+    @apply mb-1 text-[.8rem]
+}
+
+.email_conf span{
+    @apply font-bold
+}
+
+.email_conf a{
+    @apply font-bold hover:text-white
+}
+
+.otp {
+    @apply h-20
+}
