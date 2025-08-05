@@ -8,6 +8,7 @@ export interface FormData {
   latitude: number;
   longitude: number;
   hobbies: string[];
+  images: (File | null)[];
 }
 
 export type UserFormProps = FormData & {

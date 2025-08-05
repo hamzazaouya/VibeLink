@@ -6,7 +6,7 @@ import Buttons from "./buttons"
 import React, { useState } from "react";
 import { FormData } from "./types/registration.types";
 import IconButton from "./hobbies/IconButton";
-import ImageUploader from "./images/imagesUploader";
+import ImagesUploader from "./images/imagesUploader";
 import MultiStepFrom from "./MultiStepFrom";
 
 const INIT_DATA: FormData = {
@@ -19,11 +19,13 @@ const INIT_DATA: FormData = {
   latitude: 32.229408,
   longitude: -7.957042,
   hobbies: [],
+  images: [null, null, null, null, null] 
 };
 
 function UserRegistration () {
     const[data, setData] = useState(INIT_DATA);
     function updateFields(fields: Partial<FormData>) {
+        console.log(data)
         setData(prev => {
             return {...prev, ...fields}
 
@@ -33,7 +35,7 @@ function UserRegistration () {
                 <EmailConfirmation />, 
                 <UserInformation {...data} updateFields={updateFields}/>,
                 <UserHobbies {...data} updateFields={updateFields}/>,
-                <ImageUploader />
+                <ImagesUploader {...data} updateFields={updateFields}/>
             ]);
     return (
         <div className="flex flex-col bg-background h-screen w-screen px-5">

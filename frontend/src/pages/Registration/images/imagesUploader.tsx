@@ -1,24 +1,28 @@
-import { useState } from 'react';
+import ProfileImage from "./image";
+import { UserFormProps } from "../types/registration.types";
 
-function ImageUploader() {
-  const [image, setImage] = useState(null);
+function ImagesUploader(props: UserFormProps) {
 
-  const handleChange = (e) => {
-    const file = e.target.files[0];
-    if (file) setImage(URL.createObjectURL(file));
+  const handleUpdateImage = (index: number, file: File) => {
+    const newImages = [...props.images];
+    newImages[index] = file;
+    console.log("=====> what's going on here ", index, newImages)
+    props.updateFields({ images: newImages });
   };
 
   return (
-    <div className="flex flex-col items-center">
-      <label className="cursor-pointer rounded-2xl w-60 h-80 flex justify-center items-center text-gray-500">
-        {image ? 
-          <img src={image} alt="preview" className="object-cover h-full w-full rounded" />
-        : 
-          <spna>Upload Image</spna>}
-        <input type="file" accept="image/*" onChange={handleChange} className="hidden" />
-      </label>
+    <div className="grid grid-cols-3 gap-4 justify-items-center h-auto max-h-fit">
+      {props.images.map((imageFile, index) => (
+      <ProfileImage
+        imageFile={imageFile}
+        index={index}
+        updateImage={handleUpdateImage}
+      />
+    ))}
     </div>
+
+    
   );
 }
 
-export default ImageUploader;
+export default ImagesUploader;

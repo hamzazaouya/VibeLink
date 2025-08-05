@@ -21,7 +21,7 @@ function Buttons ({ currentPage, currentPageIndex, back, next }: ButtonProps) {
                 <div className="next">
                     <button
                         onClick={next}
-                        >Next <RiArrowRightSLine /></button>
+                        > Next <RiArrowRightSLine /></button>
                 </div>
             </div>
         </>
