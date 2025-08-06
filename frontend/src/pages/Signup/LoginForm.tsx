@@ -21,16 +21,15 @@ function LoginAccountForm	() {
   };
 
     return (
-        <>
-            <div className="w-[25rem] h-[35rem] flex items-center">
-                <div className="w-full">
+            <div className="w-full lg:w-full lg:h-[35rem] flex items-center">
+                <div>
                     <h1 className="text-left font-bold text-[2rem]">Login</h1>
                     <div className="text-left text-[.8rem] pl-1 mt-2">
                         <span className="">didn't have an account ?</span>
                         <a href='${APP_URL}/signup' className="px-[.5rem] underline text-accent-salmon">Signup</a>
                     </div>
-                    <div className="mt-6 w-[80%]">
-                        <form onSubmit={handleSubmit}className="">
+                    <div className="mt-6">
+                        <form onSubmit={handleSubmit} className="">
                             <div className="mt-2">
                                 <input 
                                     type="email" 
@@ -95,7 +94,6 @@ function LoginAccountForm	() {
                     </div>
                 </div>
             </div>
-        </>
     )
 }
 
