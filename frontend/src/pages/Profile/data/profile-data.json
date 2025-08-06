@@ -72,42 +72,119 @@
       "name": "hamza azaouya",
       "avatar": "https://cdn.intra.42.fr/users/68cf081abe9e9f700d9efd1d27f07231/hazaouya.jpg",
       "isLiked": true,
-      "isBlocked": false
+      "isBlocked": false,
+      "date": "Jan 8, 2024"
     },
     {
       "id": 2,
       "name": "yousef yahya",
       "avatar": "https://cdn.intra.42.fr/users/fecbc74d595c68f963737b256abc7aa8/yoyahya.JPG",
       "isLiked": true,
-      "isBlocked": false
+      "isBlocked": false,
+      "date": "Mar 4, 2024"
     },
     {
       "id": 3,
       "name": "zakria lazrak",
       "avatar": "https://cdn.intra.42.fr/users/b145a08af26318cd43d39176d47b64c7/zlazrak.JPG",
       "isLiked": true,
-      "isBlocked": false
+      "isBlocked": false,
+      "date": "Feb 15, 2024"
     },
     {
       "id": 4,
       "name": "saida el khattabi",
       "avatar": "/img/girl_2.png",
       "isLiked": true,
-      "isBlocked": false
+      "isBlocked": false,
+      "date": "Feb 20, 2024"
     },
     {
       "id": 5,
       "name": "Sara Lamdoubal",
       "avatar": "https://cdn.intra.42.fr/users/cb7956138aea7f1122f2c10df9d0f2d2/oaffrouk.jpg",
       "isLiked": true,
-      "isBlocked": false
+      "isBlocked": false,
+      "date": "Jan 25, 2024"
     },
     {
       "id": 6,
       "name": "Anas Bouzanbil",
       "avatar": "https://cdn.intra.42.fr/users/6f3635a1ce78336ded0d21b4fbe7e7af/abouzanb.jpg",
       "isLiked": true,
-      "isBlocked": false
+      "isBlocked": false,
+      "date": "Jan 30, 2024"
+    }
+  ],
+  "profileViews": [
+    {
+      "id": 1,
+      "name": "hamza azaouya",
+      "avatar": "https://cdn.intra.42.fr/users/68cf081abe9e9f700d9efd1d27f07231/hazaouya.jpg",
+      "viewedAt": "2 hours ago",
+      "viewCount": 3
+    },
+    {
+      "id": 2,
+      "name": "zakria lazrak",
+      "avatar": "https://cdn.intra.42.fr/users/b145a08af26318cd43d39176d47b64c7/zlazrak.JPG",
+      "viewedAt": "5 hours ago",
+      "viewCount": 1
+    },
+    {
+      "id": 3,
+      "name": "Maria Garcia",
+      "avatar": "/img/girl_2.png",
+      "viewedAt": "1 day ago",
+      "viewCount": 2
+    },
+    {
+      "id": 4,
+      "name": "Sara Lamdoubal",
+      "avatar": "https://cdn.intra.42.fr/users/cb7956138aea7f1122f2c10df9d0f2d2/oaffrouk.jpg",
+      "viewedAt": "2 days ago",
+      "viewCount": 1
+    },
+    {
+      "id": 5,
+      "name": "Anas Bouzanbil",
+      "avatar": "https://cdn.intra.42.fr/users/6f3635a1ce78336ded0d21b4fbe7e7af/abouzanb.jpg",
+      "viewedAt": "3 days ago",
+      "viewCount": 4
+    }
+  ],
+  "meetingHistory": [
+    {
+      "id": 1,
+      "name": "hamza azaouya",
+      "avatar": "https://cdn.intra.42.fr/users/68cf081abe9e9f700d9efd1d27f07231/hazaouya.jpg",
+      "date": "Jan 15, 2024",
+      "location": "Central Park Cafe",
+      "status": "completed"
+    },
+    {
+      "id": 2,
+      "name": "zakria lazrak",
+      "avatar": "https://cdn.intra.42.fr/users/b145a08af26318cd43d39176d47b64c7/zlazrak.JPG",
+      "date": "Jan 20, 2024",
+      "location": "Downtown Restaurant",
+      "status": "completed"
+    },
+    {
+      "id": 3,
+      "name": "Anna Rodriguez",
+      "avatar": "/img/girl_2.png",
+      "date": "Feb 5, 2024",
+      "location": "Art Museum",
+      "status": "upcoming"
+    },
+    {
+      "id": 4,
+      "name": "Sara Lamdoubal",
+      "avatar": "https://cdn.intra.42.fr/users/cb7956138aea7f1122f2c10df9d0f2d2/oaffrouk.jpg",
+      "date": "Jan 8, 2024",
+      "location": "Beach Boardwalk",
+      "status": "cancelled"
     }
   ]
 }
