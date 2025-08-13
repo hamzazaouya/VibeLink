@@ -14,6 +14,7 @@ import Settings from "./pages/Settings";
 import Chat from "./pages/Chat";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
+import UserProfile from "./pages/User-Profile";
 import Search from "./pages/Search";
 import UserRegistration from "./pages/Registration/UserRegistration";
 
@@ -36,6 +37,7 @@ export default function App() {
         <Route element={<Layout />}>
           <Route path="/search" element={<Search />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/user-profile" element={<UserProfile />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/chat" element={<Chat />} />
           <Route path="/home" element={<Home />} />
