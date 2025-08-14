@@ -72,7 +72,7 @@ export default function Settings() {
     name: "Achraf Ahrach",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    avatar: "/profile-avatar.png",
+    avatar: "img/aahrach.jpeg",
     gender: "male",
   });
 
@@ -86,11 +86,11 @@ export default function Settings() {
   ]);
 
   const [profileImages, setProfileImages] = useState([
-    { id: 1, url: "/stylish-woman-portrait.png" },
-    { id: 2, url: "/profile-photo-2.png" },
-    { id: 3, url: "/stylish-woman-profile.png" },
-    { id: 4, url: "/profile-photo-4.png" },
-    { id: 5, url: "/diverse-professional-profile.png" },
+    { id: 1, url: "/img/man_1.png" },
+    { id: 2, url: "/img/man_2.png" },
+    { id: 3, url: "/img/man_3.png" },
+    { id: 4, url: "/img/man_4.png" },
+    { id: 5, url: "/img/man_5.png" },
   ]);
 
   // Settings state
@@ -482,18 +482,17 @@ export default function Settings() {
   );
 
   return (
-    // <div className="min-h-screen w-screen pt-24 bg-gradient-to-br from-twilight-gradient-start via-twilight-gradient-middle to-twilight-gradient-end flex items-center justify-center space-y-6">
-    <div className="min-h-screen pt-28 bg-gradient-to-br from-twilight-gradient-start via-twilight-gradient-middle to-twilight-gradient-end">
+    <div className="min-h-screen pt-28 px-4 py-8 bg-gradient-to-br from-twilight-gradient-start via-twilight-gradient-middle to-twilight-gradient-end">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        {/* <div className="mb-8">
+        <div className="mb-8">
           <h1 className="text-3xl font-bold text-white mb-2">
             Profile Settings
           </h1>
           <p className="text-gray-300">
             Manage your profile and account preferences
           </p>
-        </div> */}
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Sidebar Navigation */}
