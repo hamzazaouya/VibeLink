@@ -484,16 +484,6 @@ export default function Settings() {
   return (
     <div className="min-h-screen pt-28 px-4 py-8 bg-gradient-to-br from-twilight-gradient-start via-twilight-gradient-middle to-twilight-gradient-end">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">
-            Profile Settings
-          </h1>
-          <p className="text-gray-300">
-            Manage your profile and account preferences
-          </p>
-        </div>
-
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Sidebar Navigation */}
           <div className="lg:col-span-1">
@@ -550,24 +540,26 @@ export default function Settings() {
           </div>
 
           {/* Main Content */}
-          <div className="lg:col-span-3">
-            {activeSection === "profile" && renderProfileSection()}
-            {activeSection === "privacy" && renderPrivacySection()}
-            {activeSection === "notifications" && renderNotificationSection()}
-            {activeSection === "account" && renderAccountSection()}
+          <div className="lg:col-span-3 h-[calc(100vh-9rem)] overflow-hidden">
+            <div className="h-full overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
+              {activeSection === "profile" && renderProfileSection()}
+              {activeSection === "privacy" && renderPrivacySection()}
+              {activeSection === "notifications" && renderNotificationSection()}
+              {activeSection === "account" && renderAccountSection()}
 
-            {/* Save Button */}
-            {activeSection === "profile" && (
-              <div className="mt-8 flex justify-end">
-                <Button
-                  onClick={handleSaveProfile}
-                  className="bg-blue-500 hover:bg-blue-600 text-white px-8"
-                >
-                  <Save className="w-4 h-4 mr-2" />
-                  Save Changes
-                </Button>
-              </div>
-            )}
+              {/* Save Button */}
+              {activeSection === "profile" && (
+                <div className="mt-8 flex justify-end">
+                  <Button
+                    onClick={handleSaveProfile}
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-8"
+                  >
+                    <Save className="w-4 h-4 mr-2" />
+                    Save Changes
+                  </Button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
