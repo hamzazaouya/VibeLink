@@ -67,46 +67,76 @@ const availableHobbies = [
 ];
 
 export default function Settings() {
-  // Profile state
-  const [profile, setProfile] = useState({
+  // Initial/Original state to track changes
+  const initialProfile = {
     name: "Achraf Ahrach",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     avatar: "img/aahrach.jpeg",
     gender: "male",
-  });
+  };
 
-  const [selectedHobbies, setSelectedHobbies] = useState([
+  const initialHobbies = [
     "Workout",
     "Cooking",
     "Fishing",
     "Camping",
     "Gaming",
     "Photography",
-  ]);
+  ];
 
-  const [profileImages, setProfileImages] = useState([
+  const initialImages = [
     { id: 1, url: "/img/man_1.png" },
     { id: 2, url: "/img/man_2.png" },
     { id: 3, url: "/img/man_3.png" },
     { id: 4, url: "/img/man_4.png" },
     { id: 5, url: "/img/man_5.png" },
-  ]);
+  ];
 
-  // Settings state
-  const [settings, setSettings] = useState({
+  const initialSettings = {
     showOnlineStatus: true,
     allowMessages: true,
     showAge: true,
     showLocation: true,
     emailNotifications: true,
     pushNotifications: true,
-  });
+  };
+
+  // Profile state
+  const [profile, setProfile] = useState(initialProfile);
+  const [selectedHobbies, setSelectedHobbies] = useState(initialHobbies);
+  const [profileImages, setProfileImages] = useState(initialImages);
+
+  // Settings state
+  const [settings, setSettings] = useState(initialSettings);
 
   const [activeSection, setActiveSection] = useState("profile");
   const [isEditing, setIsEditing] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Function to check if any changes have been made
+  const hasChanges = () => {
+    // Check profile changes
+    const profileChanged =
+      JSON.stringify(profile) !== JSON.stringify(initialProfile);
+
+    // Check hobbies changes
+    const hobbiesChanged =
+      JSON.stringify(selectedHobbies.sort()) !==
+      JSON.stringify(initialHobbies.sort());
+
+    // Check images changes (compare by length and urls)
+    const imagesChanged =
+      profileImages.length !== initialImages.length ||
+      profileImages.some((img, index) => img.url !== initialImages[index]?.url);
+
+    // Check settings changes
+    const settingsChanged =
+      JSON.stringify(settings) !== JSON.stringify(initialSettings);
+
+    return profileChanged || hobbiesChanged || imagesChanged || settingsChanged;
+  };
 
   const handleProfileUpdate = (field: string, value: string) => {
     setProfile((prev) => ({ ...prev, [field]: value }));
@@ -139,7 +169,15 @@ export default function Settings() {
 
   const handleSaveProfile = () => {
     // Here you would typically save to your backend
-    console.log("Saving profile:", { profile, selectedHobbies, profileImages });
+    console.log("Saving profile:", {
+      profile,
+      selectedHobbies,
+      profileImages,
+      settings,
+    });
+
+    // Reset initial values to current values after saving
+    // This would typically be done after successful API call
     setIsEditing(false);
   };
 
@@ -487,8 +525,22 @@ export default function Settings() {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Sidebar Navigation */}
           <div className="lg:col-span-1">
+            <div className="mb-6 flex justify-center">
+              <Button
+                onClick={handleSaveProfile}
+                disabled={!hasChanges()}
+                className={`px-8 transition-all ${
+                  hasChanges()
+                    ? "bg-blue-500 hover:bg-blue-600 text-white"
+                    : "bg-gray-500/20 text-gray-400 cursor-not-allowed"
+                }`}
+              >
+                <Save className="w-4 h-4 mr-2" />
+                Save Changes
+              </Button>
+            </div>
             <Card className="bg-white/10 backdrop-blur-lg border-white/20 sticky top-8">
-              <CardContent className="p-4">
+              <CardContent className="p-4 ">
                 <nav className="space-y-2">
                   <button
                     onClick={() => setActiveSection("profile")}
@@ -541,24 +593,11 @@ export default function Settings() {
 
           {/* Main Content */}
           <div className="lg:col-span-3 h-[calc(100vh-9rem)] overflow-hidden">
-            <div className="h-full overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
+            <div className="h-full overflow-y-auto pr-4 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
               {activeSection === "profile" && renderProfileSection()}
               {activeSection === "privacy" && renderPrivacySection()}
               {activeSection === "notifications" && renderNotificationSection()}
               {activeSection === "account" && renderAccountSection()}
-
-              {/* Save Button */}
-              {activeSection === "profile" && (
-                <div className="mt-8 flex justify-end">
-                  <Button
-                    onClick={handleSaveProfile}
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-8"
-                  >
-                    <Save className="w-4 h-4 mr-2" />
-                    Save Changes
-                  </Button>
-                </div>
-              )}
             </div>
           </div>
         </div>
