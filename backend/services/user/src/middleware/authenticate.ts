@@ -20,24 +20,16 @@ import CONST from '../utils/constants'
 *******************************************************************/
 
 function authenticate(req: Request, res: Response, next: NextFunction): void {
-  if (req.session) {
+  console.log("Hello From backend =====> ", req.session);
+  if (req.session) { 
     if (!req.session.user) {
-      return res.redirect("/login"); // Redirect to login if the session doesn't exist
+      res.status(CONST.UNAUTHORIZED).send("You are not allowed to access this Page");
+      return;
     }
-
-    const user = req.session.user as IUser;
-    
-    if (!user.is_verified && !user.is_registred) {
-      return res.redirect("/verify/email"); // Redirect to verify email if not verified
-    }
-  
-    if (!user.is_registred) {
-      return res.redirect("/regester"); // Redirect to info registration if not registered
-    }
-    
     next();
+  } else {
+    res.status(CONST.SERVER_ERROR).json({message: "server error"});
   }
-  res.status(CONST.SERVER_ERROR).json({message: "server error"});
 }
 
 

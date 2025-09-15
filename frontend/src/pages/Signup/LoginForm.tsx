@@ -1,19 +1,30 @@
 import React, { useState } from "react";
+import axios from "axios"
+import Swal from "sweetalert2"
+import { useNavigate } from 'react-router-dom';
 
 function LoginAccountForm	() {
 
-    const APP_URL = "https://ideal-adventure-vr9wxw6pxrjfp6p5-5173.app.github.dev"
-
+    const navigate = useNavigate();
     const [form, setForm] = useState({
-        username: '',
         email: '',
         password: '',
     });
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log('Form submitted:', form);
-        // Add validation or API call here
+        console.log("hello from response")
+        try {
+            console.log("Form : ", form);
+            const response = await axios.post('http://localhost:3000/user/login', form, { withCredentials: true });
+            navigate('/test');
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: error.response.data.message || 'Something went wrong!',
+            });
+        }
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -24,6 +24,6 @@ const route = express.Router();
  *         description: List of users
  */
 
-route.get('/user/home', /*authMiddleware.authenticate,*/ homeController.home);
+route.get('/user/home', authMiddleware.authenticate, homeController.home);
 
 export default route;

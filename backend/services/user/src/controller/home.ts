@@ -19,6 +19,7 @@ interface IUser {
 }
 
 function home(req: Request, res: Response): void {
+    console.log("are you here ?")
     if (req.session && req.session.user) {
         console.log(req.session);
         const user: IUser = req.session.user;

@@ -11,6 +11,7 @@ import "./App.css";
 
 import Layout from "./components/Layout";
 import Settings from "./pages/Settings";
+import TestPage from "./pages/Signup/Profile";
 import Chat from "./pages/Chat";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
@@ -26,6 +27,7 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/register" element={<UserRegistration />} />
+        <Route path="/test" element={<TestPage />} />
         <Route
           path="/forgot-password"
           element={<div>Forgot Password - Coming Soon!</div>}

@@ -26,8 +26,8 @@ import CONST from "../utils/constants";
 
 
 function verifyAuth(req: Request, res: Response, next: NextFunction): void {
-    const { username, email, password } = req.body;
-    if (!username || !email || !password) {
+    const {email, password } = req.body;
+    if (!email || !password) {
         logger.user.info(`${req.ip}: ${'Email and Password are required'}`);
         res.status(CONST.BAD_REQUEST).json({ error: 'Email and Password are required' });
     } else 
@@ -36,25 +36,14 @@ function verifyAuth(req: Request, res: Response, next: NextFunction): void {
 
 // Validation rules
 const validateRegistration = [
-    body('username')
-        .trim()
-        .notEmpty().withMessage('Username is required')
-        .isLength({ min: 4, max: 10 }).withMessage('Username must be between 3 and 30 characters')
-        .matches(/^[A-Za-z_]+$/).withMessage('Username must contain only letters and underscores'),
-
     body('email')
         .trim()
         .normalizeEmail()
         .notEmpty().withMessage('Email is required')
-        .isEmail().withMessage('Invalid email format')
-        .isLength({ max: 50 }).withMessage('Email must not exceed 50 characters'),
+        .isEmail().withMessage('Invalid email format'),
 
     body('password')
-        .notEmpty().withMessage('Password is required') // Check if password is not empty
-        .isLength({ min: 10, max: 20 }).withMessage('Password must be between 10 and 20 characters long') // Length restrictions for password
-        .matches(/[A-Z]/).withMessage('Password must contain at least one uppercase letter') // At least one uppercase letter
-        .matches(/[0-9]/).withMessage('Password must contain at least one number') // At least one number
-        .matches(/[!@#$%^&*(),.?":{}|<>]/).withMessage('Password must contain at least one special character'), // At least one special character
+        .notEmpty().withMessage('Password is required')
 ];
   
 

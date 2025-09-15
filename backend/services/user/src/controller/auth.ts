@@ -49,13 +49,11 @@ async function logout(req: Request, res: Response): Promise<void> {
 
 async function login(req: Request, res: Response): Promise<void> {
   const { email, password } = req.body;
-  if (req.session && req.session.user) {
-    return res.redirect("/user/home");
-  }
   try {
     const user: IUser = await authService.login(email, password);
     if (req.session) {
       req.session.user = user;
+      console.log("Hello From User and ", user);
       res.status(CONST.SUCCESS).json({ message: "user logged successfully" });
     }
   } catch (error: any) {
@@ -81,12 +79,13 @@ async function login(req: Request, res: Response): Promise<void> {
 async function signup(req: Request, res: Response): Promise<void> {
   const { username, email, password } = req.body;
   try {
-    
+    console.log("Hello from backend", username, email, password)
     const user: IUser = await authService.signup(username, email, password);
-    if (req.session) {
-      req.session.user = user;
-      res.status(CONST.CREATED).json({ message: "user created successfully" });
-    }
+    // if the user singup he need to login 
+    // if (req.session) {
+    //   req.session.user = user;
+    //   res.status(CONST.CREATED).json({ message: "user created successfully" });
+    // }
   } catch (error: any) {
     if (error.message.includes("email"))
       res.status(CONST.CONFLICT).json({ message: "email is already taken" });
