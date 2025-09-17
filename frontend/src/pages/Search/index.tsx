@@ -18,7 +18,8 @@ export default function SearchPage() {
   };
 
   return (
-    <div className="min-h-screen w-screen pt-22 bg-gradient-to-br from-twilight-gradient-start via-twilight-gradient-middle to-twilight-gradient-end flex items-center justify-center">
+    // <div className="min-h-screen pt-28 bg-gradient-to-br from-twilight-gradient-start via-twilight-gradient-middle to-twilight-gradient-end flex sm:items-center justify-center overflow-hidden">
+    <div className="min-h-screen w-screen pb-36 lg:pb-0 pt-24 bg-gradient-to-br from-twilight-gradient-start via-twilight-gradient-middle to-twilight-gradient-end flex items-center justify-center">
       <div className="max-w-6xl mx-auto bg-background/80 backdrop-blur-lg rounded-3xl p-10 grid grid-cols-1 lg:grid-cols-3 gap-10 shadow-2xl">
         <div className="lg:col-span-2 flex flex-col gap-8">
           <div className="space-y-4">
@@ -51,9 +52,6 @@ export default function SearchPage() {
           </div>
 
           <div className="space-y-4">
-            {/* <h3 className="text-white text-lg font-semibold drop-shadow-lg">
-              Interests :
-            </h3> */}
             <h3 className="text-lg font-semibold text-card-foreground mb-3 block">
               Interests
               <span className="text-sm font-normal ml-2 opacity-80">
@@ -73,7 +71,7 @@ export default function SearchPage() {
           <h3 className="text-white text-lg font-semibold drop-shadow-lg">
             Location :
           </h3>
-          <div className="h-96 rounded-xl overflow-hidden shadow-xl">
+          <div className="h-[26rem] rounded-xl overflow-hidden shadow-xl">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d52901.38654799949!2d-80.87259484863281!3d35.22709820000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88541fc4fc381a81%3A0x884650e6bf43d164!2sCharlotte%2C%20NC!5e0!3m2!1sen!2sus!4v1694789234567!5m2!1sen!2sus"
               width="100%"
