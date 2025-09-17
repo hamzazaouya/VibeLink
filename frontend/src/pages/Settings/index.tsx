@@ -502,12 +502,12 @@ export default function Settings() {
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel className="bg-slate-700 text-white border-slate-600 hover:bg-slate-600">
+                <AlertDialogCancel className="bg-slate-700 p-2 text-white border-slate-600 hover:bg-slate-600">
                   Cancel
                 </AlertDialogCancel>
                 <AlertDialogAction
                   onClick={handleDeleteAccount}
-                  className="bg-red-500 hover:bg-red-600 text-white"
+                  className="bg-red-500 p-2 hover:bg-red-800 text-white"
                 >
                   Delete Account
                 </AlertDialogAction>
