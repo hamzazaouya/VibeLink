@@ -1,19 +1,17 @@
 import { Slider } from "@/components/ui/slider";
 import { useState } from "react";
-interface Tag {
-  id: string;
-  name: string;
-  color: string;
-}
+import { InterestsSelector } from "./interests-selector";
 
 export default function SearchPage() {
   const [ageRange, setAgeRange] = useState([18, 35]);
   const [distance, setDistance] = useState([10]);
+  const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
 
   const handleSubmit = () => {
     const searchData = {
       age: { min: ageRange[0], max: ageRange[1] },
       distance: distance[0],
+      interests: selectedInterests,
     };
     console.log("Search data:", searchData);
     // Handle search submission here
@@ -53,9 +51,21 @@ export default function SearchPage() {
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-white text-lg font-semibold drop-shadow-lg">
+            {/* <h3 className="text-white text-lg font-semibold drop-shadow-lg">
               Interests :
+            </h3> */}
+            <h3 className="text-lg font-semibold text-card-foreground mb-3 block">
+              Interests
+              <span className="text-sm font-normal ml-2 opacity-80">
+                ({selectedInterests.length}/10)
+              </span>
             </h3>
+            <InterestsSelector
+              selectedInterests={selectedInterests}
+              onSelectionChange={setSelectedInterests}
+              maxSelections={10}
+              className="bg-background/50 py-3 pr-2 h-72 overflow-y-auto"
+            />
           </div>
         </div>
 
