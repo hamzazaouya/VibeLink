@@ -3,6 +3,8 @@ import { FormData, CreateAccountFormProps } from "./Signup.types";
 import "./styles/Signup.css"
 
 function CreateAccountForm	({ form, onChange, onSubmit }: CreateAccountFormProps) {
+    const FRONTEND_APP_URL = import.meta.env.FRONTEND_APP_URL
+    const BACKEND_APP_URL = import.meta.env.BACKEND_APP_URL
     return (
         <>
             <div className="w-[25rem] h-[35rem] flex items-center">
@@ -11,7 +13,7 @@ function CreateAccountForm	({ form, onChange, onSubmit }: CreateAccountFormProps
                     <h1 className="text-left font-bold text-[2rem]">Create an account</h1>
                     <div className="text-left text-[.8rem] pl-1 mt-2">
                         <span className="">alredy have an account ?</span>
-                        <a href='${APP_URL}/login' className="px-[.5rem] underline text-accent-salmon">Login</a>
+                        <a href='${FRONTEND_APP_URL}/login' className="px-[.5rem] underline text-accent-salmon">Login</a>
                     </div>
                     <div className="mt-6 w-[80%]">
                         <form onSubmit={onSubmit}className="">
@@ -77,14 +79,14 @@ function CreateAccountForm	({ form, onChange, onSubmit }: CreateAccountFormProps
                         </div>
                         <div className="flex w-full gap-2 grid-cols-2 mt-6 ">
                             <div className="w-full">
-                                <a href="http://localhost:3000/user/auth/google">
+                                <a href={`${BACKEND_APP_URL}/user/auth/google`}>
                                     <div className="text-white px-2 py-1.5 border rounded-md text-center text-[.8rem] transition hover:border-accent-red ">
                                         Google
                                     </div>
                                 </a>
                             </div >
                             <div className="w-full">
-                                <a href="http://localhost:3000/user/auth/discord">
+                                <a href={`${BACKEND_APP_URL}/user/auth/discord`}>
                                     <div className="text-white px-2 py-1.5 border rounded-md text-center text-[.8rem] transition hover:border-accent-red ">
                                         Discord
                                     </div>
