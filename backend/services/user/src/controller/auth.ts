@@ -7,9 +7,8 @@
 
 import { Request, Response } from "express";
 import authService from "../service/auth";
-import logger from "../utils/logger";
 import CONST from "../utils/constants";
-import { IUser } from "../types/user.interface";
+import { IUser, UserStatus } from "../types/user.interface";
 import { session } from "passport";
 
 /*******************************************************************
@@ -57,7 +56,6 @@ async function login(req: Request, res: Response): Promise<void> {
       res.status(CONST.SUCCESS).json({ message: "user logged successfully" });
     }
   } catch (error: any) {
-    logger.user.info(`${req.ip}: ${error}`);
     if (error.message === "wrong username or password")
       res.status(CONST.UNAUTHORIZED).json({ message: error.message });
     else if (error.message === "user not found")
@@ -152,6 +150,25 @@ async function verifyEmailCode(req: Request, res: Response): Promise<void> {
   }
 }
 
+async function userStatus(req: Request, res: Response) {
+  console.log("is session exist", session)
+  if (req.session && req.session.user) {
+    const user_id = req.session.user.id
+    console.log("hello From the request")
+    try {
+      const userStatus: UserStatus = await authService.userStatus(user_id);
+      res.status(CONST.SUCCESS).json({emailVerified: userStatus.is_verified, isRegistred: userStatus.is_registred})
+    } catch(error: any) {
+      if (error.message === "user not found")
+        res.status(CONST.UNAUTHORIZED).json({ message: error.message });
+      else
+        res.status(CONST.SERVER_ERROR).json({ message: "server error" });
+    }
+  } else {
+    res.status(CONST.UNAUTHORIZED).send("unauthorized");
+  }
+}
+
 /*******************************************************************
 
  * @function  function discordAuth
@@ -189,4 +206,5 @@ export default {
   oauth2Handler,
   googleAuth,
   logout,
+  userStatus
 };

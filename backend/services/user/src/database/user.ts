@@ -11,7 +11,7 @@ import bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
 import pool from '../utils/postgreSQL_conf';
 import logger from "../utils/logger";
-import { UserCredentials } from '../types/user.interface';
+import { UserCredentials, UserStatus } from '../types/user.interface';
 import { IUser } from '../types/user.interface';
 import query from '../utils/queryEngine';
 /*******************************************************************
@@ -127,4 +127,19 @@ async function isUserNameExists(username: string): Promise<void> {
     }
 }
 
-  export default { findUserByEmail, signupUser, isEmailExists, verifyUserEmail, isUserNameExists};
+async function userStatus(user_id: string) : Promise<UserStatus>{
+    try {
+      const res = await query.select(['is_registred', 'is_verified'], 'users', [{column: 'id', operator: '=', value: user_id}]);
+      if(res.rowCount === 0) {
+        throw new Error("user not found");
+      }
+      const {is_registred, is_verified } = res.rows[0];
+      const userStatus: UserStatus = {is_registred, is_verified };
+      return userStatus;
+    } catch (error) {
+      logger.user.error(error);
+      throw error;
+    }
+}
+
+  export default { findUserByEmail, signupUser, isEmailExists, verifyUserEmail, isUserNameExists, userStatus};

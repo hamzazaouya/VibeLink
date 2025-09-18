@@ -134,6 +134,8 @@ route.get('/user/verify/email/:id', authMiddleware.authEmailVerification, authCo
  */
 route.post('/user/verify/email', authMiddleware.authEmailVerification, authController.verifyEmailCode);
 
+route.get('/user/status', authController.userStatus);
+
 // Discord authentication routes
 route.get('/user/auth/discord', passport.authenticate('discord'));
 route.get('/auth/discord/callback', passport.authenticate("discord", { failureRedirect: "/user/auth/oauth2" }), authController.oauth2Handler);

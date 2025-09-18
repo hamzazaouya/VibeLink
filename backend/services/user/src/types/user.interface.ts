@@ -24,6 +24,11 @@ export interface UserCredentials{
   is_verified: boolean;
 }
 
+export interface UserStatus {
+  is_registred: boolean;
+  is_verified: boolean;
+}
+
 export interface password{
   user_id: string;
   verif_id: string;

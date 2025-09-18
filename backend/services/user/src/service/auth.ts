@@ -13,7 +13,7 @@ import bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
 import userDAO from '../database/user';
 import { IUser } from '../types/user.interface';
-import { UserCredentials } from '../types/user.interface';
+import { UserCredentials, UserStatus } from '../types/user.interface';
 import generateVerificationCode from '../utils/hash';
 
 /*******************************************************************
@@ -82,6 +82,10 @@ async function verifyEmail(user_id: string): Promise<void> {
     return await userDAO.verifyUserEmail(user_id);
 }
 
+async function userStatus(user_id: string): Promise<UserStatus> {
+    return await userDAO.userStatus(user_id);
+}
 
 
-export default { login, signup, verifyEmail };
+
+export default { login, signup, verifyEmail, userStatus };
