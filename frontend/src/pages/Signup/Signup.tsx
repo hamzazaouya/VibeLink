@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import Swal from "sweetalert2"
 
 function Signup () {
+    const BACKEND_APP_URL = import.meta.env.BACKEND_APP_URL
     const navigate = useNavigate();
     const [form, setForm] = useState({
         email: '',
@@ -20,7 +21,7 @@ function Signup () {
     e.preventDefault();
     try {
         console.log("Form : ", form);
-        const response = await axios.post('http://localhost:3000/user/signup', form);
+        const response = await axios.post(`${BACKEND_APP_URL}/user/signup`, form);
         console.log('Success:', response);
 
         navigate('/login');

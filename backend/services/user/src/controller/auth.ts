@@ -10,6 +10,7 @@ import authService from "../service/auth";
 import CONST from "../utils/constants";
 import { IUser, UserStatus } from "../types/user.interface";
 import { session } from "passport";
+import sendVerifMail from "../utils/mailer";
 
 /*******************************************************************
 
@@ -79,16 +80,12 @@ async function signup(req: Request, res: Response): Promise<void> {
   try {
     console.log("Hello from backend", username, email, password)
     const user: IUser = await authService.signup(username, email, password);
-    // if the user singup he need to login 
-    // if (req.session) {
-    //   req.session.user = user;
-    //   res.status(CONST.CREATED).json({ message: "user created successfully" });
-    // }
+    await sendVerifMail(email, )
+    res.status(CONST.CREATED).json({ message: "user created successfully" });
+
   } catch (error: any) {
-    if (error.message.includes("email"))
-      res.status(CONST.CONFLICT).json({ message: "email is already taken" });
-    else if (error.message.includes("username"))
-      res.status(CONST.CONFLICT).json({ message: "username is already taken" });
+    if (error.message.includes("email") || error.message.includes("username"))
+      res.status(CONST.CONFLICT).json({ message: "email or username is already token" });
     else res.status(CONST.SERVER_ERROR).json({ message: "server error" });
   }
 }

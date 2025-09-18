@@ -2,7 +2,9 @@ import React from "react";
 import backgroundImage from "./assetes/welcome-page.png";
 
 function WelcomePage () {
-    const APP_URL = "https://special-bassoon-95rwpw76v4gc45r-5173.app.github.dev"
+
+    const APP_URL = import.meta.env.FRONTEND_APP_URL
+
     return (
         <div>
             <div

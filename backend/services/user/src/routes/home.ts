@@ -10,6 +10,7 @@
 import express, { Request, Response } from 'express';
 import authMiddleware from '../middleware/authenticate';
 import homeController from '../controller/home';
+import sendVerifMail from '../utils/mailer';
 
 const route = express.Router();
 
@@ -25,5 +26,4 @@ const route = express.Router();
  */
 
 route.get('/user/home', authMiddleware.authenticate, homeController.home);
-
 export default route;
