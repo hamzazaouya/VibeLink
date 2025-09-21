@@ -1,9 +1,9 @@
 .email_conf h1 {
-    @apply text-[1.2rem] font-bold mb-2
+    @apply text-[1.2rem] font-bold mb-2 text-center
 }
 
 .email_conf p {
-    @apply mb-1 text-[.8rem]
+    @apply mb-1 text-[.8rem] text-center
 }
 
 .email_conf span{
@@ -11,7 +11,7 @@
 }
 
 .email_conf a{
-    @apply font-bold hover:text-white
+    @apply font-bold hover:text-accent-pink transition
 }
 
 .otp {

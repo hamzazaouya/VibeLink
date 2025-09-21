@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import Swal from "sweetalert2"
 
 function Signup () {
-    const BACKEND_APP_URL = import.meta.env.BACKEND_APP_URL
+    const BACKEND_APP_URL = import.meta.env.VITE_BACKEND_APP_URL
     const navigate = useNavigate();
     const [form, setForm] = useState({
         email: '',
@@ -20,29 +20,22 @@ function Signup () {
  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-        console.log("Form : ", form);
-        const response = await axios.post(`${BACKEND_APP_URL}/user/signup`, form);
-        console.log('Success:', response);
-
+        await axios.post(`${BACKEND_APP_URL}/user/signup`, form);
         navigate('/login');
     } catch (error) {
-        if (axios.isAxiosError(error)) {
-            if (error.status == 409) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: error.response.data.message || 'Something went wrong!',
-                });
-            } else if (error.status == 400) {
+        if (error.status == 400) {
                 const errorMessages = error.response.data.errors.map(error => error.message).join('\n');
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
                     text: errorMessages,
                 });
-            }
-        } else {
-            console.log('Unexpected error:', error);
+        } else  {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: error.response.data.message || 'Something went wrong!',
+            });
         }
     }
 };

@@ -2,8 +2,6 @@ export interface IUser {
     id: string;
     is_verified: boolean;
     is_registred: boolean;
-    verif_email_id?: string;
-    verif_email_code?: string;
 }
 
 export interface userInfo {
@@ -86,4 +84,9 @@ export interface suggestionsData {
   distance: string;
   is_online: Boolean;
   picture_paths: string[];
+}
+
+export interface EmailTokens {
+  email_code: string;
+  email_id: string;
 }

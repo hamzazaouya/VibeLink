@@ -4,7 +4,9 @@ import Swal from "sweetalert2"
 import { useNavigate } from 'react-router-dom';
 
 function LoginAccountForm	() {
-
+    const FRONTEND_APP_URL = import.meta.env.VITE_FRONTEND_APP_URL
+    const BACKEND_APP_URL = import.meta.env.VITE_BACKEND_APP_URL
+    console.log(FRONTEND_APP_URL, BACKEND_APP_URL);
     const navigate = useNavigate();
     const [form, setForm] = useState({
         email: '',
@@ -13,11 +15,9 @@ function LoginAccountForm	() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("hello from response")
         try {
-            console.log("Form : ", form);
-            const response = await axios.post('http://localhost:3000/user/login', form, { withCredentials: true });
-            navigate('/test');
+            await axios.post(`${BACKEND_APP_URL}/user/login`, form, { withCredentials: true });
+            navigate('/register');
         } catch (error) {
             Swal.fire({
                 icon: 'error',
@@ -37,7 +37,7 @@ function LoginAccountForm	() {
                     <h1 className="text-left font-bold text-[2rem]">Login</h1>
                     <div className="text-left text-[.8rem] pl-1 mt-2">
                         <span className="">didn't have an account ?</span>
-                        <a href='${APP_URL}/signup' className="px-[.5rem] underline text-accent-salmon">Signup</a>
+                        <a href={`${FRONTEND_APP_URL}/signup`} className="px-[.5rem] underline text-accent-salmon">Signup</a>
                     </div>
                     <div className="mt-6">
                         <form onSubmit={handleSubmit} className="">

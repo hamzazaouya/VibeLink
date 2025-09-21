@@ -3,8 +3,8 @@ import { FormData, CreateAccountFormProps } from "./Signup.types";
 import "./styles/Signup.css"
 
 function CreateAccountForm	({ form, onChange, onSubmit }: CreateAccountFormProps) {
-    const FRONTEND_APP_URL = import.meta.env.FRONTEND_APP_URL
-    const BACKEND_APP_URL = import.meta.env.BACKEND_APP_URL
+    const FRONTEND_APP_URL = import.meta.env.VITE_FRONTEND_APP_URL
+    const BACKEND_APP_URL = import.meta.env.VITE_BACKEND_APP_URL
     return (
         <>
             <div className="w-[25rem] h-[35rem] flex items-center">
@@ -13,7 +13,7 @@ function CreateAccountForm	({ form, onChange, onSubmit }: CreateAccountFormProps
                     <h1 className="text-left font-bold text-[2rem]">Create an account</h1>
                     <div className="text-left text-[.8rem] pl-1 mt-2">
                         <span className="">alredy have an account ?</span>
-                        <a href='${FRONTEND_APP_URL}/login' className="px-[.5rem] underline text-accent-salmon">Login</a>
+                        <a href={`${FRONTEND_APP_URL}/login`}  className="px-[.5rem] underline text-accent-salmon">Login</a>
                     </div>
                     <div className="mt-6 w-[80%]">
                         <form onSubmit={onSubmit}className="">

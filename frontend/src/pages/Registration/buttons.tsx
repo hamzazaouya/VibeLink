@@ -8,15 +8,16 @@ type ButtonProps = {
   next: () => void;
 };
 
-function Buttons ({ currentPage, currentPageIndex, back, next }: ButtonProps) {
+function Buttons ({currentPageIndex, back, next }: ButtonProps) {
     return (
         <>
             <div className="buttons flex">
                 {
-                currentPageIndex !== 1 && <div className="back">
+                currentPageIndex !== 0 && <div className="back">
                     <button
                         onClick={back}
-                        ><RiArrowLeftSLine />Back</button>
+                        ><RiArrowLeftSLine />Back
+                    </button>
                 </div>}
                 <div className="next">
                     <button

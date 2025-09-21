@@ -3,8 +3,7 @@ import backgroundImage from "./assetes/welcome-page.png";
 
 function WelcomePage () {
 
-    const APP_URL = import.meta.env.FRONTEND_APP_URL
-
+    const APP_URL = import.meta.env.VITE_FRONTEND_APP_URL
     return (
         <div>
             <div

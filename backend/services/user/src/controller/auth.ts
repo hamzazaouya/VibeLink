@@ -8,9 +8,10 @@
 import { Request, Response } from "express";
 import authService from "../service/auth";
 import CONST from "../utils/constants";
-import { IUser, UserStatus } from "../types/user.interface";
+import { IUser, UserStatus, EmailTokens } from "../types/user.interface";
 import { session } from "passport";
 import sendVerifMail from "../utils/mailer";
+import auth from "../service/auth";
 
 /*******************************************************************
 
@@ -78,9 +79,9 @@ async function login(req: Request, res: Response): Promise<void> {
 async function signup(req: Request, res: Response): Promise<void> {
   const { username, email, password } = req.body;
   try {
-    console.log("Hello from backend", username, email, password)
     const user: IUser = await authService.signup(username, email, password);
-    await sendVerifMail(email, )
+    const tokens = await authService.generateEmailVerifTokens(user.id);
+    await sendVerifMail(email, username, tokens.email_code, tokens.email_id)
     res.status(CONST.CREATED).json({ message: "user created successfully" });
 
   } catch (error: any) {
@@ -102,21 +103,17 @@ async function signup(req: Request, res: Response): Promise<void> {
 
 async function verifyEmailLink(req: Request, res: Response): Promise<void> {
   const { id } = req.params;
-  // Note:
-  // check For the email was verified or not from database not from the session
+  const FRONTEND_URL = process.env.FRONTEND_APP_URL
   try {
-    if (req.session && id === req.session.user.verif_email_id) {
-      await authService.verifyEmail(req.session.user.id);
-      req.session.user.is_verified = true;
-      res
-        .status(CONST.SUCCESS)
-        .json({ message: "Email verified successfully" });
-    } else
-      res
-        .status(CONST.BAD_REQUEST)
-        .json({ message: "Invalid or expired verification link" });
+      const user_id = await authService.getUserIdFromToken(id);
+      await authService.verifyEmail(user_id);
+      res.redirect(`${FRONTEND_URL}/register`);
   } catch (error: any) {
-    res.status(CONST.SERVER_ERROR).json({ message: "Server Error" });
+    if (error.message == "Link invalid Or Expired") {
+      res.status(CONST.UNAUTHORIZED).json({message: error.message});
+    } else {
+      res.status(CONST.SERVER_ERROR).json({ message: "Server Error" });
+    }
   }
 }
 
@@ -132,23 +129,17 @@ async function verifyEmailLink(req: Request, res: Response): Promise<void> {
 
 async function verifyEmailCode(req: Request, res: Response): Promise<void> {
   const { code } = req.body;
-
   try {
-    if (req.session && code === req.session.user.verif_email_code) {
-      await authService.verifyEmail(req.session.user.id);
-      req.session.user.is_verified = true;
-      res
-        .status(CONST.SUCCESS)
-        .json({ message: "email verified successfully" });
-    } else
-      res.status(CONST.UNAUTHORIZED).json({ message: "email not verified" });
+    const user_id = req.session!.user.id;
+    await authService.getUserCodeFromToken(user_id, code);
+    await authService.verifyEmail(user_id);
+    res.status(CONST.SUCCESS).json({ message: "email verified successfully" });
   } catch (error: any) {
     res.status(CONST.SERVER_ERROR).json({ message: "server error" });
   }
 }
 
 async function userStatus(req: Request, res: Response) {
-  console.log("is session exist", session)
   if (req.session && req.session.user) {
     const user_id = req.session.user.id
     console.log("hello From the request")

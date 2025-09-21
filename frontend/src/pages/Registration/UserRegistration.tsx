@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Stepper from "./stepper";
-import EmailConfirmation from "./emailConfirmation/EmailConfirmation";
 import UserInformation from "./UserInfo/UserInfo";
 import UserHobbies from "./hobbies/UserHobbies";
 import ImagesUploader from "./images/imagesUploader";
@@ -30,13 +29,12 @@ function UserRegistration() {
   const navigate = useNavigate();
 
   const pages = [
-    <EmailConfirmation />,
     <UserInformation {...data} updateFields={updateFields} />,
     <UserHobbies {...data} updateFields={updateFields} />,
     <ImagesUploader {...data} updateFields={updateFields} />,
   ];
 
-  const { currentPageIndex, currentPage, back, next, goTo } = useMultiStepFrom(pages);
+  const { currentPageIndex, currentPage, back, next} = useMultiStepFrom(pages);
 
   function updateFields(fields: Partial<FormData>) {
     setData((prev) => ({ ...prev, ...fields }));
@@ -49,40 +47,29 @@ function UserRegistration() {
           withCredentials: true,
         });
 
-        const { emailVerified, isRegistred } = response.data;
+        const { emailVerified, isRegistred} = response.data;
 
         if (!emailVerified) {
-          goTo(0);
-        } else if (emailVerified && !isRegistred) {
-          goTo(1);
-        } else {
+          navigate("/email/confirmation")
+        } else if (emailVerified && isRegistred) {
           navigate("/home");
           return;
         }
 
-        // ✅ After setting correct page, hide loader
         setIsLoading(false);
       } catch (error) {
         setTimeout(() => {
           navigate("/login");
-        }, 2000); // 👈 1s delay before redirecting to login
+        }, 2000);
       }
     }
 
     checkUserStatus();
-  }, [goTo, navigate]);
+  }, [navigate]);
 
-  // ✅ Loader only
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen w-screen bg-background">
-        {/* <div className="text-white text-lg animate-pulse">Checking authentication...</div> */}
-        <ClipLoader color="#FFFFFF" size={80} />
-        {/* Replace above with spinner if you like */}
-      </div>
-    );
+  function isFormDataComplete(data: FormData): boolean {
+    
   }
-
   // ✅ Real registration page after auth
   return (
     <div className="flex flex-col bg-background h-screen w-screen px-5">
@@ -93,19 +80,17 @@ function UserRegistration() {
       </div>
       <div className="h-[80%] flex flex-col items-center justify-center">
         <div>
-          <div className="text-[1.2rem] lg:text-[1.5rem] mb-5 font-light">
+          <div className="text-[1.2rem] lg:text-[1.5rem] mb-5 font-light text-center">
             Hi <span className="font-bold">Hamza</span>, complete your registration
           </div>
           <Stepper currentPageIndex={currentPageIndex} />
           <div className="bg-white bg-opacity-30 rounded-xl p-2 mt-5">{currentPage}</div>
-          {currentPageIndex > 0 && (
             <Buttons
               currentPage={currentPage}
               currentPageIndex={currentPageIndex}
               back={back}
               next={next}
             />
-          )}
         </div>
       </div>
     </div>

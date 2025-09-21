@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import generateTimeBasedImageName from '../utils/hash'
+import {generateTimeBasedImageName} from '../utils/hash'
 import multer from "multer";
 import path from 'path';
 

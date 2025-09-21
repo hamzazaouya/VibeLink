@@ -7,16 +7,11 @@ export default function useMultiStepForm(pages: ReactElement[]) {
 
   function next() {
     setCurrentPageIndex((i) => (i >= pages.length - 1 ? i : i + 1));
+    console.log(currentPageIndex)
   }
 
   function back() {
     setCurrentPageIndex((i) => (i <= 0 ? i : i - 1));
-  }
-
-  function goTo(index: number) {
-    if (index >= 0 && index < pages.length) {
-      setCurrentPageIndex(index);
-    }
   }
 
   return {
@@ -24,6 +19,5 @@ export default function useMultiStepForm(pages: ReactElement[]) {
     currentPage: pages[currentPageIndex],
     back,
     next,
-    goTo,
   };
 }

@@ -1,11 +1,13 @@
 import { randomInt } from 'crypto';
 
-export function generateVerificationCode(): string {
+function generateVerificationCode(): string {
     return randomInt(100000, 999999).toString();
 }
 
-export default function generateTimeBasedImageName() {
+function generateTimeBasedImageName() {
     const timestamp = Date.now();
     const randomNumber = Math.floor(Math.random() * 100000);
     return `${timestamp}_${randomNumber}`;
 }
+
+export {generateTimeBasedImageName, generateVerificationCode}

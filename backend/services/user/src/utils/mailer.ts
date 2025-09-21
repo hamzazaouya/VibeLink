@@ -35,17 +35,17 @@ async function sendMail(
   }
 }
 
-async function sendVerifMail(to: string, username: string, id: string, url: string) {
+async function sendVerifMail(to: string, username: string, code: string, id: string) {
   const emailContent = `
     Hello ${username},
 
     Thank you for signing up!
     To verify your email address, please use the code below:
 
-    Verification Code: ${id}
+    Verification Code: ${code}
 
     Or you can click the link below to verify directly:
-    ${url}
+    ${process.env.APP_URL}/user/verify/email/${id}
 
     If you did not request this, please ignore this email.
 
