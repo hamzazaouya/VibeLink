@@ -76,12 +76,27 @@ function UserRegistration() {
           await axios.post(`${BACKEND_APP_URL}/user/register`, formData, { withCredentials: true });
           navigate('/home');
       } catch (error) {
-        console.log(error)
+        if (error.status == 400) {
+              let errorMessages;
+              if (error.response.data.errors) {
+                errorMessages = error.response.data.errors.map(error => error.message).join('\n');
+
+              }else {
+                
+                errorMessages = error.response.data.error;
+              }
+              Swal.fire({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: errorMessages,
+              });
+        }
+        else {
           Swal.fire({
               icon: 'error',
               title: 'Oops...',
               text: error.response.data.message || 'Something went wrong!',
-          });
+          });}
       }
     };
 
