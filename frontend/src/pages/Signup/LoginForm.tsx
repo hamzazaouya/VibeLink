@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 function LoginAccountForm	() {
     const FRONTEND_APP_URL = import.meta.env.VITE_FRONTEND_APP_URL
     const BACKEND_APP_URL = import.meta.env.VITE_BACKEND_APP_URL
-    console.log(FRONTEND_APP_URL, BACKEND_APP_URL);
     const navigate = useNavigate();
     const [form, setForm] = useState({
         email: '',

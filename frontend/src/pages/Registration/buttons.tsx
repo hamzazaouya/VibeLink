@@ -6,9 +6,11 @@ type ButtonProps = {
   currentPage: number;
   back: () => void;
   next: () => void;
+  handleSubmit: () => void;
 };
 
-function Buttons ({currentPageIndex, back, next }: ButtonProps) {
+function Buttons ({currentPageIndex, back, next, handleSubmit }: ButtonProps) {
+
     return (
         <>
             <div className="buttons flex">
@@ -19,11 +21,16 @@ function Buttons ({currentPageIndex, back, next }: ButtonProps) {
                         ><RiArrowLeftSLine />Back
                     </button>
                 </div>}
-                <div className="next">
+                {currentPageIndex < 2 &&<div className="next">
                     <button
                         onClick={next}
                         > Next <RiArrowRightSLine /></button>
-                </div>
+                </div>}
+                {currentPageIndex == 2  &&<div className="next">
+                    <button
+                        onClick={handleSubmit}
+                        > Finish</button>
+                </div>}
             </div>
         </>
     )
