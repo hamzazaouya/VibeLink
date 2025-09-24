@@ -8,7 +8,7 @@
 import { Request, Response } from "express";
 import authService from "../service/auth";
 import CONST from "../utils/constants";
-import { IUser, UserStatus, EmailTokens } from "../types/user.interface";
+import { IUser, UserInfo, EmailTokens } from "../types/user.interface";
 import { session } from "passport";
 import sendVerifMail from "../utils/mailer";
 import auth from "../service/auth";
@@ -129,12 +129,18 @@ async function verifyEmailLink(req: Request, res: Response): Promise<void> {
 
 async function verifyEmailCode(req: Request, res: Response): Promise<void> {
   const { code } = req.body;
+
   try {
     const user_id = req.session!.user.id;
     await authService.getUserCodeFromToken(user_id, code);
     await authService.verifyEmail(user_id);
     res.status(CONST.SUCCESS).json({ message: "email verified successfully" });
   } catch (error: any) {
+    if (error.message = "Code invalid or Expired") {
+      res.status(CONST.NOT_FOUND).json({message: error.message});
+      return;
+    }
+    console.log("hello")
     res.status(CONST.SERVER_ERROR).json({ message: "server error" });
   }
 }
@@ -142,14 +148,39 @@ async function verifyEmailCode(req: Request, res: Response): Promise<void> {
 async function userStatus(req: Request, res: Response) {
   if (req.session && req.session.user) {
     const user_id = req.session.user.id
-    console.log("hello From the request")
     try {
-      const userStatus: UserStatus = await authService.userStatus(user_id);
-      res.status(CONST.SUCCESS).json({emailVerified: userStatus.is_verified, isRegistred: userStatus.is_registred})
+      const userStatus: UserInfo = await authService.userInfo(user_id);
+      res.status(CONST.SUCCESS).json({emailVerified: userStatus.is_verified, 
+                                      isRegistred: userStatus.is_registred,
+                                      email: userStatus.email,
+                                      userName: userStatus.user_name,
+                                    })
     } catch(error: any) {
       if (error.message === "user not found")
         res.status(CONST.UNAUTHORIZED).json({ message: error.message });
       else
+        res.status(CONST.SERVER_ERROR).json({ message: "server error" });
+    }
+  } else {
+    res.status(CONST.UNAUTHORIZED).send("unauthorized");
+  }
+}
+
+async function resendVerifEmail(req: Request, res: Response) {
+  if(req.session && req.session.user) {
+    const user_id = req.session.user.id;
+    try {
+      const userInfo: UserInfo = await authService.userInfo(user_id); 
+      const tokens = await authService.generateEmailVerifTokens(user_id);
+      await sendVerifMail(userInfo.email, userInfo.user_name, tokens.email_code, tokens.email_id)
+      res.status(CONST.CREATED).json({ message: "Email sent successfully"});
+    } catch(error: any) {
+      if (error.message === "user not found")
+        res.status(CONST.UNAUTHORIZED).json({ message: error.message });
+      else if(error.message.includes("Please wait")) {
+        res.status(CONST.UNAUTHORIZED).json({message: error.message});
+        return 
+      }else
         res.status(CONST.SERVER_ERROR).json({ message: "server error" });
     }
   } else {
@@ -194,5 +225,6 @@ export default {
   oauth2Handler,
   googleAuth,
   logout,
-  userStatus
+  userStatus,
+  resendVerifEmail
 };

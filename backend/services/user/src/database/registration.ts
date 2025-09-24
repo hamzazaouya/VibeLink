@@ -27,21 +27,16 @@ import { Result } from 'express-validator';
 
 
 
-async function registerUserInfo(user_id: IUser, firstName: string, lastName: string, userName: string, age: number, gender:string, phone: string, bio: string, latitude : string, longitude : string, hobbies: string[]): Promise<void> {
+async function registerUserInfo(user_id: IUser, firstName: string, lastName: string, age: number, gender:string, phone: string, bio: string, latitude : string, longitude : string, hobbies: string[]): Promise<void> {
 
     try {
-        // let query = `UPDATE users SET first_name = $1, last_name = $2, user_name = $3, age = $4, gender = $5, phone = $6, bio = $7, location = ST_SetSRID(ST_MakePoint($8, $9), 4326)  WHERE id = $10 `;
-        // const values = [firstName, lastName, userName, age, gender, phone, bio, longitude, latitude, user_id];
-        // await pool.query(query, values);
-        await query.update('users', ['first_name', 'last_name', 'user_name', 'age', 'gender', 'phone', 'bio'],
-             [firstName, lastName, userName, age, gender, phone, bio],
+        await query.update('users', ['first_name', 'last_name', 'age', 'gender', 'phone', 'bio'],
+             [firstName, lastName, age, gender, phone, bio],
               'id', user_id );
         hobbies.forEach( async (hobbie) => {
-            // const res = await pool.query('select id from interests where interest = $1',[hobbie.toLocaleLowerCase()]);
             const result = await query.select(['id'], 'interests', [{column: 'interest', operator: '=', value: hobbie.toLocaleLowerCase()}]);
             const hobbie_id: string = result.rows[0].id;
             const user_interest_id: string = uuidv4();
-            // await pool.query('INSERT INTO user_interest (id, user_id, interest_id) VALUES ($1, $2, $3)',[user_interest_id, user_id, hobbie_id]);
             await query.insert('user_interest', ['id', 'user_id', 'interest_id'], [user_interest_id, user_id, hobbie_id]);
         });
     } catch (error) {

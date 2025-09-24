@@ -134,6 +134,8 @@ route.get('/user/verify/email/:id', authController.verifyEmailLink);
  */
 route.post('/user/verify/email', /*authMiddleware.authEmailVerification, */ authController.verifyEmailCode);
 
+route.get('/user/verify/resend', /*authMiddleware.authEmailVerification, */ authController.resendVerifEmail);
+
 route.get('/user/status', authController.userStatus);
 
 // Discord authentication routes

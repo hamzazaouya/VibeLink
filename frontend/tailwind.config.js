@@ -12,7 +12,7 @@ export default {
         accent: {
           pink: "#FD297B",
           red: "#FF5864",
-          salmon: "#FF655B",
+         salmon : "#FF655B",
         },
         vibelink: {
           gradient: {

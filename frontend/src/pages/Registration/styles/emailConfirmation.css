@@ -10,8 +10,8 @@
     @apply font-bold
 }
 
-.email_conf a{
-    @apply font-bold hover:text-accent-pink transition
+.email_conf .resend{
+    @apply font-bold hover:text-accent-pink transition bg-transparent border-none p-0 m-0 shadow-none outline-none text-inherit
 }
 
 .otp {

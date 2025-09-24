@@ -13,7 +13,7 @@ import bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
 import userDAO from '../database/user';
 import { IUser } from '../types/user.interface';
-import { UserCredentials, UserStatus } from '../types/user.interface';
+import { UserCredentials, UserInfo } from '../types/user.interface';
 import {generateVerificationCode} from '../utils/hash';
 import redisClient from '../utils/redisClient';
 
@@ -91,8 +91,6 @@ async function getUserCodeFromToken(user_id: string, code: string): Promise<void
     const redisKeyEmailCode = `email_verif_code:${user_id}`;
     const email_code = await redisClient.get(redisKeyEmailCode);
 
-    console.log("===========>>>>> email_code", email_code, code);
-
     if(!email_code || code != email_code) {
         throw new Error("Code invalid or Expired")
     }
@@ -101,25 +99,32 @@ async function getUserCodeFromToken(user_id: string, code: string): Promise<void
 
 
 async function generateEmailVerifTokens(user_id: string) {
-    const VERIFICATION_PREFIX_EMAIL_ID = "email_verif_id";
-    const VERIFICATION_PREFIX_EMAIL_CODE = "email_verif_code";
-    const EXPIRATION_TIME = 10 * 60;
-
     const email_id = uuidv4();
     const email_code = generateVerificationCode();
-
+    const VERIFICATION_RESEND = "verification_resend";
+    const VERIFICATION_PREFIX_EMAIL_ID = "email_verif_id";
+    const VERIFICATION_PREFIX_EMAIL_CODE = "email_verif_code";
     const redisKeyEmailID = `${VERIFICATION_PREFIX_EMAIL_ID}:${email_id}`;
     const redisKeyEmailCode = `${VERIFICATION_PREFIX_EMAIL_CODE}:${user_id}`;
+    const redisKeyResend = `${VERIFICATION_RESEND}:${user_id}`
+    const EXPIRATION_TIME = 10 * 60;
+
+    const existing = await redisClient.get(redisKeyResend);
+    if (existing) {
+        const ttl = await redisClient.ttl(redisKeyResend);
+        throw new Error(`Please wait ${ttl}s before resending`);
+    }
 
     await redisClient.set(redisKeyEmailID, user_id, { EX: EXPIRATION_TIME });
     await redisClient.set(redisKeyEmailCode, email_code, { EX: EXPIRATION_TIME });
+    await redisClient.set(redisKeyResend, '1', {EX: EXPIRATION_TIME});
 
     return { email_id, email_code };
 }
 
-async function userStatus(user_id: string): Promise<UserStatus> {
-    return await userDAO.userStatus(user_id);
+async function userInfo(user_id: string): Promise<UserInfo> {
+    return await userDAO.userInfo(user_id);
 }
 
 
-export default { login, signup, verifyEmail, userStatus, generateEmailVerifTokens, getUserIdFromToken, getUserCodeFromToken};
+export default { login, signup, verifyEmail, userInfo, generateEmailVerifTokens, getUserIdFromToken, getUserCodeFromToken};

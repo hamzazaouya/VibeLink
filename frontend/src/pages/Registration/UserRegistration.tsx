@@ -82,7 +82,6 @@ function UserRegistration() {
                 errorMessages = error.response.data.errors.map(error => error.message).join('\n');
 
               }else {
-                
                 errorMessages = error.response.data.error;
               }
               Swal.fire({

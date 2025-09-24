@@ -22,7 +22,9 @@ export interface UserCredentials{
   is_verified: boolean;
 }
 
-export interface UserStatus {
+export interface UserInfo {
+  user_name: string;
+  email: string;
   is_registred: boolean;
   is_verified: boolean;
 }
