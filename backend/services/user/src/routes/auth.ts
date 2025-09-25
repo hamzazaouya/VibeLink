@@ -105,7 +105,7 @@ route.post('/user/signup', authValidation.verifyAuth, authValidation.validateReg
  */
 
 // Route for verifying user email
-route.get('/user/verify/email/:id', authMiddleware.authEmailVerification, authController.verifyEmailLink);
+route.get('/user/verify/email/:id', authController.verifyEmailLink);
 
 /**
  * @swagger
@@ -132,7 +132,11 @@ route.get('/user/verify/email/:id', authMiddleware.authEmailVerification, authCo
  *       400:
  *         description: Invalid or expired verification code
  */
-route.post('/user/verify/email', authMiddleware.authEmailVerification, authController.verifyEmailCode);
+route.post('/user/verify/email', /*authMiddleware.authEmailVerification, */ authController.verifyEmailCode);
+
+route.get('/user/verify/resend', /*authMiddleware.authEmailVerification, */ authController.resendVerifEmail);
+
+route.get('/user/status', authController.userStatus);
 
 // Discord authentication routes
 route.get('/user/auth/discord', passport.authenticate('discord'));

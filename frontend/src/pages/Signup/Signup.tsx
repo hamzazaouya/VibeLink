@@ -6,9 +6,9 @@ import { useNavigate } from 'react-router-dom';
 import Swal from "sweetalert2"
 
 function Signup () {
+    const BACKEND_APP_URL = import.meta.env.VITE_BACKEND_APP_URL
     const navigate = useNavigate();
     const [form, setForm] = useState({
-        username: '',
         email: '',
         password: '',
     });
@@ -20,27 +20,22 @@ function Signup () {
  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-
-        const response = await axios.post('http://localhost:3000/user/signup', form);
-        console.log('Success:', response.data);
+        await axios.post(`${BACKEND_APP_URL}/user/signup`, form);
         navigate('/login');
     } catch (error) {
-        if (axios.isAxiosError(error)) {
-            if (error.status == 409) {
+        if (error.status == 400) {
+                const errorMessages = error.response.data.errors.map(error => error.message).join('\n');
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
-                    text: error.response.data.message || 'Something went wrong!',
+                    text: errorMessages,
                 });
-            } else if (error.status == 400) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: "Password error" || 'Something went wrong!',
-                });
-            }
-        } else {
-            console.log('Unexpected error:', error);
+        } else  {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: error.response.data.message || 'Something went wrong!',
+            });
         }
     }
 };
@@ -49,7 +44,9 @@ function Signup () {
         <>
            <div className="h-screen w-screen bg-background flex justify-center items-center">
                 <div className=" flex flex-row gap-[3rem] bg-foreground rounded-xl bg-opacity-20 p-[1rem]">
-                    <Slider />
+                    <div className="hidden md:block">
+                        <Slider />
+                    </div>
                     <CreateAccountForm 
                     form={form}
                     onChange={handleChange}

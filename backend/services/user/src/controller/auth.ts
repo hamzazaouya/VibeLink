@@ -7,10 +7,11 @@
 
 import { Request, Response } from "express";
 import authService from "../service/auth";
-import logger from "../utils/logger";
 import CONST from "../utils/constants";
-import { IUser } from "../types/user.interface";
+import { IUser, UserInfo, EmailTokens } from "../types/user.interface";
 import { session } from "passport";
+import sendVerifMail from "../utils/mailer";
+import auth from "../service/auth";
 
 /*******************************************************************
 
@@ -49,17 +50,14 @@ async function logout(req: Request, res: Response): Promise<void> {
 
 async function login(req: Request, res: Response): Promise<void> {
   const { email, password } = req.body;
-  if (req.session && req.session.user) {
-    return res.redirect("/user/home");
-  }
   try {
     const user: IUser = await authService.login(email, password);
     if (req.session) {
       req.session.user = user;
+      console.log("Hello From User and ", user);
       res.status(CONST.SUCCESS).json({ message: "user logged successfully" });
     }
   } catch (error: any) {
-    logger.user.info(`${req.ip}: ${error}`);
     if (error.message === "wrong username or password")
       res.status(CONST.UNAUTHORIZED).json({ message: error.message });
     else if (error.message === "user not found")
@@ -81,17 +79,14 @@ async function login(req: Request, res: Response): Promise<void> {
 async function signup(req: Request, res: Response): Promise<void> {
   const { username, email, password } = req.body;
   try {
-    
     const user: IUser = await authService.signup(username, email, password);
-    if (req.session) {
-      req.session.user = user;
-      res.status(CONST.CREATED).json({ message: "user created successfully" });
-    }
+    const tokens = await authService.generateEmailVerifTokens(user.id);
+    await sendVerifMail(email, username, tokens.email_code, tokens.email_id)
+    res.status(CONST.CREATED).json({ message: "user created successfully" });
+
   } catch (error: any) {
-    if (error.message.includes("email"))
-      res.status(CONST.CONFLICT).json({ message: "email is already taken" });
-    else if (error.message.includes("username"))
-      res.status(CONST.CONFLICT).json({ message: "username is already taken" });
+    if (error.message.includes("email") || error.message.includes("username"))
+      res.status(CONST.CONFLICT).json({ message: "email or username is already token" });
     else res.status(CONST.SERVER_ERROR).json({ message: "server error" });
   }
 }
@@ -108,21 +103,17 @@ async function signup(req: Request, res: Response): Promise<void> {
 
 async function verifyEmailLink(req: Request, res: Response): Promise<void> {
   const { id } = req.params;
-  // Note:
-  // check For the email was verified or not from database not from the session
+  const FRONTEND_URL = process.env.FRONTEND_APP_URL
   try {
-    if (req.session && id === req.session.user.verif_email_id) {
-      await authService.verifyEmail(req.session.user.id);
-      req.session.user.is_verified = true;
-      res
-        .status(CONST.SUCCESS)
-        .json({ message: "Email verified successfully" });
-    } else
-      res
-        .status(CONST.BAD_REQUEST)
-        .json({ message: "Invalid or expired verification link" });
+      const user_id = await authService.getUserIdFromToken(id);
+      await authService.verifyEmail(user_id);
+      res.redirect(`${FRONTEND_URL}/register`);
   } catch (error: any) {
-    res.status(CONST.SERVER_ERROR).json({ message: "Server Error" });
+    if (error.message == "Link invalid Or Expired") {
+      res.status(CONST.UNAUTHORIZED).json({message: error.message});
+    } else {
+      res.status(CONST.SERVER_ERROR).json({ message: "Server Error" });
+    }
   }
 }
 
@@ -140,16 +131,60 @@ async function verifyEmailCode(req: Request, res: Response): Promise<void> {
   const { code } = req.body;
 
   try {
-    if (req.session && code === req.session.user.verif_email_code) {
-      await authService.verifyEmail(req.session.user.id);
-      req.session.user.is_verified = true;
-      res
-        .status(CONST.SUCCESS)
-        .json({ message: "email verified successfully" });
-    } else
-      res.status(CONST.UNAUTHORIZED).json({ message: "email not verified" });
+    const user_id = req.session!.user.id;
+    await authService.getUserCodeFromToken(user_id, code);
+    await authService.verifyEmail(user_id);
+    res.status(CONST.SUCCESS).json({ message: "email verified successfully" });
   } catch (error: any) {
+    if (error.message = "Code invalid or Expired") {
+      res.status(CONST.NOT_FOUND).json({message: error.message});
+      return;
+    }
+    console.log("hello")
     res.status(CONST.SERVER_ERROR).json({ message: "server error" });
+  }
+}
+
+async function userStatus(req: Request, res: Response) {
+  if (req.session && req.session.user) {
+    const user_id = req.session.user.id
+    try {
+      const userStatus: UserInfo = await authService.userInfo(user_id);
+      res.status(CONST.SUCCESS).json({emailVerified: userStatus.is_verified, 
+                                      isRegistred: userStatus.is_registred,
+                                      email: userStatus.email,
+                                      userName: userStatus.user_name,
+                                    })
+    } catch(error: any) {
+      if (error.message === "user not found")
+        res.status(CONST.UNAUTHORIZED).json({ message: error.message });
+      else
+        res.status(CONST.SERVER_ERROR).json({ message: "server error" });
+    }
+  } else {
+    res.status(CONST.UNAUTHORIZED).send("unauthorized");
+  }
+}
+
+async function resendVerifEmail(req: Request, res: Response) {
+  if(req.session && req.session.user) {
+    const user_id = req.session.user.id;
+    try {
+      const userInfo: UserInfo = await authService.userInfo(user_id); 
+      const tokens = await authService.generateEmailVerifTokens(user_id);
+      await sendVerifMail(userInfo.email, userInfo.user_name, tokens.email_code, tokens.email_id)
+      res.status(CONST.CREATED).json({ message: "Email sent successfully"});
+    } catch(error: any) {
+      if (error.message === "user not found")
+        res.status(CONST.UNAUTHORIZED).json({ message: error.message });
+      else if(error.message.includes("Please wait")) {
+        res.status(CONST.UNAUTHORIZED).json({message: error.message});
+        return 
+      }else
+        res.status(CONST.SERVER_ERROR).json({ message: "server error" });
+    }
+  } else {
+    res.status(CONST.UNAUTHORIZED).send("unauthorized");
   }
 }
 
@@ -190,4 +225,6 @@ export default {
   oauth2Handler,
   googleAuth,
   logout,
+  userStatus,
+  resendVerifEmail
 };

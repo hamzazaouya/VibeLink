@@ -1,17 +1,17 @@
 .email_conf h1 {
-    @apply text-[1.2rem] font-bold mb-2
+    @apply text-[1.2rem] font-bold mb-2 text-center
 }
 
 .email_conf p {
-    @apply mb-1 text-[.8rem]
+    @apply mb-1 text-[.8rem] text-center
 }
 
 .email_conf span{
     @apply font-bold
 }
 
-.email_conf a{
-    @apply font-bold hover:text-white
+.email_conf .resend{
+    @apply font-bold hover:text-accent-pink transition bg-transparent border-none p-0 m-0 shadow-none outline-none text-inherit
 }
 
 .otp {

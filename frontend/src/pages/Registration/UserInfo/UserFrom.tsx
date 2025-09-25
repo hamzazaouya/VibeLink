@@ -34,7 +34,8 @@ const UserForm = (props: UserFormProps) => {
                 placeholder="Age"
                 onChange={e => props.updateFields({ age: e.target.value })}
                 min="18"
-                max="90"
+                max="100"
+                value={props.age}
                 required
               />
             </div>
@@ -71,7 +72,7 @@ const UserForm = (props: UserFormProps) => {
                 rows={4}
                 cols={40}
                 placeholder="Tell us about yourself..."
-                maxLength="1000"
+                maxLength={1000}
                 required />
             </div>
           </form>

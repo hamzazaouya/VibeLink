@@ -26,24 +26,26 @@ import CONST from "../utils/constants";
 
 function verifyRegistration(req: Request, res: Response, next: NextFunction): void {
 
-    const { firstName, lastName, userName, age, gender, phone, bio, hobbies, latitude, longitude } = req.body;
+    const { firstName, lastName, age, gender, phone, bio, latitude, longitude } = req.body;
 
-    if (!firstName || !lastName || !userName || !age || !gender || !phone || !bio || !hobbies || !latitude || !longitude) {
+    if (!firstName || !lastName || !age || !gender || !phone || !bio || !latitude || !longitude) {
         res.status(CONST.BAD_REQUEST).json({
-            error: "All fields are required: firstName, lastName, userName, age, gender, phone, bio, latitude, longitude and hobbies."
+            error: "All fields are required: firstName, lastName, age, gender, phone, bio, latitude, longitude and hobbies."
         });
     } else {
+        const hobbies = JSON.parse(req.body.hobbies);
+        console.log(hobbies);
         if (!Array.isArray(hobbies) || hobbies.length !== 7) {
-            res.status(CONST.BAD_REQUEST).json({
+            return void res.status(CONST.BAD_REQUEST).json({
                 error: "Hobbies must be an array containing exactly 7 items."
             });
         }
-
+        
         const validHobbies = ['quran', 'workout', 'soccer', 'basketball', 'swimming', 'chess', 'investing', 'photography', 'coffee', 'coding', 'motorcycling', 'camping', 'blogging', 'bitcoin', 'anime', 'gaming', 'drawing', 'dj', 'music', 'netflex', 'cooking', 'podcasting', 'fishing']
-
         for (const hobby of hobbies) {
             if (!validHobbies.includes(hobby.toLowerCase())) {
-                res.status(CONST.BAD_REQUEST).json({
+                console.log("notvalid hobbies", hobby);
+                return void res.status(CONST.BAD_REQUEST).json({
                     error: `Hobby "${hobby}" is not a valid hobby.`
                 });
             }
@@ -63,12 +65,6 @@ const validateRegistration = [
         .isLength({ min: 3, max: 20 })
         .withMessage('Last name must be between 3 and 20 characters'),
 
-    // Validate userName: between 5 and 20 characters, can contain "_" or "-"
-    body('userName')
-        .isLength({ min: 6, max: 20 })
-        .withMessage('Username must be between 5 and 20 characters')
-        .matches(/^[a-zA-Z0-9_-]+$/)
-        .withMessage('Username can only contain alphanumeric characters, underscores (_), and hyphens (-)'),
 
     // Validate age: number between 0 and 100
     body('age')
@@ -93,22 +89,6 @@ const validateRegistration = [
     body('bio')
         .isLength({ max: 1000 })
         .withMessage('bio must not exceed 1000 characters'),
-
-    // Validate hobbies: each hobby must have a length between 5 and 20 characters
-    body('hobbies')
-        .custom((value) => {
-            if (Array.isArray(value)) {
-                // Check if each hobby has the correct length
-                for (let hobby of value) {
-                    if (hobby.length < 5 || hobby.length > 20) {
-                        throw new Error('Each hobby must have a length between 5 and 20 characters');
-                    }
-                }
-            } else {
-                throw new Error('Hobbies must be an array');
-            }
-            return true;
-        })
 ];
 
 

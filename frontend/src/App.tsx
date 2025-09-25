@@ -11,12 +11,14 @@ import "./App.css";
 
 import Layout from "./components/Layout";
 import Settings from "./pages/Settings";
+import TestPage from "./pages/Signup/Profile";
 import Chat from "./pages/Chat";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import UserProfile from "./pages/User-Profile";
 import SearchPage from "./pages/Search";
 import UserRegistration from "./pages/Registration/UserRegistration";
+import EmailConfirmation from "./pages/Registration/emailConfirmation/EmailConfirmation";
 
 export default function App() {
   return (
@@ -27,6 +29,8 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/register" element={<UserRegistration />} />
+        <Route path="/email/confirmation" element={<EmailConfirmation />} />
+        <Route path="/test" element={<TestPage />} />
         <Route
           path="/forgot-password"
           element={<div>Forgot Password - Coming Soon!</div>}

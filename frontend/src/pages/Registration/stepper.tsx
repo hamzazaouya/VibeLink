@@ -4,7 +4,7 @@ import {TiTick} from "react-icons/ti"
 
 
 function Stepper ({ currentPageIndex }: { currentPageIndex: number }) {
-    const steps = ["verification", "informations", "hobbies", "images"];
+    const steps = ["informations", "hobbies", "images"];
     // const [currentStep, setCurrentStep] = useState(1)
     return (
         <>

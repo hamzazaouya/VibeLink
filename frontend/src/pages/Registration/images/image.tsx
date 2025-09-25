@@ -5,10 +5,12 @@ function ProfileImage({
   imageFile,
   index,
   updateImage,
+  isProfileImage
 }: {
   imageFile: File | null;
   index: number;
   updateImage: (index: number, file: File) => void;
+  isProfileImage: boolean
 }) {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
@@ -16,7 +18,7 @@ function ProfileImage({
     if (imageFile) {
       const url = URL.createObjectURL(imageFile);
       setPreviewUrl(url);
-      return () => URL.revokeObjectURL(url); // clean up memory
+      return () => URL.revokeObjectURL(url);
     } else {
       setPreviewUrl(null);
     }
@@ -28,15 +30,15 @@ function ProfileImage({
       updateImage(index, file);
     }
   };
-
+  console.log("==========> ", isProfileImage);
   return (
-    <div className="flex flex-col items-center">
-      <label className="cursor-pointer rounded-2xl w-28 h-40 flex justify-center items-center bg-black bg-opacity-30 overflow-hidden">
+    <div className="flex h-full items-center">
+      <label className={`cursor-pointer rounded-2xl w-28 flex justify-center items-center bg-black bg-opacity-30 overflow-hidden ${isProfileImage ? 'rounded-full h-28': 'h-40'}`}>
         {previewUrl ? (
           <img
             src={previewUrl}
             alt="preview"
-            className="object-cover h-full w-full rounded"
+            className={`object-cover h-full w-full rounded`}
           />
         ) : (
           <IoIosAddCircleOutline size={24} className="text-white" />

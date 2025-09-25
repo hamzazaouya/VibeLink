@@ -28,12 +28,13 @@ interface MulterFiles {
 
 
 async function registerUser(req: Request, res: Response): Promise<void> {
-    const { firstName, lastName, userName, age, gender, phone, bio, hobbies, latitude, longitude } = req.body;
+    const { firstName, lastName, age, gender, phone, bio, latitude, longitude } = req.body;
+    const hobbies = JSON.parse(req.body.hobbies);
     const { profileImage, images } = req.files as MulterFiles;
     try {
         if(req.session) {
             const user = req.session.user;
-            await registerService.registerUser(user.id, firstName, lastName, userName, age, gender, phone, bio, latitude, longitude, hobbies, profileImage, images);
+            await registerService.registerUser(user.id, firstName, lastName, age, gender, phone, bio, latitude, longitude, hobbies, profileImage, images);
         } else {
             throw new Error ("server error ")
         }

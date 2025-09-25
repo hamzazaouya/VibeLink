@@ -1,19 +1,29 @@
 import React, { useState } from "react";
+import axios from "axios"
+import Swal from "sweetalert2"
+import { useNavigate } from 'react-router-dom';
 
 function LoginAccountForm	() {
-
-    const APP_URL = "https://ideal-adventure-vr9wxw6pxrjfp6p5-5173.app.github.dev"
-
+    const FRONTEND_APP_URL = import.meta.env.VITE_FRONTEND_APP_URL
+    const BACKEND_APP_URL = import.meta.env.VITE_BACKEND_APP_URL
+    const navigate = useNavigate();
     const [form, setForm] = useState({
-        username: '',
         email: '',
         password: '',
     });
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log('Form submitted:', form);
-        // Add validation or API call here
+        try {
+            await axios.post(`${BACKEND_APP_URL}/user/login`, form, { withCredentials: true });
+            navigate('/register');
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: error.response.data.message || 'Something went wrong!',
+            });
+        }
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,16 +31,15 @@ function LoginAccountForm	() {
   };
 
     return (
-        <>
-            <div className="w-[25rem] h-[35rem] flex items-center">
-                <div className="w-full">
+            <div className="w-full lg:w-full lg:h-[35rem] flex items-center">
+                <div>
                     <h1 className="text-left font-bold text-[2rem]">Login</h1>
                     <div className="text-left text-[.8rem] pl-1 mt-2">
                         <span className="">didn't have an account ?</span>
-                        <a href='${APP_URL}/signup' className="px-[.5rem] underline text-accent-salmon">Signup</a>
+                        <a href={`${FRONTEND_APP_URL}/signup`} className="px-[.5rem] underline text-accent-salmon">Signup</a>
                     </div>
-                    <div className="mt-6 w-[80%]">
-                        <form onSubmit={handleSubmit}className="">
+                    <div className="mt-6">
+                        <form onSubmit={handleSubmit} className="">
                             <div className="mt-2">
                                 <input 
                                     type="email" 
@@ -95,7 +104,6 @@ function LoginAccountForm	() {
                     </div>
                 </div>
             </div>
-        </>
     )
 }
 

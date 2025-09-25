@@ -1,29 +1,23 @@
-import { ReactElement, useState } from 'react';
+// hooks/useMultiStepForm.ts
+import { useState } from "react";
+import { ReactElement } from "react";
 
-function MultiStepFrom (pages: ReactElement[]) {
-    const [currentPageIndex, setCurrentPageIndex] = useState(3);
+export default function useMultiStepForm(pages: ReactElement[]) {
+  const [currentPageIndex, setCurrentPageIndex] = useState(0);
 
-    function next() {
-        setCurrentPageIndex(index => {
-            if (index >= pages.length - 1) return index
-            return index + 1
-        })
-    }
+  function next() {
+    setCurrentPageIndex((i) => (i >= pages.length - 1 ? i : i + 1));
+    console.log(currentPageIndex)
+  }
 
-    function back() {
-        setCurrentPageIndex(index => {
-            if (index <= 0) return index
-            return index - 1
-        })
-    }
+  function back() {
+    setCurrentPageIndex((i) => (i <= 0 ? i : i - 1));
+  }
 
-    return {
-        currentPageIndex,
-        currentPage: pages[currentPageIndex],
-        back,
-        next,
-        pages,
-    }
+  return {
+    currentPageIndex,
+    currentPage: pages[currentPageIndex],
+    back,
+    next,
+  };
 }
-
-export default MultiStepFrom;

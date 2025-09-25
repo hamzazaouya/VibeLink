@@ -11,7 +11,7 @@
 
 import { v4 as uuidv4 } from 'uuid';
 import discordDAO from '../database/discord';
-import generateVerificationCode from '../utils/hash';
+import {generateVerificationCode} from '../utils/hash';
 import { IUser } from '../types/user.interface';
 
 /*******************************************************************
