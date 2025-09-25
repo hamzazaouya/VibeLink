@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import OtpInput from "react-otp-input";
 import "../styles/emailConfirmation.css"
 
-function OTPVerification() {
-  const [otp, setOtp] = useState("");
 
-  const handleVerifyClick = () => {
-    alert(`Entered OTP: ${otp}`);
-  };
+type OTPVerificationProps = {
+  otp: string;
+  setOtp: (otp: string) => void;
+};
+
+function OTPVerification({ otp, setOtp }: OTPVerificationProps) {
 
   return (
     <div className="mt-5">
@@ -33,13 +34,6 @@ function OTPVerification() {
           />
         )}
       />
-      <button
-        onClick={handleVerifyClick}
-        disabled={otp.length < 6}
-        className="mt-5 px-3 py-2 text-[.8rem] bg-accent-pink text-white font-bold bg-opacity-80 rounded-xl hover:bg-opacity-100 transition"
-      >
-        Verify
-      </button>
     </div>
     );
 }

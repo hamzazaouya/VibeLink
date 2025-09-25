@@ -76,6 +76,8 @@ io.on("connection", (socket: Socket) => {
   }
 });
 
+
+
 // Routes
 app.use(authRouter);
 app.use(homeRouter);

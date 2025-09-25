@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import generateTimeBasedImageName from '../utils/hash'
+import {generateTimeBasedImageName} from '../utils/hash'
 import multer from "multer";
 import path from 'path';
 
@@ -22,26 +22,29 @@ const fileFilter = (req: Express.Request, file: Express.Multer.File, cb: multer.
     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg' ) {
       cb(null, true);
     } else {
-      cb(null, false);
-      return cb(new Error("Only .jpg and jpeg format are allowed!"))
+      cb(new Error("Only .jpg and jpeg format are allowed!")) 
     }
   };
 
 const upload = multer({ storage, limits: {fileSize: 1024 * 1024}, fileFilter});
 
 export async function uploadRegistrationImages(req: Request, res: Response, next: NextFunction ): Promise<void> {
+  const IMAGES_NOT_UPLOADED_ERROR = "Images not uploaded";
+  const PROFILE_IMAGES_ERROR = "Profile image is required and must be 1 file"
+  const IMAGES_ERROR = "You must upload between 1 to 5 additional images"
   try {
     await new Promise<void>((resolve, reject) => {
       upload.fields([
         { name: 'profileImage', maxCount: 1 },
-        { name: 'images', maxCount: 2 },
+        { name: 'images', maxCount: 5 },
       ])(req, res, (err: any) => {
         if (err instanceof multer.MulterError) {
           if (err.message === 'File too large') {
             return res.status(400).json({
-              error: `Multer error: ${err.message}. Max size is 1MB.`,
+              error: `File Image too large Max size is 1MB.`,
             });
           }
+          console.log(err.message)
           return res.status(400).json({ error: `Multer error: ${err.message}` });
         } else if (err) {
           return res.status(400).json({ error: err.message });
@@ -49,27 +52,35 @@ export async function uploadRegistrationImages(req: Request, res: Response, next
         resolve();
       });
     });
-    const { profileImage, images } = req.files as MulterFiles;
-    console.log(images, profileImage);
+    
+    const files = req.files as MulterFiles;
+    
+    if (!files || !files.profileImage || !files.images) {
+      throw new Error(IMAGES_NOT_UPLOADED_ERROR);
+    }
+    const { profileImage, images } = files;
+    if (profileImage.length > 1)
+      throw new Error (PROFILE_IMAGES_ERROR );
 
-    if (!profileImage || profileImage.length !== 1)
-      throw new Error ("Profile image is required and must be 1 file.");
-
-    if (!images || images.length > 2)
-      throw new Error("You must upload between 1 to 2 additional images.");
+    if (images.length !== 5)
+      throw new Error(IMAGES_ERROR);
 
     next();
   } catch (error: any) {
-    console.error(error);
-    if(error.message == "Profile image is required and must be 1 file.")
-      res.status(400).json({error: 'Profile image is required and must be 1 file.'})
-    else if (error.message == "You must upload between 1 to 2 additional images.")
-      res.status(400).json({error: 'You must upload between 1 to 2 additional images.'})
+    console.error("==============> ", error);
+    if(error.message == PROFILE_IMAGES_ERROR )
+      res.status(400).json({error: PROFILE_IMAGES_ERROR })
+    else if (error.message == IMAGES_ERROR)
+      res.status(400).json({error: IMAGES_ERROR})
+    else if (error.message == IMAGES_NOT_UPLOADED_ERROR) {
+      res.status(400).json({error:IMAGES_NOT_UPLOADED_ERROR})
+    }
     else
       res.status(500).json({ error: 'Internal server error' });
+    return
   }
 }
-
+ 
 const parceFrom = multer();
 
 export default {uploadRegistrationImages, parceFrom};

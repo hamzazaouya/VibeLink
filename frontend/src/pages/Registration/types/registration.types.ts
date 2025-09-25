@@ -1,4 +1,4 @@
-export interface FormData {
+export interface RegistrationData {
   firstName: string;
   lastName: string;
   age: string;
@@ -8,9 +8,10 @@ export interface FormData {
   latitude: number;
   longitude: number;
   hobbies: string[];
+  profileImage: (File | null);
   images: (File | null)[];
 }
 
-export type UserFormProps = FormData & {
-    updateFields: (fields: Partial<FormData>) => void;
+export type UserFormProps = RegistrationData & {
+    updateFields: (fields: Partial<RegistrationData>) => void;
 };

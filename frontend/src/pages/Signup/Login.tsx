@@ -3,14 +3,16 @@ import LoginForm from "./LoginForm";
 
 function Login() {
   return (
-    <>
-      <div className="h-screen w-screen bg-background flex justify-center items-center">
-        <div className=" flex flex-row gap-[3rem] bg-foreground rounded-xl bg-opacity-20 p-[1rem]">
-          <Slider />
+    < div className="px-5 bg-background h-screen w-screen ">
+      <div className="h-full flex justify-center items-center">
+        <div className="flex flex-row gap-[3rem] bg-foreground rounded-xl bg-opacity-20 p-[1rem]">
+          <div className="hidden md:block">
+            <Slider />
+          </div>
           <LoginForm />
-        </div>
       </div>
-    </>
+      </div>
+    </div>
   );
 }
 

@@ -10,7 +10,7 @@
 import bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
 import passwordDAO from "../database/password";
-import generateVerificationCode from '../utils/hash';
+import {generateVerificationCode} from '../utils/hash';
 import {password} from "../types/user.interface"
 
 async function changeUserPassword(user_id: string, oldPassword: string, newPassword: string): Promise<void> {
