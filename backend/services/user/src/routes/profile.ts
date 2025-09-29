@@ -24,7 +24,7 @@ import profileController from '../controller/profile'
  *       401:
  *         description: Unauthorized
  */
-route.get('/user/profile/settings/info', profileController.getUserInfo);
+route.get('/profile/settings', profileController.getUserInfo);
 
 /**
  * @swagger
@@ -83,7 +83,7 @@ route.get('/user/profile/settings/info', profileController.getUserInfo);
  *         description: User created successfully
  */
 
-route.post('/user/profile/settings/info', profileController.updateUserInfo);
+route.post('/profile/settings', profileController.updateUserInfo);
 
 /**
  * @swagger
@@ -141,7 +141,7 @@ route.post('/user/profile/settings/info', profileController.updateUserInfo);
  *         description: Unauthorized - missing or invalid token
  */
 
-route.get('/user/users/me', profileController.getProfileInfo);
+route.get('/profile/me', profileController.getUserProfile);
 
 /**
  * @swagger
@@ -199,6 +199,6 @@ route.get('/user/users/me', profileController.getProfileInfo);
  *         description: Unauthorized - missing or invalid token
  */
 
-route.get('/user/users/:userId', profileController.getProfileById);
+route.get('/profile/:userId', profileController.getProfileById);
 
 export default route;

@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS users (
     bio VARCHAR(1000),
     email VARCHAR(50) UNIQUE,
     password_hash CHAR(60),
+    avatar VARCHAR(100) UNIQUE,
     signup_method signup_method_enum,
     discord_id VARCHAR(30) UNIQUE,
     google_id  VARCHAR(30) UNIQUE,
@@ -37,7 +38,7 @@ CREATE TABLE picture (
     id UUID PRIMARY KEY,
     user_id UUID NOT NULL,
     picture_path VARCHAR(100) UNIQUE,
-    is_profile_picture BOOLEAN DEFAULT FALSE,
+    slot_number INT CHECK (slot_number BETWEEN 1 AND 5),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
@@ -74,12 +75,23 @@ CREATE TABLE notifications (
 
 CREATE TABLE rating (
     id UUID PRIMARY KEY,
-    user_rater_id UUID NOT NULL,
-    user_rating_id UUID NOT NULL,
+    user_id UUID NOT NULL,
+    rater_id UUID NOT NULL,
     rating INT,
     feedback VARCHAR(100),
-    FOREIGN KEY (user_rater_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (user_rating_id) REFERENCES users(id) ON DELETE CASCADE
+    rated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (rater_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE profile_visite (
+    user_id UUID NOT NULL,
+    visiter_id UUID NOT NULL,
+    visite_count INT DEFAULT 1,
+    last_visited TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (user_id, visiter_id),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (visiter_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 INSERT INTO interests (id, interest) VALUES
@@ -117,26 +129,21 @@ INSERT INTO users (
     ('82b39072-2f81-4e04-a130-d1e3bf0666a0', 'emilybrown', 'Emily', 'Brown', 34, '2223334444', 'female', 'Nature lover and photographer.', 'emilybrown@example.com', '$2y$12$abcdefghijklmopqrstuvwxy', 'google', NULL, 'google-654321', 'POINT(-7.914680 32.221872)', 2.2, TRUE, TRUE, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
     ('85412c7c-8322-47e2-8efc-b73f61fc28fa', 'morajohnson', 'mara', 'Johnson', 32, '4445556666', 'female', 'Fitness enthusiast and blogger.', 'michaeljohnson@example.com', '$2y$12$abcdefghijklmnopqrstuabc', 'discord', 'discord-456789', NULL, 'POINT(-7.909546 32.220976)', 4.1, FALSE, TRUE, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
-INSERT INTO picture (id, user_id, picture_path, is_profile_picture) VALUES
-    (uuid_generate_v4(), 'e9e107e7-d027-4843-9cdf-0d384a734a78' ,'/uploads/user1/profile.jpg', true),
-    (uuid_generate_v4(), 'e9e107e7-d027-4843-9cdf-0d384a734a78' ,'/uploads/user1/image1.jpg', false),
-    (uuid_generate_v4(), 'e9e107e7-d027-4843-9cdf-0d384a734a78' ,'/uploads/user1/image2.jpg', false),
+INSERT INTO picture (id, user_id, picture_path, slot_number) VALUES
+    (uuid_generate_v4(), 'e9e107e7-d027-4843-9cdf-0d384a734a78' ,'/uploads/user1/image1.jpg', 1),
+    (uuid_generate_v4(), 'e9e107e7-d027-4843-9cdf-0d384a734a78' ,'/uploads/user1/image2.jpg', 2),
 
-    (uuid_generate_v4(), '6aff9ce4-f129-46e8-9fa0-82ed41d3b298','/uploads/user2/profile.jpg', true),
-    (uuid_generate_v4(), '6aff9ce4-f129-46e8-9fa0-82ed41d3b298','/uploads/user2/image1.jpg', false),
-    (uuid_generate_v4(), '6aff9ce4-f129-46e8-9fa0-82ed41d3b298','/uploads/user2/image2.jpg', false),
+    (uuid_generate_v4(), '6aff9ce4-f129-46e8-9fa0-82ed41d3b298', '/uploads/user2/image1.jpg', 1),
+    (uuid_generate_v4(), '6aff9ce4-f129-46e8-9fa0-82ed41d3b298', '/uploads/user2/image2.jpg', 2),
 
-    (uuid_generate_v4(), 'f60d2802-e798-4dbc-9387-a2b736373361','/uploads/user3/profile.jpg', true),
-    (uuid_generate_v4(), 'f60d2802-e798-4dbc-9387-a2b736373361','/uploads/user3/image1.jpg', false),
-    (uuid_generate_v4(), 'f60d2802-e798-4dbc-9387-a2b736373361','/uploads/user3/image2.jpg', false),
+    (uuid_generate_v4(), 'f60d2802-e798-4dbc-9387-a2b736373361', '/uploads/user3/image1.jpg', 1),
+    (uuid_generate_v4(), 'f60d2802-e798-4dbc-9387-a2b736373361', '/uploads/user3/image2.jpg', 2),
 
-    (uuid_generate_v4(), '82b39072-2f81-4e04-a130-d1e3bf0666a0','/uploads/user4/profile.jpg', true),
-    (uuid_generate_v4(), '82b39072-2f81-4e04-a130-d1e3bf0666a0','/uploads/user4/image1.jpg', false),
-    (uuid_generate_v4(), '82b39072-2f81-4e04-a130-d1e3bf0666a0','/uploads/user4/image2.jpg', false),
+    (uuid_generate_v4(), '82b39072-2f81-4e04-a130-d1e3bf0666a0', '/uploads/user4/image1.jpg', 1),
+    (uuid_generate_v4(), '82b39072-2f81-4e04-a130-d1e3bf0666a0', '/uploads/user4/image2.jpg', 2),
 
-    (uuid_generate_v4(), '85412c7c-8322-47e2-8efc-b73f61fc28fa','/uploads/user5/profile.jpg', true),
-    (uuid_generate_v4(), '85412c7c-8322-47e2-8efc-b73f61fc28fa','/uploads/user5/image1.jpg', false),
-    (uuid_generate_v4(), '85412c7c-8322-47e2-8efc-b73f61fc28fa','/uploads/user5/image2.jpg', false);
+    (uuid_generate_v4(), '85412c7c-8322-47e2-8efc-b73f61fc28fa', '/uploads/user5/image1.jpg', 1),
+    (uuid_generate_v4(), '85412c7c-8322-47e2-8efc-b73f61fc28fa', '/uploads/user5/image2.jpg', 2);
 
 INSERT INTO user_interest(id, user_id, interest_id) VALUES
     (uuid_generate_v4(), 'e9e107e7-d027-4843-9cdf-0d384a734a78', '0f9c500a-19b0-4767-a951-152df5672b26'),

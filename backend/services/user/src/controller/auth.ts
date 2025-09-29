@@ -54,7 +54,6 @@ async function login(req: Request, res: Response): Promise<void> {
     const user: IUser = await authService.login(email, password);
     if (req.session) {
       req.session.user = user;
-      console.log("Hello From User and ", user);
       res.status(CONST.SUCCESS).json({ message: "user logged successfully" });
     }
   } catch (error: any) {

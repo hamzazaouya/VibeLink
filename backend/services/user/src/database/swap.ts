@@ -101,12 +101,10 @@ async function get_suggetionData(mainUser: string, suggestedUser: string): Promi
                 users.rating, 
                 users.bio, 
                 users.is_online,
-                ST_Distance(users.location, (SELECT location FROM users WHERE users.id = $1)) AS distance,
-                COALESCE(ARRAY_AGG(picture.picture_path) FILTER (WHERE picture.is_profile_picture = FALSE), '{}') AS picture_paths
+                users.avatar,
+                ST_Distance(users.location, (SELECT location FROM users WHERE users.id = $1)) AS distance
             FROM 
                 users
-            LEFT JOIN 
-                picture ON picture.user_id = users.id
             WHERE 
                 users.id = $2
             GROUP BY 

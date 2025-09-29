@@ -1,7 +1,3 @@
-import IconButton from "./IconButton";
-import "../styles/userHobbies.css"
-import { useState } from "react";
-import { UserFormProps } from "../types/registration.types";
 
     const iconButtons: [string, string][] = [
         ["📗", "quran"],
@@ -50,44 +46,23 @@ import { UserFormProps } from "../types/registration.types";
         ["🍰", "cake baking"],
     ];
 
+const hobbies = new Map();
 
+iconButtons.forEach((e) => {
+    hobbies.set(e[1], e[0]);
+})
 
-function UserHobbies(props: UserFormProps) {
-  const { hobbies, updateFields } = props;
-  const maxSelection = 7;
-
-  function toggleHobby(label: string) {
-    if (hobbies.includes(label)) {
-      // Remove hobby
-      updateFields({ hobbies: hobbies.filter((h) => h !== label) });
-    } else {
-      if (hobbies.length < maxSelection) {
-        // Add hobby
-        updateFields({ hobbies: [...hobbies, label] });
-      }
-    }
-  }
-
-  return (
-    <div className="full">
-      <div className="user_hobbies">
-        <h3>
-          {hobbies.length} / {maxSelection}
-        </h3>
-        <div className="hobbies">
-          {iconButtons.map(([emoji, label]) => (
-            <IconButton
-              key={label}
-              emoji={emoji}
-              label={label}
-              selected={hobbies.includes(label)}
-              onClick={() => toggleHobby(label)}
-            />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
+interface hobbieType {
+    hobbieTitle :string
 }
 
-export default UserHobbies;
+function Hobbie ({hobbieTitle}: hobbieType) {
+    const icon = hobbies.get(hobbieTitle);
+    return (
+        <div className=" flex rounded-full border px-4 py-2 text-white text-sm">
+            <span className="pr-1">{hobbieTitle}</span> <span>{icon}</span>
+        </div>
+    );
+}
+
+export default Hobbie;

@@ -7,7 +7,7 @@
 
 // authRoutes.ts
 
-import express, { Request, Response } from 'express';
+import express, { Request, Response } from 'express'; 
 import authController from '../controller/auth';
 import authMiddleware from '../middleware/authenticate';
 import authValidation from '../middleware/authValidation';

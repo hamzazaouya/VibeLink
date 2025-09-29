@@ -18,8 +18,13 @@ import {
   MapPin,
   Users,
 } from "lucide-react";
+import axios from "axios";
 import { useState, useRef, useEffect } from "react";
 import profileData from "./data/profile-data.json";
+import {ProfileInfo, galleryImage} from "./types/profile.types"
+import GalleryImage from "./galleryImage/GalleryImage";
+import Hobbie from "./hobbies/Hobbies";
+
 
 // Icon mapping for hobbies
 const iconMap = {
@@ -33,12 +38,35 @@ const iconMap = {
 
 type TabType = "matches" | "views" | "meetings";
 
+
+
 export default function ProfilePage() {
+  const [profileInfo, setProfileInfo] = useState<ProfileInfo>({user_name: '', gender: '', bio: '', rating: 0, hobbies: [], avatar: ''});
+  const [profileImages, setProfileImages] = useState<galleryImage[]>([]);
   const { profile, hobbies, gallery, matches, profileViews, meetingHistory } =
     profileData;
   const [openDropdown, setOpenDropdown] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState<TabType>("matches");
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const BACKEND_APP_URL = import.meta.env.VITE_BACKEND_APP_URL
+
+
+  useEffect(()=> {
+    async function getUserData () {
+      try {
+        const response = await axios.get("http://localhost:3000/profile/me", {
+                withCredentials: true,
+        });
+        const data = response.data;
+        console.log("========> profile_images ", data.profile_images)
+        setProfileInfo(data.profile_info);
+        setProfileImages(data.profile_images);
+      } catch(error: any) {
+        console.log(error);
+      }
+    }
+    getUserData();
+  }, [])
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -195,7 +223,6 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-twilight-gradient-start via-twilight-gradient-middle to-twilight-gradient-end px-8 pt-28">
       <div className="min-h-[85vh] grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Left Panel - Profile Info */}
         <div className="lg:col-span-3">
           <div className="h-full bg-white/10 backdrop-blur-lg rounded-2xl p-6 space-y-6">
             <div className="space-y-6">
@@ -203,7 +230,7 @@ export default function ProfilePage() {
                 <div className="relative inline-block">
                   <div className="w-40 h-40 rounded-full bg-gradient-to-r from-vibelink-gradient-start to-vibelink-gradient-end p-[0.15rem]">
                     <img
-                      src={profile.avatar || "./img/placeholder.jpg"}
+                      src={`${BACKEND_APP_URL}/${profileInfo.avatar}` || "./img/placeholder.jpg"}
                       alt={`${profile.name} profile`}
                       className="w-full h-full rounded-full object-cover"
                     />
@@ -214,8 +241,8 @@ export default function ProfilePage() {
                 </div>
                 <div className="mt-2">
                   <h2 className="text-white text-xl font-semibold flex items-center justify-center gap-1">
-                    {profile.name}
-                    {profile.gender === "female" ? (
+                    {profileInfo.user_name}
+                    {profileInfo.gender === "female" ? (
                       <Venus className="w-6 h-6 text-blue-400 ml-1" />
                     ) : (
                       <Mars className="w-6 h-6 text-blue-400 ml-1" />
@@ -230,7 +257,7 @@ export default function ProfilePage() {
                   <Star
                     key={i}
                     className={`w-8 h-8 ${
-                      i < profile.stars
+                      i < profileInfo.rating
                         ? "fill-yellow-400 text-yellow-400"
                         : "text-gray-400"
                     }`}
@@ -241,25 +268,17 @@ export default function ProfilePage() {
 
             {/* Description */}
             <div className="bg-white/15 max-h-64 overflow-y-scroll bg-blur-lg p-4 rounded-xl text-white text-base leading-relaxed">
-              {profile.description}
+              {profileInfo.bio}
             </div>
 
             {/* Interest Tags */}
             <div className="max-h-52 overflow-y-scroll space-y-3 bg-white/15 bg-blur-lg p-4 rounded-xl">
               <div className="flex flex-wrap gap-2">
-                {hobbies.map((hobby, index) => {
-                  const IconComponent =
-                    iconMap[hobby.icon as keyof typeof iconMap];
-                  return (
-                    <div
-                      key={index}
-                      className={`flex items-center gap-2 bg-gradient-to-r ${hobby.gradient} rounded-full px-4 py-2 text-white text-sm`}
-                    >
-                      <IconComponent className="w-4 h-4" />
-                      {hobby.name}
-                    </div>
-                  );
-                })}
+                {
+                  profileInfo.hobbies.map((e) => {
+                    return <Hobbie hobbieTitle={e}/>
+                  })
+                }
               </div>
             </div>
           </div>
@@ -269,18 +288,11 @@ export default function ProfilePage() {
         <div className="lg:col-span-6">
           <div className="h-full overflow-y-scroll bg-slate-700/50 backdrop-blur-sm rounded-2xl p-6 border-2 border-blue-500/50">
             <div className="max-h-[75vh] grid grid-cols-3 gap-4">
-              {gallery.map((image) => (
-                <div
-                  key={image.id}
-                  className="aspect-[3/4] rounded-xl overflow-hidden pb-6 hover:shadow-lg transition-shadow duration-300"
-                >
-                  <img
-                    src={image.url || "/placeholder.svg"}
-                    alt={image.alt}
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-              ))}
+                {
+                  profileImages.map((image) => {
+                    return <GalleryImage picture_path={image.picture_path} slot_number={image.slot_number} />
+                  })
+                }
             </div>
           </div>
         </div>

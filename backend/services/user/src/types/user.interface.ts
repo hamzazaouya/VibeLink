@@ -40,24 +40,35 @@ export interface userProfilInfo {
   gender: string;
   bio: string;
   rating: number;
+  avatar: string;
   hobbies: string[];
 }
 
-export interface userImages {
-  profileImage: string;
-  images: string[];
+export interface UserImageGallery {
+  picture_path: string;
+  slot_number: number;
 }
 
 export interface userMatches {
   user_id: string;
   user_name: string;
-  profileImage: string;
+  avatar: string;
+}
+
+export interface UserProfileVisite {
+  user_id: string,
+  avatar: string,
+  user_name: string,
+  view_time: string,
+  visit_count: number
 }
 
 export interface profileInfo {
-  user_info: userProfilInfo;
-  user_images: userImages;
+  profile_info: userProfilInfo;
+  profile_images: userImages;
+  profile_visite?: UserProfileVisite [];
   matches?: userMatches[];
+  
 }
 
 export interface userNotification {

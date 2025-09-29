@@ -9,7 +9,7 @@
 
 import pool from '../utils/postgreSQL_conf';
 import { v4 as uuidv4 } from 'uuid';
-import { userImages, userMatches, userProfilInfo } from '../types/user.interface';
+import { UserImageGallery, userMatches, userProfilInfo, UserProfileVisite } from '../types/user.interface';
 import { userInfo } from '../types/user.interface';
 import query from '../utils/queryEngine';
 
@@ -155,7 +155,7 @@ async function getProfileInfo(user_id: string): Promise<userProfilInfo> {
     try {
         // let query = 'SELECT user_name, gender, bio, rating FROM users WHERE id = $1';
         // const res = await pool.query(query, [user_id]);
-        const res = await query.select(['user_name', 'gender', 'bio', 'rating'], 'users', [{column: 'id', operator: '=', value: user_id}]);
+        const res = await query.select(['user_name', 'gender', 'bio', 'rating', 'avatar'], 'users', [{column: 'id', operator: '=', value: user_id}]);
         if(res.rowCount && res.rowCount > 0) {
             // query = "SELECT i.interest FROM user_interest ui JOIN interests i ON ui.interest_id = i.id WHERE ui.user_id = $1;"
             // const user_interests = await pool.query(query, [user_id]);
@@ -167,7 +167,7 @@ async function getProfileInfo(user_id: string): Promise<userProfilInfo> {
             user_interests.rows.forEach((e : any) => {
                 interests.push(e.interest);
             });
-            const user_info: userProfilInfo = {user_name: res.rows[0].user_name, gender: res.rows[0].gender, bio: res.rows[0].bio, rating: res.rows[0].rating, hobbies: interests};
+            const user_info: userProfilInfo = {user_name: res.rows[0].user_name, gender: res.rows[0].gender, bio: res.rows[0].bio, rating: res.rows[0].rating, avatar: res.rows[0].avatar, hobbies: interests};
             return user_info;
         }
         throw new Error ("user not found");
@@ -176,54 +176,31 @@ async function getProfileInfo(user_id: string): Promise<userProfilInfo> {
     }
 }
 
-async function getUserProfileImages(user_id: string): Promise<userImages> {
+async function getUserProfileImages(user_id: string): Promise<UserImageGallery[]> {
     try {
-        // let query = "SELECT * FROM picture WHERE user_id = $1";
-        // const result = await pool.query(query, [user_id]);
-        const result = await query.select(null, 'picture', [{column: 'id', operator: '=', value: user_id}]);
-        let profileImage:string = "";
-        let images: string[] = [];
-        result.rows.forEach((e: { picture_path: string; is_profile_picture: boolean }) => {
-            if(e.is_profile_picture)
-                profileImage = e.picture_path;
-            else
-                images.push(e.picture_path);
+        const result = await query.select(null, 'picture', [{column: 'user_id', operator: '=', value: user_id}]);
+        const gallery: UserImageGallery[] = [];
+        result.rows.forEach((e: { picture_path: string; slot_number: number}) => {
+            gallery.push({picture_path: e.picture_path, slot_number: e.slot_number});
         });
-        const userImage: userImages = {profileImage: profileImage, images: images}
-        return userImage;
+        gallery.sort((a, b) => a.slot_number - b.slot_number);
+        console.log(gallery)
+        return gallery
     } catch (error) {
         throw error;
     }
 }
 
 async function userMatches(user_id: string): Promise<userMatches[] | null> {
-    console.log("Hello from Database to check the images");
     try {
-        // const query = `
-        // SELECT 
-        //     u.id AS user_id,
-        //     u.user_name AS user_name,
-        //     p.picture_path AS profile_picture
-        // FROM 
-        //     matches m
-        // JOIN 
-        //     users u ON m.match_id = u.id
-        // LEFT JOIN 
-        //     picture p ON u.id = p.user_id AND p.is_profile_picture = TRUE
-        // WHERE 
-        //     m.user_id = $1`;
-        // console.log(query);
-        // const result = await pool.query(query, [user_id]);
         const result = await query.select(
-            [ 'u.id AS user_id', 'u.user_name AS user_name', 'p.picture_path AS profile_picture'],
+            [ 'u.id AS user_id', 'u.user_name AS user_name', 'u.avatar AS avatar'],
             'matches m',
             [{ column: 'm.user_id', operator: '=', value: user_id}],
-            [{ type: 'INNER', table: 'users u', on: 'm.match_id = u.id' },
-             { type: 'LEFT', table: 'picture p', on: 'u.id = p.user_id AND p.is_profile_picture = TRUE' }
-            ]);
+            [{ type: 'INNER', table: 'users u', on: 'm.match_id = u.id' }]);
 
-        let matches: userMatches [] = [];
         if(result.rowCount && result.rowCount > 0) {
+            const matches: userMatches [] = [];
             result.rows.forEach((e: any) => {
                 matches.push(e);
             });
@@ -235,4 +212,41 @@ async function userMatches(user_id: string): Promise<userMatches[] | null> {
     }
 }
 
-export default {getUserInfo, getUserEmail, updateUserInfo, updateHobbies, updateUserEmail, getProfileInfo, getUserProfileImages, userMatches};
+async function userProfileVisite(user_id: string): Promise<UserProfileVisite[] | null> {
+    try {
+        const result = await query.select(
+            [   'u.id AS user_id', 
+                'u.user_name AS user_name', 
+                'u.avatar AS avatar', 
+                'pv.last_visited'],
+                'matches m',
+            [   { column: 'm.user_id', operator: '=', value: user_id},
+                { column: 'pv.visiter_id', operator: '=', value: user_id }
+            ],
+            [{ type: 'INNER', table: 'users u', on: 'm.match_id = u.id' },
+             { type: 'LEFT', table: 'picture p', on: 'u.id = p.user_id' },
+             { type: 'LEFT', table: 'profile_visite pv', on: 'u.id = pv.user_id'}
+            ]);
+
+        if(result.rowCount && result.rowCount > 0) {
+            const profile_visite: UserProfileVisite [] = [];
+            result.rows.forEach((e: any) => {
+                profile_visite.push(e);
+            });
+            return profile_visite;
+        }
+        return null;
+    } catch(error: any) {
+        throw error;
+    }
+}
+
+export default {    getUserInfo,
+                    getUserEmail, 
+                    updateUserInfo, 
+                    updateHobbies, 
+                    updateUserEmail, 
+                    getProfileInfo, 
+                    getUserProfileImages, 
+                    userMatches,
+                    userProfileVisite};

@@ -60,16 +60,14 @@ async function registerUserInfo(user_id: IUser, firstName: string, lastName: str
 
 async function registerUserImages(user_id: IUser, profileImage: any, images: any[]) {
     try {
-        images.forEach(async (picutre_info) => {
+        images.forEach(async (picutre_info, index) => {
             const picture_id: string = uuidv4();
             const picutre_path: string = picutre_info.path;
-            // await pool.query('INSERT INTO picture (id, user_id, picture_path) VALUES ($1, $2, $3)',[picture_id, user_id, picutre_path]);
-            await query.insert('picture', ['id', 'user_id', 'picture_path'], [picture_id, user_id, picutre_path]);
+            await query.insert('picture', ['id', 'user_id', 'picture_path', 'slot_number'], [picture_id, user_id, picutre_path, index + 1]);
         });
-        const picture_id: string = uuidv4();
-        const picutre_path: string = profileImage[0].path;
-        // await pool.query('INSERT INTO picture (id, user_id, picture_path, is_profile_picture) VALUES ($1, $2, $3, $4)',[picture_id, user_id, picutre_path, true]);
-        await query.insert('picture', ['id', 'user_id', 'picture_path', 'is_profile_picture'], [picture_id, user_id, picutre_path, true]);
+
+        const avatar: string = profileImage[0].path;
+        await query.update("users", ["avatar"], [avatar], "id", user_id);
     } catch (error) {
         logger.user.info(error);
         throw error;

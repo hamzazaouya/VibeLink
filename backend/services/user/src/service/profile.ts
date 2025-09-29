@@ -8,7 +8,7 @@
  *******************************************************/
 
 import profileDAO from "../database/profile";
-import { userImages, userMatches, userProfilInfo, profileInfo} from "../types/user.interface";
+import { UserImageGallery, userMatches, userProfilInfo, profileInfo, UserProfileVisite} from "../types/user.interface";
 
 
 /*******************************************************************
@@ -59,21 +59,24 @@ async function updateUserInfo(user_id: string, firstName: string, lastName: stri
     }
 }
 
-async function getProfileInfo(user_id: string): Promise<profileInfo> {
-    const user_info:userProfilInfo = await profileDAO.getProfileInfo(user_id);
-    const userImages: userImages = await profileDAO.getUserProfileImages(user_id);
+async function getUserProfile(user_id: string): Promise<profileInfo> {
+    const profileInfo:userProfilInfo = await profileDAO.getProfileInfo(user_id);
+    const profileImages: UserImageGallery[] = await profileDAO.getUserProfileImages(user_id);
     const userMatches: userMatches[] | null  = await profileDAO.userMatches(user_id);
-    const profile_info: profileInfo = {user_info: user_info, user_images: userImages};
+    const userProfileVisite: UserProfileVisite[] | null = await profileDAO.userProfileVisite(user_id);
+    const user_profile_info: profileInfo = {profile_info: profileInfo, profile_images: profileImages};
     if(userMatches)
-        profile_info.matches = userMatches;
-    return profile_info;
+        user_profile_info.matches = userMatches;
+    if(userProfileVisite)
+        user_profile_info.profile_visite = userProfileVisite;
+    return user_profile_info;
 }
 
 async function getProfileById(user_id: string): Promise<profileInfo> {
     const user_info:userProfilInfo = await profileDAO.getProfileInfo(user_id);
-    const userImages: userImages = await profileDAO.getUserProfileImages(user_id);
-    const profile_info: profileInfo = {user_info: user_info, user_images: userImages};
+    const userImages: UserImageGallery[] = await profileDAO.getUserProfileImages(user_id);
+    const profile_info: profileInfo = {profile_info: user_info, profile_images: userImages};
     return profile_info;
 }
 
-export default {getUserInfo, updateUserInfo, getProfileInfo, getProfileById};
+export default {getUserInfo, updateUserInfo, getUserProfile, getProfileById};

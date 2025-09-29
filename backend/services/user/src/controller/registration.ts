@@ -32,11 +32,12 @@ async function registerUser(req: Request, res: Response): Promise<void> {
     const hobbies = JSON.parse(req.body.hobbies);
     const { profileImage, images } = req.files as MulterFiles;
     try {
-        if(req.session) {
+        if(req.session && req.session.user) {
             const user = req.session.user;
             await registerService.registerUser(user.id, firstName, lastName, age, gender, phone, bio, latitude, longitude, hobbies, profileImage, images);
         } else {
-            throw new Error ("server error ")
+            res.status(CONST.UNAUTHORIZED).send('user Unauthorized');
+            return;
         }
         req.session.user.is_registred = true;
         res.status(CONST.SUCCESS).json({ message: 'user registred successfully.' });

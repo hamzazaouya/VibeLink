@@ -51,28 +51,30 @@ async function updateUserInfo(req: Request, res: Response): Promise<void> {
  *******************************************************************/
 
 //
-async function getProfileInfo(req: Request, res: Response) {
-    try {
-        const user_info : profileInfo = await profileService.getProfileInfo(req.session?.user.id);
-        res.status(CONST.SUCCESS).json(user_info);
-    } catch (error: any) {
-        res.status(CONST.SERVER_ERROR).json({message: "server error"});
+async function getUserProfile(req: Request, res: Response) {
+    if(req.session && req.session.user) {
+        try {
+            const user_id = req.session.user.id;
+            const user_info : profileInfo = await profileService.getUserProfile(user_id);
+            res.status(CONST.SUCCESS).json(user_info);
+            return;
+        } catch (error: any) {
+            res.status(CONST.SERVER_ERROR).json({message: "server error"});
+            return;
+        }
     }
+    res.status(CONST.UNAUTHORIZED).send("Unauthorized to access this page");
+    return;
 }
 
 async function getProfileById(req: Request, res:Response) {
     const {user_id} = req.params;
     try {
-        let user_info: profileInfo;
-        if(req.session?.user.id == user_id) {
-            user_info = await profileService.getProfileInfo(user_id);
-        } else {
-            user_info = await profileService.getProfileById(user_id);
-        }
+        let user_info: profileInfo = await profileService.getProfileById(user_id);
         res.status(CONST.SUCCESS).json(user_info);
     } catch (error: any) {
         res.status(CONST.SERVER_ERROR).json({message: "server error"}); 
     }
 }
 
-export default {getUserInfo, updateUserInfo, getProfileInfo, getProfileById};
+export default {getUserInfo, updateUserInfo, getUserProfile, getProfileById};
