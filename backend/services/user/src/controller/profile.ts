@@ -68,13 +68,20 @@ async function getUserProfile(req: Request, res: Response) {
 }
 
 async function getProfileById(req: Request, res:Response) {
-    const {user_id} = req.params;
-    try {
-        let user_info: profileInfo = await profileService.getProfileById(user_id);
-        res.status(CONST.SUCCESS).json(user_info);
-    } catch (error: any) {
-        res.status(CONST.SERVER_ERROR).json({message: "server error"}); 
+    if(req.session && req.session.user) {
+        const {user_visited_id} = req.params;
+        const {user_visiter_id} = req.session.user.id;
+        try {
+            let user_info: profileInfo = await profileService.getProfileById(user_visiter_id, user_visited_id);
+            res.status(CONST.SUCCESS).json(user_info);
+        } catch (error: any) {
+            if (error.message == "not authorised") {
+                res.status(CONST.UNAUTHORIZED).send({message: "not authorised"});
+            }
+            res.status(CONST.SERVER_ERROR).json({message: "server error"}); 
+        }
     }
+    res.status(CONST.UNAUTHORIZED).send("Unauthorized to access this page");
+    return;
 }
-
 export default {getUserInfo, updateUserInfo, getUserProfile, getProfileById};

@@ -59,7 +59,7 @@ interface hobbieType {
 function Hobbie ({hobbieTitle}: hobbieType) {
     const icon = hobbies.get(hobbieTitle);
     return (
-        <div className=" flex rounded-full border px-4 py-2 text-white text-sm">
+        <div className=" flex rounded-full border px-3 py-2 text-white text-sm">
             <span className="pr-1">{hobbieTitle}</span> <span>{icon}</span>
         </div>
     );

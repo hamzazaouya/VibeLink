@@ -72,11 +72,15 @@ async function getUserProfile(user_id: string): Promise<profileInfo> {
     return user_profile_info;
 }
 
-async function getProfileById(user_id: string): Promise<profileInfo> {
-    const user_info:userProfilInfo = await profileDAO.getProfileInfo(user_id);
-    const userImages: UserImageGallery[] = await profileDAO.getUserProfileImages(user_id);
-    const profile_info: profileInfo = {profile_info: user_info, profile_images: userImages};
-    return profile_info;
+async function getProfileById(visiter_id: string, visited_id: string): Promise<profileInfo> {
+    const isMatch: boolean = await profileDAO.IsMatched(visiter_id, visited_id);
+    if (isMatch) {
+        const user_info:userProfilInfo = await profileDAO.getProfileInfo(visited_id);
+        const userImages: UserImageGallery[] = await profileDAO.getUserProfileImages(visited_id);
+        const profile_info: profileInfo = {profile_info: user_info, profile_images: userImages};
+        return profile_info;
+    }
+    throw new Error("not authorised");
 }
 
 export default {getUserInfo, updateUserInfo, getUserProfile, getProfileById};

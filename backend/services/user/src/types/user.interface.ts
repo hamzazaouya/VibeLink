@@ -50,9 +50,10 @@ export interface UserImageGallery {
 }
 
 export interface userMatches {
-  user_id: string;
-  user_name: string;
+  id: string;
+  username: string;
   avatar: string;
+  date: Date
 }
 
 export interface UserProfileVisite {

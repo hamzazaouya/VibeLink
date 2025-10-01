@@ -24,6 +24,9 @@ import profileData from "./data/profile-data.json";
 import {ProfileInfo, galleryImage} from "./types/profile.types"
 import GalleryImage from "./galleryImage/GalleryImage";
 import Hobbie from "./hobbies/Hobbies";
+import { rightPanel } from "./types/rightPanel.types";
+import RightPanel from "./rightPanel/RightPanel";
+import { MatchType } from "./types/rightPanel.types";
 
 
 // Icon mapping for hobbies
@@ -43,7 +46,8 @@ type TabType = "matches" | "views" | "meetings";
 export default function ProfilePage() {
   const [profileInfo, setProfileInfo] = useState<ProfileInfo>({user_name: '', gender: '', bio: '', rating: 0, hobbies: [], avatar: ''});
   const [profileImages, setProfileImages] = useState<galleryImage[]>([]);
-  const { profile, hobbies, gallery, matches, profileViews, meetingHistory } =
+  const [matches, setMatches] = useState<MatchType[]>([]);
+  const { profile, hobbies, gallery, profileViews, meetingHistory } =
     profileData;
   const [openDropdown, setOpenDropdown] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState<TabType>("matches");
@@ -58,9 +62,12 @@ export default function ProfilePage() {
                 withCredentials: true,
         });
         const data = response.data;
-        console.log("========> profile_images ", data.profile_images)
+        console.log("========> profile data ", data)
         setProfileInfo(data.profile_info);
         setProfileImages(data.profile_images);
+        if (data.matches) {
+          setMatches(data.matches);
+        }
       } catch(error: any) {
         console.log(error);
       }
@@ -85,61 +92,7 @@ export default function ProfilePage() {
   const renderTabContent = () => {
     switch (activeTab) {
       case "matches":
-        return (
-          <div className="space-y-4">
-            {matches.map((match) => (
-              <div
-                key={match.id}
-                className="bg-slate-600/50 rounded-xl relative"
-              >
-                <div className="flex items-center justify-between pr-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-14 h-14 rounded-l-xl">
-                      <img
-                        src={match.avatar || "/placeholder.svg"}
-                        alt={`${match.name} avatar`}
-                        className="w-full h-full object-cover rounded-l-xl"
-                      />
-                    </div>
-                    <div className="p-1">
-                      <h4 className="text-white font-medium">{match.name}</h4>
-                      <div className="flex items-center gap-2 text-gray-400 text-sm mb-1">
-                        <Calendar className="w-3 h-3" />
-                        <span>{match.date}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    className="flex items-center gap-2 relative"
-                    ref={dropdownRef}
-                  >
-                    <MoreHorizontal
-                      className="w-5 h-5 text-gray-400 cursor-pointer"
-                      onClick={() =>
-                        setOpenDropdown(
-                          openDropdown === match.id ? null : match.id
-                        )
-                      }
-                    />
-                    {openDropdown === match.id && (
-                      <div className="absolute top-8 right-0 w-36 bg-slate-800 rounded-md shadow-lg z-10">
-                        <button className="flex items-center gap-2 px-4 py-2 hover:bg-slate-700 w-full text-left border-none">
-                          <Trash className="w-4 h-4 text-red-500" /> Remove
-                        </button>
-                        <button className="flex items-center gap-2 px-4 py-2 hover:bg-slate-700 w-full text-left border-none">
-                          <UserX className="w-4 h-4 text-yellow-500" /> Unmatch
-                        </button>
-                        <button className="flex items-center gap-2 px-4 py-2 hover:bg-slate-700 w-full text-left border-none">
-                          <Flag className="w-4 h-4 text-blue-500" /> Report
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        );
+        return (<RightPanel matches={matches}/>)
 
       case "views":
         return (
@@ -224,7 +177,7 @@ export default function ProfilePage() {
     <div className="min-h-screen bg-gradient-to-br from-twilight-gradient-start via-twilight-gradient-middle to-twilight-gradient-end px-8 pt-28">
       <div className="min-h-[85vh] grid grid-cols-1 lg:grid-cols-12 gap-6">
         <div className="lg:col-span-3">
-          <div className="h-full bg-white/10 backdrop-blur-lg rounded-2xl p-6 space-y-6">
+          <div className="h-full bg-white/10 backdrop-blur-lg rounded-2xl p-4 space-y-6">
             <div className="space-y-6">
               <div className="text-center">
                 <div className="relative inline-block">
@@ -267,12 +220,12 @@ export default function ProfilePage() {
             </div>
 
             {/* Description */}
-            <div className="bg-white/15 max-h-64 overflow-y-scroll bg-blur-lg p-4 rounded-xl text-white text-base leading-relaxed">
+            <div className="bg-white/15 max-h-30 overflow-y-scroll scroll-hidden bg-blur-lg p-4 rounded-xl text-white text-base leading-relaxed">
               {profileInfo.bio}
             </div>
 
             {/* Interest Tags */}
-            <div className="max-h-52 overflow-y-scroll space-y-3 bg-white/15 bg-blur-lg p-4 rounded-xl">
+            <div className="max-h-70  overflow-y-scroll scroll-hidden  bg-white/15 bg-blur-lg p-2 rounded-xl">
               <div className="flex flex-wrap gap-2">
                 {
                   profileInfo.hobbies.map((e) => {
@@ -285,9 +238,9 @@ export default function ProfilePage() {
         </div>
 
         {/* Center Panel - Photo Gallery */}
-        <div className="lg:col-span-6">
-          <div className="h-full overflow-y-scroll bg-slate-700/50 backdrop-blur-sm rounded-2xl p-6 border-2 border-blue-500/50">
-            <div className="max-h-[75vh] grid grid-cols-3 gap-4">
+        <div className="lg:col-span-5">
+          <div className="h-full overflow-y-scroll scroll-hidden bg-slate-700/50 backdrop-blur-sm rounded-2xl p-2 ">
+            <div className="max-h-[75vh] grid grid-cols-2 gap-4">
                 {
                   profileImages.map((image) => {
                     return <GalleryImage picture_path={image.picture_path} slot_number={image.slot_number} />
@@ -298,13 +251,13 @@ export default function ProfilePage() {
         </div>
 
         {/* Right Panel - Enhanced Matches with Tabs */}
-        <div className="lg:col-span-3">
+        <div className="lg:col-span-4">
           <div className="h-full bg-white/15 backdrop-blur-sm rounded-2xl p-4">
             {/* Tab Navigation */}
-            <div className="flex mb-6 bg-white/10 rounded-lg p-1">
+            <div className="flex mb-4 bg-white/10 rounded-lg p-1 overflow-x-auto scroll-hidden">
               <button
                 onClick={() => setActiveTab("matches")}
-                className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-md text-sm font-medium transition-colors ${
+                className={`flex-1 flex items-center justify-center gap-2 p-1 rounded-md text-sm font-medium transition-colors ${
                   activeTab === "matches"
                     ? "bg-blue-500 text-white"
                     : "text-gray-300 hover:text-white"
@@ -337,8 +290,7 @@ export default function ProfilePage() {
               </button>
             </div>
 
-            {/* Tab Content */}
-            <div className="max-h-[75vh] overflow-y-scroll bg-white/15 p-4 rounded-xl">
+            <div className="w-full bg-white/15 p-2 rounded-xl">
               {renderTabContent()}
             </div>
           </div>

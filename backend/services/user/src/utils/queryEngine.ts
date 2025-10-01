@@ -1,6 +1,5 @@
 import pool from './postgreSQL_conf';
 import {log} from './log'
-import { QueryResult } from 'pg';
 
 type Condition = {
   column: string;

@@ -16,7 +16,7 @@ const sessionMiddleware = session({
   name: 'sessionID',
   cookie: {
     secure: false,
-    maxAge: 1000 * 60 * 30,
+    maxAge: 1000 * 60 * 60 * 24,
     domain: 'localhost',
     path: '/',
   },

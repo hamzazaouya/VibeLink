@@ -153,12 +153,8 @@ async function updateUserEmail(user_id: string, email:string) {
 async function getProfileInfo(user_id: string): Promise<userProfilInfo> {
     let interests:string[] = [];
     try {
-        // let query = 'SELECT user_name, gender, bio, rating FROM users WHERE id = $1';
-        // const res = await pool.query(query, [user_id]);
         const res = await query.select(['user_name', 'gender', 'bio', 'rating', 'avatar'], 'users', [{column: 'id', operator: '=', value: user_id}]);
         if(res.rowCount && res.rowCount > 0) {
-            // query = "SELECT i.interest FROM user_interest ui JOIN interests i ON ui.interest_id = i.id WHERE ui.user_id = $1;"
-            // const user_interests = await pool.query(query, [user_id]);
             const user_interests = await query.select(['i.interest'], 'user_interest ui',
                 [{ column: 'ui.user_id', operator: '=', value: user_id}],
                 [{ type: 'INNER', table: 'interests i', on: 'ui.interest_id = i.id'}]
@@ -194,16 +190,13 @@ async function getUserProfileImages(user_id: string): Promise<UserImageGallery[]
 async function userMatches(user_id: string): Promise<userMatches[] | null> {
     try {
         const result = await query.select(
-            [ 'u.id AS user_id', 'u.user_name AS user_name', 'u.avatar AS avatar'],
+            [ 'u.id AS id', 'u.user_name AS username', 'u.avatar AS avatar', 'm.match_date date'],
             'matches m',
             [{ column: 'm.user_id', operator: '=', value: user_id}],
             [{ type: 'INNER', table: 'users u', on: 'm.match_id = u.id' }]);
 
         if(result.rowCount && result.rowCount > 0) {
-            const matches: userMatches [] = [];
-            result.rows.forEach((e: any) => {
-                matches.push(e);
-            });
+            const matches: userMatches [] = result.rows;
             return matches;
         }
         return null;
@@ -241,6 +234,23 @@ async function userProfileVisite(user_id: string): Promise<UserProfileVisite[] |
     }
 }
 
+async function IsMatched(visiter_id: string, visited_id:string): Promise<boolean> {
+    try {
+        const result = await query.select(null, 'matches', 
+            [
+                {column: 'user_id', operator: '=', value:visiter_id},
+                {column: 'match_id', operator: '=', value: visited_id}
+            ],
+        );
+        if(result.rowCount) {
+            return true;
+        }
+        return false;
+    } catch (error: any) {
+        throw error;
+    }
+}
+
 export default {    getUserInfo,
                     getUserEmail, 
                     updateUserInfo, 
@@ -249,4 +259,5 @@ export default {    getUserInfo,
                     getProfileInfo, 
                     getUserProfileImages, 
                     userMatches,
-                    userProfileVisite};
+                    userProfileVisite,
+                    IsMatched};

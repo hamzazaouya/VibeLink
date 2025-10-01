@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FormData, CreateAccountFormProps } from "./Signup.types";
 import "./styles/Signup.css"
 
 function CreateAccountForm	({ form, onChange, onSubmit }: CreateAccountFormProps) {
     const FRONTEND_APP_URL = import.meta.env.VITE_FRONTEND_APP_URL
     const BACKEND_APP_URL = import.meta.env.VITE_BACKEND_APP_URL
+    const r = useRef (null);
+
+    useEffect(()=>{
+        r.current.focus();
+    }, [])
     return (
         <>
             <div className="w-[25rem] h-[35rem] flex items-center">
@@ -19,6 +24,7 @@ function CreateAccountForm	({ form, onChange, onSubmit }: CreateAccountFormProps
                         <form onSubmit={onSubmit}className="">
                             <div>
                                 <input 
+                                    ref={r}
                                     type="text" 
                                     name="username"
                                     value={form.username}

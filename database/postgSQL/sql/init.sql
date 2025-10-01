@@ -59,6 +59,7 @@ CREATE TABLE matches (
     id UUID PRIMARY KEY,
     user_id UUID NOT NULL,
     match_id UUID NOT NULL,
+    match_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (match_id) REFERENCES users(id) ON DELETE CASCADE
 );
@@ -69,6 +70,7 @@ CREATE TABLE notifications (
     notified_id UUID NOT NULL,
     notification VARCHAR(30),
     is_seen BOOLEAN DEFAULT FALSE,
+    match_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (notified_id) REFERENCES users(id) ON DELETE CASCADE
 );
@@ -79,7 +81,7 @@ CREATE TABLE rating (
     rater_id UUID NOT NULL,
     rating INT,
     feedback VARCHAR(100),
-    rated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    rating_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (rater_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
@@ -188,3 +190,10 @@ INSERT INTO user_interest(id, user_id, interest_id) VALUES
 
 INSERT INTO matches (id, user_id, match_id) VALUES
     (uuid_generate_v4(), 'e9e107e7-d027-4843-9cdf-0d384a734a78', 'f60d2802-e798-4dbc-9387-a2b736373361');
+
+INSERT INTO matches (id, user_id, match_id) VALUES
+    (uuid_generate_v4(), '0329e3f0-669a-4258-a077-6f5b7bd1b66a', 'c7931386-9a6c-4832-83d1-f3e8d5876071'),
+    (uuid_generate_v4(), 'c7931386-9a6c-4832-83d1-f3e8d5876071', '0329e3f0-669a-4258-a077-6f5b7bd1b66a');
+
+INSERT INTO profile_visite(id, user_id, visite_count, last_visited) VALUES
+    (uuid_generate_v4(), 'c7931386-9a6c-4832-83d1-f3e8d5876071', '419dd705-5eb8-4759-a96b-a8858579e93b', 4, '2025-09-29 15:45:16.173227');
