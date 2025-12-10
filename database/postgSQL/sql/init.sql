@@ -195,5 +195,5 @@ INSERT INTO matches (id, user_id, match_id) VALUES
     (uuid_generate_v4(), '0329e3f0-669a-4258-a077-6f5b7bd1b66a', 'c7931386-9a6c-4832-83d1-f3e8d5876071'),
     (uuid_generate_v4(), 'c7931386-9a6c-4832-83d1-f3e8d5876071', '0329e3f0-669a-4258-a077-6f5b7bd1b66a');
 
-INSERT INTO profile_visite(id, user_id, visite_count, last_visited) VALUES
-    (uuid_generate_v4(), 'c7931386-9a6c-4832-83d1-f3e8d5876071', '419dd705-5eb8-4759-a96b-a8858579e93b', 4, '2025-09-29 15:45:16.173227');
+INSERT INTO profile_visite(user_id, visite_count, last_visited) VALUES
+    ('c7931386-9a6c-4832-83d1-f3e8d5876071', '419dd705-5eb8-4759-a96b-a8858579e93b', 4, '2025-09-29 15:45:16.173227');
