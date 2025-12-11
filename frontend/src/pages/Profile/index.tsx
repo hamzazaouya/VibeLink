@@ -21,12 +21,13 @@ import {
 import axios from "axios";
 import { useState, useRef, useEffect } from "react";
 import profileData from "./data/profile-data.json";
-import {ProfileInfo, galleryImage} from "./types/profile.types"
+import { ProfileInfo, galleryImage } from "./types/profile.types"
 import GalleryImage from "./galleryImage/GalleryImage";
 import Hobbie from "./hobbies/Hobbies";
 import { rightPanel } from "./types/rightPanel.types";
 import RightPanel from "./rightPanel/RightPanel";
-import { MatchType } from "./types/rightPanel.types";
+import Views from "./rightPanel/Views";
+import { MatchType, ViewsType } from "./types/rightPanel.types";
 
 
 // Icon mapping for hobbies
@@ -44,31 +45,33 @@ type TabType = "matches" | "views" | "meetings";
 
 
 export default function ProfilePage() {
-  const [profileInfo, setProfileInfo] = useState<ProfileInfo>({user_name: '', gender: '', bio: '', rating: 0, hobbies: [], avatar: ''});
+  const [profileInfo, setProfileInfo] = useState<ProfileInfo>({ user_name: '', gender: '', bio: '', rating: 0, hobbies: [], avatar: '' });
   const [profileImages, setProfileImages] = useState<galleryImage[]>([]);
   const [matches, setMatches] = useState<MatchType[]>([]);
-  const { profile, hobbies, gallery, profileViews, meetingHistory } =
-    profileData;
+  const [views, setViews] = useState<ViewsType[]>([]);
+  const { profile, hobbies, gallery, profileViews, meetingHistory } = profileData;
   const [openDropdown, setOpenDropdown] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState<TabType>("matches");
   const dropdownRef = useRef<HTMLDivElement>(null);
   const BACKEND_APP_URL = import.meta.env.VITE_BACKEND_APP_URL
 
 
-  useEffect(()=> {
-    async function getUserData () {
+  useEffect(() => {
+    async function getUserData() {
       try {
         const response = await axios.get("http://localhost:3000/profile/me", {
-                withCredentials: true,
+          withCredentials: true,
         });
         const data = response.data;
-        console.log("========> profile data ", data)
         setProfileInfo(data.profile_info);
         setProfileImages(data.profile_images);
         if (data.matches) {
           setMatches(data.matches);
         }
-      } catch(error: any) {
+        if (data.views) {
+          setViews(data.views);
+        }
+      } catch (error: any) {
         console.log(error);
       }
     }
@@ -92,37 +95,10 @@ export default function ProfilePage() {
   const renderTabContent = () => {
     switch (activeTab) {
       case "matches":
-        return (<RightPanel matches={matches}/>)
-
+        return (<RightPanel matches={matches} />)
+        
       case "views":
-        return (
-          <div className="space-y-4">
-            {profileViews.map((view) => (
-              <div key={view.id} className="bg-slate-600/50 rounded-xl  pr-4">
-                <div className="flex items-center gap-3 rounded-l-xl">
-                  <div className="w-14 h-14 ">
-                    <img
-                      src={view.avatar || "/placeholder.svg"}
-                      alt={`${view.name} avatar`}
-                      className="w-full h-full object-cover rounded-l-xl"
-                    />
-                  </div>
-                  <div className="flex-1 p-1">
-                    <h4 className="text-white font-medium">{view.name}</h4>
-                    <div className="flex items-center gap-2 text-gray-400 text-sm">
-                      <Clock className="w-3 h-3" />
-                      <span>{view.viewedAt}</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-1 text-blue-400">
-                    <Eye className="w-4 h-4" />
-                    <span className="text-sm">{view.viewCount}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        );
+        return <RightPanel views={views} />;
 
       case "meetings":
         return (
@@ -149,13 +125,12 @@ export default function ProfilePage() {
                     </div>
                     <div className="flex items-center gap-1">
                       <div
-                        className={`w-2 h-2 rounded-full ${
-                          meeting.status === "completed"
+                        className={`w-2 h-2 rounded-full ${meeting.status === "completed"
                             ? "bg-green-500"
                             : meeting.status === "upcoming"
-                            ? "bg-blue-500"
-                            : "bg-red-500"
-                        }`}
+                              ? "bg-blue-500"
+                              : "bg-red-500"
+                          }`}
                       ></div>
                       <span className="text-xs text-gray-400 capitalize">
                         {meeting.status}
@@ -209,11 +184,10 @@ export default function ProfilePage() {
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
-                    className={`w-8 h-8 ${
-                      i < profileInfo.rating
+                    className={`w-8 h-8 ${i < profileInfo.rating
                         ? "fill-yellow-400 text-yellow-400"
                         : "text-gray-400"
-                    }`}
+                      }`}
                   />
                 ))}
               </div>
@@ -229,7 +203,7 @@ export default function ProfilePage() {
               <div className="flex flex-wrap gap-2">
                 {
                   profileInfo.hobbies.map((e) => {
-                    return <Hobbie hobbieTitle={e}/>
+                    return <Hobbie hobbieTitle={e} />
                   })
                 }
               </div>
@@ -241,11 +215,11 @@ export default function ProfilePage() {
         <div className="lg:col-span-5">
           <div className="h-full overflow-y-scroll scroll-hidden bg-slate-700/50 backdrop-blur-sm rounded-2xl p-2 ">
             <div className="max-h-[75vh] grid grid-cols-2 gap-4">
-                {
-                  profileImages.map((image) => {
-                    return <GalleryImage picture_path={image.picture_path} slot_number={image.slot_number} />
-                  })
-                }
+              {
+                profileImages.map((image) => {
+                  return <GalleryImage picture_path={image.picture_path} slot_number={image.slot_number} />
+                })
+              }
             </div>
           </div>
         </div>
@@ -257,33 +231,30 @@ export default function ProfilePage() {
             <div className="flex mb-4 bg-white/10 rounded-lg p-1 overflow-x-auto scroll-hidden">
               <button
                 onClick={() => setActiveTab("matches")}
-                className={`flex-1 flex items-center justify-center gap-2 p-1 rounded-md text-sm font-medium transition-colors ${
-                  activeTab === "matches"
+                className={`flex-1 flex items-center justify-center gap-2 p-1 rounded-md text-sm font-medium transition-colors ${activeTab === "matches"
                     ? "bg-blue-500 text-white"
                     : "text-gray-300 hover:text-white"
-                }`}
+                  }`}
               >
                 <Users className="w-4 h-4" />
                 <p className="block lg:hidden xl:block">Matches</p>
               </button>
               <button
                 onClick={() => setActiveTab("views")}
-                className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-md text-sm font-medium transition-colors ${
-                  activeTab === "views"
+                className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-md text-sm font-medium transition-colors ${activeTab === "views"
                     ? "bg-blue-500 text-white"
                     : "text-gray-300 hover:text-white"
-                }`}
+                  }`}
               >
                 <Eye className="w-4 h-4" />
                 <p className="block lg:hidden xl:block">Views</p>
               </button>
               <button
                 onClick={() => setActiveTab("meetings")}
-                className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-md text-sm font-medium transition-colors ${
-                  activeTab === "meetings"
+                className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-md text-sm font-medium transition-colors ${activeTab === "meetings"
                     ? "bg-blue-500 text-white"
                     : "text-gray-300 hover:text-white"
-                }`}
+                  }`}
               >
                 <Calendar className="w-4 h-4" />
                 <p className="block lg:hidden xl:block">Meets</p>

@@ -66,8 +66,8 @@ export interface UserProfileVisite {
 
 export interface profileInfo {
   profile_info: userProfilInfo;
-  profile_images: userImages;
-  profile_visite?: UserProfileVisite [];
+  profile_images: UserImageGallery [];
+  views?: UserProfileVisite [];
   matches?: userMatches[];
   
 }

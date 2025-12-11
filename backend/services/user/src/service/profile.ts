@@ -68,7 +68,7 @@ async function getUserProfile(user_id: string): Promise<profileInfo> {
     if(userMatches)
         user_profile_info.matches = userMatches;
     if(userProfileVisite)
-        user_profile_info.profile_visite = userProfileVisite;
+        user_profile_info.views = userProfileVisite;
     return user_profile_info;
 }
 

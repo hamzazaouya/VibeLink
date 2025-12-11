@@ -5,10 +5,23 @@ export interface MatchType {
     avatar: string
 }
 
+export interface ViewsType {
+    id: string,
+    avatar: string,
+    user_name: string,
+    view_time: string,
+    visit_count: number
+}
+
 export interface MatchProps {
     matches: MatchType[]
 }
 
 export interface rightPanel {
-    matches: MatchType[]
+    matches?: MatchType[],
+    views?: ViewsType[]
+}
+
+export interface ViewsProps {
+    views: ViewsType[]
 }
